@@ -1,0 +1,12 @@
+export { default as HomePage } from './HomePage';
+export { default as AboutPage } from './AboutPage';
+export { default as EventsPage } from './EventsPage';
+export { default as CommunityPage } from './CommunityPage';
+export { default as ContactPage } from './ContactPage';
+export { default as DonatePage } from './DonatePage';
+export { default as LoginPage } from './LoginPage';
+export { default as MyRolePage } from './MyRolePage';
+export { default as IdCardPage } from './IdCardPage';
+export { default as SettingsPage } from './SettingsPage';
+export { default as RegisterPage } from './RegisterPage';
+export { default as ProfilePage } from './ProfilePage';
