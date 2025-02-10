@@ -180,7 +180,10 @@ export default {
     delete: 'Delete',
     view: 'View',
     processing: 'Processing...',
-    sendCode:'Send code'
+    sendCode:'Send code',
+    deleteConfirmationTitle: "Are you sure?",
+deleteConfirmationMessage: "Are you sure you want to delete this report? This action cannot be undone.",
+confirm: "Confirm",
   },
 
   footer: {
@@ -430,7 +433,8 @@ export default {
     markAsVerified: 'Mark as Verified',
     deleteConfirmation: 'Are you sure you want to delete this report?',
     reportDescription:'Report description',
-    openInNewTab: 'Open in a new page'
+    openInNewTab: 'Open in a new page',
+    expand:"expand"
   },
   userManagement: {
     title: 'User Management',

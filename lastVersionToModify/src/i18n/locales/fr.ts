@@ -178,7 +178,10 @@ export default {
     delete: 'Supprimer',
     view: 'Voir',
     processing: 'Traitement...',
-    sendCode:'Envoyer le code'
+    sendCode:'Envoyer le code',
+    deleteConfirmationTitle: "Êtes-vous sûr?",
+deleteConfirmationMessage: "Êtes-vous sûr de vouloir supprimer ce rapport ? Cette action ne peut pas être annulée.",
+confirm: "Confirmer",
   },
   footer: {
     about: 'À Propos de Waladom',
@@ -428,7 +431,8 @@ export default {
     markAsVerified: 'Marquer comme Vérifié',
     deleteConfirmation: 'Êtes-vous sûr de vouloir supprimer ce rapport ?',
     reportDescription:'Déscription du rapport',
-    openInNewTab: 'Ouvrez dans un nouvel onglet'
+    openInNewTab: 'Ouvrez dans un nouvel onglet',
+    expand:"expandir"
   },
   userManagement: {
     title: 'Gestion des Utilisateurs',

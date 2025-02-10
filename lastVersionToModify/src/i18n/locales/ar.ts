@@ -175,7 +175,10 @@ export default {
     delete: 'حذف',
     view: 'عرض',
     processing: 'جاري المعالجة...',
-    sendCode:'ارسل الرمز'
+    sendCode:'ارسل الرمز',
+    deleteConfirmationTitle: "هل أنت متأكد؟",
+    deleteConfirmationMessage: "هل أنت متأكد أنك تريد حذف هذا التقرير؟ لا يمكن التراجع عن هذا الإجراء.",
+    confirm: "تأكيد",
 
   },
   footer: {
@@ -426,7 +429,8 @@ reports: {
   markAsVerified: 'تأكيد التقرير',
   deleteConfirmation: 'هل أنت متأكد من حذف هذا التقرير؟',
   reportDescription:'وصف التقرير',
-  openInNewTab: 'افتح في صفحة جديدة'
+  openInNewTab: 'افتح في صفحة جديدة',
+  expand:"توسيع"
 },
 userManagement: {
   title: 'إدارة المستخدمين',
