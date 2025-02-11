@@ -440,6 +440,14 @@ confirm: "Confirm",
     deleteConfirmation: 'Are you sure you want to delete this report?',
     reportDescription:'Report description',
     openInNewTab: 'Open in a new page',
+    totalCount : 'Total report count',
+    chooseFile: "Choose file",  
+newEvidence: "New evidence",  
+addEvidence: "Add evidence",  
+view: "View",
+noEvidence: 'No evidence'
+
+    ,
     filters: {
       reportId: 'Report ID',
       startDate: 'Start Date',

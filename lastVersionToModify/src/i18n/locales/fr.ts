@@ -438,6 +438,14 @@ confirm: "Confirmer",
     deleteConfirmation: 'Êtes-vous sûr de vouloir supprimer ce rapport ?',
     reportDescription:'Déscription du rapport',
     openInNewTab: 'Ouvrez dans un nouvel onglet',
+    totalCount : 'Nombre total de rapports',
+    chooseFile: "Choisir un fichier",  
+newEvidence: "Nouvelle preuve",  
+addEvidence: "Ajouter une preuve",  
+view: "Voir" ,
+noEvidence: 'Pas de preuve'
+,
+
     filters: {
       reportId: 'ID du Rapport',
       startDate: 'Date de Début',

@@ -406,7 +406,7 @@ reports: {
   title: 'التقارير',
   createNew: 'إنشاء تقرير جديد',
   editReport: 'تعديل التقرير',
-  id: 'المعرف',
+  id: 'رقم التقرير',
   type: 'النوع',
   description: 'الوصف',
   location: 'الموقع',
@@ -436,6 +436,16 @@ reports: {
   deleteConfirmation: 'هل أنت متأكد من حذف هذا التقرير؟',
   reportDescription:'وصف التقرير',
   openInNewTab: 'افتح في صفحة جديدة',
+  totalCount : 'العدد الكلي للتقارير',
+  noEvidence: 'لا يوجد دليل',
+
+  chooseFile: "اختر ملفًا",  
+newEvidence: "دليل جديد",  
+addEvidence: "إضافة دليل",  
+view: "عرض"  
+
+  ,
+
   filters: {
     reportId: 'رقم التقرير',
     startDate: 'تاريخ البداية',
