@@ -179,6 +179,12 @@ export default {
     deleteConfirmationTitle: "هل أنت متأكد؟",
     deleteConfirmationMessage: "هل أنت متأكد أنك تريد حذف هذا التقرير؟ لا يمكن التراجع عن هذا الإجراء.",
     confirm: "تأكيد",
+    previous: 'السابق',
+    next: 'التالي',
+    showing: 'عرض',
+    to: 'إلى',
+    of: 'من',
+    results: 'نتيجة'
 
   },
   footer: {
@@ -430,7 +436,24 @@ reports: {
   deleteConfirmation: 'هل أنت متأكد من حذف هذا التقرير؟',
   reportDescription:'وصف التقرير',
   openInNewTab: 'افتح في صفحة جديدة',
-  expand:"توسيع"
+  filters: {
+    reportId: 'رقم التقرير',
+    startDate: 'تاريخ البداية',
+    endDate: 'تاريخ النهاية',
+    violationType: 'نوع الانتهاك',
+    perpetrator: 'المعتدي',
+    victim: 'الضحية',
+    searchById: 'البحث برقم التقرير...',
+    searchByType: 'البحث بنوع الانتهاك...',
+    searchByPerpetrator: 'البحث باسم المعتدي...',
+    searchByVictim: 'البحث باسم الضحية...',
+    clearAll: 'مسح كل الفلاتر'
+  },
+  deleteConfirmTitle: 'حذف التقرير',
+  deleteConfirmMessage: 'هل أنت متأكد من حذف التقرير {id}؟ لا يمكن التراجع عن هذا الإجراء.',
+  confirmDelete: 'حذف التقرير',
+  acceptedViolations: 'الانتهاكات المقبولة',
+  expand: 'انقر للتوسيع'
 },
 userManagement: {
   title: 'إدارة المستخدمين',

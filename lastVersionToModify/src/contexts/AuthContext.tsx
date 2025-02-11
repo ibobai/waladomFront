@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, UserRole } from '../types/user';
 import { useToast } from '../hooks/useToast';
+import { refreshTokens } from '../utils/api';
 
 interface AuthContextType {
   user: User | null;
@@ -37,18 +38,6 @@ interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Helper function to map API roles to internal roles
-const mapApiRoleToInternal = (apiRole: string): UserRole => {
-  const roleMap: Record<string, UserRole> = {
-    'ROLE_ADMIN': 'A',
-    'ROLE_CONTENT_MANAGER': 'X',
-    'ROLE_MODERATOR': 'Y',
-    'ROLE_REVIEWER': 'Z',
-    'ROLE_USER': 'F'
-  };
-  return roleMap[apiRole] || 'F';
-};
-
 // Sample users data
 const sampleUsers: User[] = [
   {
@@ -74,8 +63,7 @@ const sampleUsers: User[] = [
     nationalities: ["Sudanese"],
     joinedDate: "2024-01-01",
     isAdmin: true
-  },
-  // Add other sample users here...
+  }
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -84,9 +72,78 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { t } = useTranslation();
   const toast = useToast();
 
-  const generateCardId = () => {
-    return 'WLD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+  const initAuth = async () => {
+    const storedUser = localStorage.getItem('user');
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (storedUser && (accessToken || refreshToken)) {
+      try {
+        if (!accessToken && refreshToken) {
+          // Try to refresh the token
+          const response = await fetch('https://www.waladom.club/api/auth/refresh', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${refreshToken}`
+            }
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
+          } else {
+            // If refresh fails, clear everything
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('user');
+            setUser(null);
+            return;
+          }
+        }
+
+        // Set the user from stored data
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('Auth initialization failed:', error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        setUser(null);
+      }
+    }
   };
+
+  // Set up token refresh interval
+  useEffect(() => {
+    let refreshInterval: NodeJS.Timeout;
+
+    if (user) {
+      // Refresh token every 14 minutes (840000 ms)
+      refreshInterval = setInterval(async () => {
+        try {
+          const { accessToken, refreshToken } = await refreshTokens();
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
+        } catch (error) {
+          console.error('Token refresh failed:', error);
+          // If refresh fails, log out the user
+          logout();
+        }
+      }, 840000);
+    }
+
+    return () => {
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
+    };
+  }, [user]);
+
+  useEffect(() => {
+    initAuth();
+  }, []);
 
   const login = async (emailOrPhone: string, password: string) => {
     try {
@@ -260,61 +317,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Load stored user data on mount
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
-    const storedUsers = localStorage.getItem('users');
-    if (storedUsers) {
-      setUsers(JSON.parse(storedUsers));
-    } else {
-      setUsers(sampleUsers);
-      localStorage.setItem('users', JSON.stringify(sampleUsers));
-    }
-  }, []);
-
-  // Add token refresh on mount
-  useEffect(() => {
-    const refreshTokenIfNeeded = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-      
-      if (!accessToken && refreshToken) {
-        try {
-          const response = await fetch('https://www.waladom.club/api/auth/refresh', {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${refreshToken}`
-            }
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken);
-          } else {
-            // If refresh fails, clear tokens and user
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('user');
-            setUser(null);
-          }
-        } catch (error) {
-          console.error('Token refresh failed:', error);
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('user');
-          setUser(null);
-        }
-      }
+  // Helper function to map API roles to internal roles
+  const mapApiRoleToInternal = (apiRole: string): UserRole => {
+    const roleMap: Record<string, UserRole> = {
+      'ROLE_ADMIN': 'A',
+      'ROLE_CONTENT_MANAGER': 'X',
+      'ROLE_MODERATOR': 'Y',
+      'ROLE_REVIEWER': 'Z',
+      'ROLE_USER': 'F'
     };
-
-    refreshTokenIfNeeded();
-  }, []);
+    return roleMap[apiRole] || 'F';
+  };
 
   return (
     <AuthContext.Provider value={{ 
