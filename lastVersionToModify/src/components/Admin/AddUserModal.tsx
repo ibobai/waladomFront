@@ -54,6 +54,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose }) => {
     numberOfKids: 0,
     sex: "",
     birthCountry: "",
+    approverComment: "",
+    recommendedBy: "",
+
     birthCity: "",
     birthVillage: "",
     occupation: "",
@@ -176,6 +179,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose }) => {
         sex: formData.sex,
         mothersFirstName: formData.motherFirstName,
         mothersLastName: formData.motherLastName,
+
+        approverComment: formData.approverComment,
+        recommendedBy: formData.recommendedBy,
+
         connectionMethod: "email",
         nationalities: formData.nationalities,
         idProofPhotoFront: photoUrls.idProofFront,
@@ -417,7 +424,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose }) => {
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    {t("registration.passwordRequirements")}
+                    {t("userManagement.passwordRequirements")}
                   </p>
                 </div>
               </div>
@@ -703,6 +710,35 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose }) => {
               />
             </div>
 
+            {/* Approver Comment */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("userManagement.approverComment")}
+              </label>
+              <textarea
+                value={formData.approverComment}
+                onChange={(e) =>
+                  setFormData({ ...formData, approverComment: e.target.value })
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+              />
+            </div>
+
+            {/* Recommended By */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("userManagement.recommendedBy")}
+              </label>
+              <input
+                type="text"
+                value={formData.recommendedBy}
+                onChange={(e) =>
+                  setFormData({ ...formData, recommendedBy: e.target.value })
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+              />
+            </div>
+            
             {/* Sex */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

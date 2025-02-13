@@ -21,6 +21,8 @@ interface EditUserModalProps {
     birthVillage: string;
     maritalStatus: string;
     numberOfKids: number;
+    approverComment: string;
+    recommendedBy: string;
     occupation: string;
     sex: string;
     mothersFirstName: string;
@@ -93,6 +95,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
     job: user.occupation,
     maritalStatus: user.maritalStatus,
     numberOfKids: user.numberOfKids,
+    approverComment: user.approverComment,
+    recommendedBy: user.recommendedBy,
     sex: user.sex,
     birthCountry: user.birthCountry,
     birthCity: user.birthCity,
@@ -255,6 +259,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
         maritalStatus: formData.maritalStatus,
         numberOfKids: formData.numberOfKids,
         occupation: formData.occupation,
+        approverComment: formData.approverComment,
+        recommendedBy: formData.recommendedBy,
         sex: formData.sex,
         mothersFirstName: formData.motherFirstName,
         mothersLastName: formData.motherLastName,
@@ -536,11 +542,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                       />
                     </div>
                     <p className="text-xs text-gray-500 mt-1">
-                      {t("registration.passwordRequirements")}
+                      {t("userManagement.passwordRequirements")}
                     </p>
                   </div>
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     {t("userManagement.confirmPassword")}
@@ -791,6 +796,36 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
               />
             </div>
 
+            {/* Approver Comment */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("userManagement.approverComment")}
+              </label>
+              <textarea
+                value={formData.approverComment}
+                onChange={(e) =>
+                  setFormData({ ...formData, approverComment: e.target.value })
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                rows={3}
+              />
+            </div>
+
+            {/* Recommended By */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t("userManagement.recommendedBy")}
+              </label>
+              <input
+                type="text"
+                value={formData.recommendedBy}
+                onChange={(e) =>
+                  setFormData({ ...formData, recommendedBy: e.target.value })
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+              />
+            </div>
+
             {/* Sex */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -803,9 +838,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 }
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
               >
-                <option value="M">{t("userManagement.sex.male")}</option>
-                <option value="F">{t("userManagement.sex.female")}</option>
-                <option value="O">{t("userManagement.sex.other")}</option>
+                <option value="M">{t("userManagement.male")}</option>
+                <option value="F">{t("userManagement.female")}</option>
               </select>
             </div>
 

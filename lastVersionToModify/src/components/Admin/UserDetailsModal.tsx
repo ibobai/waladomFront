@@ -21,6 +21,8 @@ interface UserDetailsModalProps {
     birthVillage: string;
     maritalStatus: string;
     numberOfKids: number;
+    approverComment: string;
+    recommendedBy: string;
     occupation: string;
     sex: string;
     mothersFirstName: string;
@@ -46,6 +48,7 @@ interface UserDetailsModalProps {
 }
 
 const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, isOpen, onClose }) => {
+
   const { t } = useTranslation();
   const [signedPhotos, setSignedPhotos] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -168,7 +171,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, isOpen, onClo
               <InfoRow label={t('userManagement.lastName')} value={user.lastName} />
               <InfoRow label={t('userManagement.email')} value={user.email} />
               <InfoRow label={t('userManagement.phone')} value={user.phone} />
-              <InfoRow label={t('userManagement.status')} value={user.status} />
+              <InfoRow label={t('userManagement.status2')} value={user.status} /> 
               <InfoRow label={t('userManagement.role')} value={user.role.name} />
             </div>
           </InfoSection>
@@ -181,6 +184,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, isOpen, onClo
               <InfoRow label={t('userManagement.maritalStatus')} value={user.maritalStatus} />
               <InfoRow label={t('userManagement.numberOfKids')} value={user.numberOfKids} />
               <InfoRow label={t('userManagement.occupation')} value={user.occupation} />
+              <InfoRow label={t('userManagement.approverComment')} value={user.approverComment} />
+              <InfoRow label={t('userManagement.recommendedBy')} value={user.recommendedBy} />
               <InfoRow label={t('userManagement.nationalities')} value={user.nationalities.join(', ')} />
             </div>
           </InfoSection>

@@ -478,6 +478,23 @@ noEvidence: 'Pas de preuve'
     validatePassword: 'Valider le Mot de Passe',
     enterPassword: 'Entrez votre mot de passe',
     invalidPassword: 'Mot de passe invalide',
+    uploadPhoto: 'Télécharger une photo',
+password: 'Mot de passe',
+confirmPassword: 'Confirmer le mot de passe',
+selectMaritalStatus: 'Sélectionner l’état civil',
+passwordRequirements: 'Exigences du mot de passe',
+selectSex: 'Sélectionner le sexe',
+male: 'Homme',
+female: 'Femme',
+editUser: 'Modifier l’utilisateur',
+changePassword: 'Changer le mot de passe',
+addUser: 'Ajouter un utilisateur',
+status2: 'Statut',
+approverComment: 'Commentaire de l’approbateur',
+recommendedBy: 'Recommandé par',
+newPassword: 'Nouveau mot de passe',
+
+
     passwordValidationError: 'Échec de la validation du mot de passe',
     filters: {
       search: 'Rechercher des utilisateurs...',
@@ -515,7 +532,12 @@ noEvidence: 'Pas de preuve'
       active: 'Actif',
       inactive: 'Inactif',
       banned: 'Banni',
-      blocked: 'Bloqué'
+      blocked: 'Bloqué',
+
+      single: 'Célibataire',
+married: 'Marié',
+divorced: 'Divorcé',
+widow: 'Veuf',
     },
     roles: {
       user: 'Utilisateur',

@@ -480,6 +480,24 @@ userManagement: {
   enterPassword: 'أدخل كلمة المرور',
   invalidPassword: 'كلمة مرور غير صالحة',
   passwordValidationError: 'فشل التحقق من كلمة المرور',
+
+uploadPhoto: 'رفع الصورة',
+password: 'كلمة المرور',
+confirmPassword: 'تأكيد كلمة المرور',
+selectMaritalStatus: 'اختر الحالة الاجتماعية',
+passwordRequirements: 'متطلبات كلمة المرور',
+selectSex: 'اختر الجنس',
+male: 'ذكر',
+female: 'أنثى',
+editUser: 'تعديل المستخدم',
+changePassword: 'تغيير كلمة المرور',
+addUser: 'إضافة مستخدم',
+status2: 'الحالة',
+approverComment: 'تعليق الموافقة',
+recommendedBy: 'موصى به من قبل',
+newPassword: 'كلمة المرور الجديدة',
+
+
   filters: {
     search: 'البحث عن المستخدمين...',
     filterBy: 'تصفية حسب',
@@ -515,8 +533,12 @@ userManagement: {
   status: {
     active: 'نشط',
     inactive: 'غير نشط',
-    banned: 'محظور',
-    blocked: 'مقيد'
+    banned: 'مقيد',
+    blocked: 'محظور' ,
+    single: 'أعزب',
+    married: 'متزوج',
+    divorced: 'مطلق',
+    widow: 'أرمل',
   },
   deleteConfirm: 'هل أنت متأكد من حذف هذا المستخدم؟',
   errors: {

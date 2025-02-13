@@ -481,6 +481,23 @@ noEvidence: 'No evidence'
     enterPassword: 'Enter your password',
     invalidPassword: 'Invalid password',
     passwordValidationError: 'Failed to validate password',
+
+    uploadPhoto: 'Upload photo',
+    password:'Password',
+    confirmPassword: 'Confirm password',
+    selectMaritalStatus: 'Select marital status',
+    passwordRequirements: 'Password requirements',
+    selectSex:'Select sex',
+    male: 'Male',
+    female:'Female',
+    editUser: 'Edit user',
+    changePassword: 'Change password',
+    addUser: 'Add user',
+    status2: 'Status',
+    approverComment: 'Approver comment',
+    recommendedBy: 'Recommended by',
+    newPassword: 'New password',
+
     filters: {
       search: 'Search users...',
       filterBy: 'Filter by',
@@ -524,7 +541,12 @@ noEvidence: 'No evidence'
       active: 'Active',
       inactive: 'Inactive',
       banned: 'Banned',
-      blocked: 'Blocked'
+      blocked: 'Blocked',
+
+      single: 'Single',
+      married: 'Married',
+      divorced: 'Divorced',
+      widow: 'Widowed',
     },
     deleteConfirm: 'Are you sure you want to delete this user?',
     errors: {
