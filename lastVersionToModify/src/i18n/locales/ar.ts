@@ -186,8 +186,8 @@ export default {
     showing: 'عرض',
     to: 'إلى',
     of: 'من',
-    results: 'نتيجة'
-
+    results: 'نتيجة',
+    validate:'تأكيد'
   },
   footer: {
     about: 'عن ولادم',
@@ -508,7 +508,9 @@ newPassword: 'كلمة المرور الجديدة',
     role: 'الدور',
     country: 'البلد',
     nationality: 'الجنسية',
-    clearFilters: 'مسح التصفية'
+    clearFilters: 'مسح التصفية',
+    status: 'الحالة'
+
   },
   table: {
     id: 'المعرف',

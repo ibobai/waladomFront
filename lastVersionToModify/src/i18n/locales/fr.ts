@@ -182,6 +182,7 @@ export default {
     previous: 'Précédent',
     next: 'Suivant',
     showing: 'Affichage de',
+    validate:'Valider',
     to: 'à',
     of: 'sur',
     results: 'résultats',
@@ -506,7 +507,8 @@ newPassword: 'Nouveau mot de passe',
       role: 'Rôle',
       country: 'Pays',
       nationality: 'Nationalité',
-      clearFilters: 'Effacer les filtres'
+      clearFilters: 'Effacer les filtres',
+      status: 'Status'
     },
     table: {
       id: 'ID',

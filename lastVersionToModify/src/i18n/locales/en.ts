@@ -188,6 +188,7 @@ export default {
     to: 'to',
     of: 'of',
     results: 'results',
+    validate:'validate',
     deleteConfirmationTitle: "Are you sure?",
 deleteConfirmationMessage: "Are you sure you want to delete this report? This action cannot be undone.",
 confirm: "Confirm",
@@ -508,7 +509,9 @@ noEvidence: 'No evidence'
       role: 'Role',
       country: 'Country',
       nationality: 'Nationality',
-      clearFilters: 'Clear Filters'
+      clearFilters: 'Clear Filters',
+      status: 'Status'
+
     },
     roles: {
       user: 'User',

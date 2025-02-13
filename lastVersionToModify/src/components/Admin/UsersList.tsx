@@ -100,8 +100,9 @@ const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
           },
           body: JSON.stringify({
             password: password,
-            id: user.cardId, // Access the user ID properly
+            id: user.cardId, // ✅ Use the correct user ID
           }),
+
         }
       );
 
@@ -199,6 +200,7 @@ const UsersList: React.FC = () => {
     role: "",
     country: "",
     nationality: "",
+    status: "", // NEW
   });
 
   const getAuthHeaders = () => {
@@ -297,9 +299,9 @@ const UsersList: React.FC = () => {
   const handleStatusChange = async (userId: string, newStatus: string) => {
     try {
       const isActive = newStatus === "active"; // Set isActive based on status
-  
+
       await handleUpdateUser(userId, { status: newStatus, isActive });
-  
+
       fetchUsers();
     } catch (err) {
       setError(
@@ -309,7 +311,6 @@ const UsersList: React.FC = () => {
       );
     }
   };
-  
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     setPendingRoleChange({ userId, newRole });
@@ -318,11 +319,12 @@ const UsersList: React.FC = () => {
 
   const handleRoleChangeConfirm = async (password: string) => {
     if (!pendingRoleChange) return;
-
+  
     try {
       await handleUpdateUser(pendingRoleChange.userId, {
-        role: { id: pendingRoleChange.newRole },
+        role: pendingRoleChange.newRole, // ✅ Send role as a string, NOT an object
       });
+  
       setShowRoleChangeModal(false);
       setPendingRoleChange(null);
       fetchUsers();
@@ -334,6 +336,7 @@ const UsersList: React.FC = () => {
       );
     }
   };
+  
 
   const canModifyRole = (role: string) => {
     if (currentUser?.role === "A") return true;
@@ -362,12 +365,15 @@ const UsersList: React.FC = () => {
         n.toLowerCase().includes(filters.nationality.toLowerCase())
       );
 
+    const matchesStatus = !filters.status || user.status === filters.status;
+
     return (
       matchesSearch &&
       matchesTribe &&
       matchesRole &&
       matchesCountry &&
-      matchesNationality
+      matchesNationality &&
+      matchesStatus
     );
   });
 
@@ -384,6 +390,7 @@ const UsersList: React.FC = () => {
     roles: Array.from(new Set(users.map((u) => u.role.id))),
     countries: Array.from(new Set(users.map((u) => u.currentCountry))),
     nationalities: Array.from(new Set(users.flatMap((u) => u.nationalities))),
+    statuses: Array.from(new Set(users.map((u) => u.status))), // NEW
   };
 
   if (loading) {
@@ -459,6 +466,21 @@ const UsersList: React.FC = () => {
           </select>
 
           <select
+            value={filters.status}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, status: e.target.value }))
+            }
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-waladom-green focus:border-waladom-green"
+          >
+            <option value="">{t("userManagement.filters.status")}</option>
+            {uniqueValues.statuses.map((status) => (
+              <option key={status} value={status}>
+                {t(`userManagement.status.${status}`)}
+              </option>
+            ))}
+          </select>
+
+          <select
             value={filters.country}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, country: e.target.value }))
@@ -496,6 +518,7 @@ const UsersList: React.FC = () => {
                 role: "",
                 country: "",
                 nationality: "",
+                status: "", // NEW
               })
             }
             className="px-4 py-2 text-gray-600 hover:text-gray-900"
@@ -573,18 +596,30 @@ const UsersList: React.FC = () => {
                       onChange={(e) =>
                         handleStatusChange(user.id, e.target.value)
                       }
-                      className="text-sm border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
+                      className={cn(
+                        "text-sm border rounded-md focus:ring-waladom-green focus:border-waladom-green px-3 py-2",
+                        {
+                          "border-green-500 text-green-600 bg-green-100":
+                            user.status === "active",
+                          "border-gray-500 text-gray-600 bg-gray-100":
+                            user.status === "inactive",
+                          "border-yellow-500 text-yellow-600 bg-yellow-100":
+                            user.status === "banned",
+                          "border-red-500 text-red-600 bg-red-100":
+                            user.status === "blocked",
+                        }
+                      )}
                     >
-                      <option value="active">
+                      <option value="active" className="text-green-600">
                         {t("userManagement.status.active")}
                       </option>
-                      <option value="inactive">
+                      <option value="inactive" className="text-gray-600">
                         {t("userManagement.status.inactive")}
                       </option>
-                      <option value="banned">
+                      <option value="banned" className="text-yellow-600">
                         {t("userManagement.status.banned")}
                       </option>
-                      <option value="blocked">
+                      <option value="blocked" className="text-red-600">
                         {t("userManagement.status.blocked")}
                       </option>
                     </select>
@@ -631,22 +666,42 @@ const UsersList: React.FC = () => {
                         handleRoleChange(user.id, e.target.value)
                       }
                       disabled={!canModifyRole(user.role.id)}
-                      className="text-sm border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
+                      className={cn(
+                        "text-sm border rounded-md focus:ring-waladom-green focus:border-waladom-green px-3 py-2",
+                        {
+                          "border-black text-white bg-gray-700":
+                            user.role.id === "ROLE_ADMIN",
+                          "border-green-500 text-green-600 bg-green-100":
+                            user.role.id === "ROLE_CONTENT_MANAGER",
+                          "border-yellow-500 text-yellow-600 bg-yellow-100":
+                            user.role.id === "ROLE_MODERATOR",
+                          "border-gray-500 text-gray-600 bg-gray-300":
+                            user.role.id === "ROLE_MEMBERSHIP_REVIEWER",
+                          "border-red-500 text-red-600 bg-red-100":
+                            user.role.id === "ROLE_USER",
+                        }
+                      )}
                     >
-                      <option value="ROLE_USER">
+                      <option value="ROLE_USER" className="text-red-600">
                         {t("userManagement.roles.user")}
                       </option>
-                      <option value="ROLE_REVIEWER">
+                      <option value="ROLE_MEMBERSHIP_REVIEWER" className="text-gray-600">
                         {t("userManagement.roles.reviewer")}
                       </option>
-                      <option value="ROLE_MODERATOR">
+                      <option
+                        value="ROLE_MODERATOR"
+                        className="text-yellow-600"
+                      >
                         {t("userManagement.roles.moderator")}
                       </option>
-                      <option value="ROLE_CONTENT_MANAGER">
+                      <option
+                        value="ROLE_CONTENT_MANAGER"
+                        className="text-green-600"
+                      >
                         {t("userManagement.roles.contentManager")}
                       </option>
                       {currentUser?.role === "A" && (
-                        <option value="ROLE_ADMIN">
+                        <option value="ROLE_ADMIN" className="text-black">
                           {t("userManagement.roles.admin")}
                         </option>
                       )}
