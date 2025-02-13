@@ -45,6 +45,7 @@ interface ApiUser {
   comments?: string;
   updatedAt: string;
   createdAt: string;
+  isActive: boolean;
   connectionMethod: string;
   validated: boolean | null;
   role: {
@@ -301,7 +302,10 @@ const UsersList: React.FC = () => {
 
   const handleStatusChange = async (userId: string, newStatus: string) => {
     try {
-      await handleUpdateUser(userId, { status: newStatus });
+      const isActive = newStatus === "active"; // Set isActive based on status
+  
+      await handleUpdateUser(userId, { status: newStatus, isActive });
+  
       fetchUsers();
     } catch (err) {
       setError(
@@ -311,6 +315,7 @@ const UsersList: React.FC = () => {
       );
     }
   };
+  
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     setPendingRoleChange({ userId, newRole });
