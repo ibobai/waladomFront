@@ -102,7 +102,6 @@ const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
             password: password,
             id: user.cardId, // ✅ Use the correct user ID
           }),
-
         }
       );
 
@@ -319,12 +318,12 @@ const UsersList: React.FC = () => {
 
   const handleRoleChangeConfirm = async (password: string) => {
     if (!pendingRoleChange) return;
-  
+
     try {
       await handleUpdateUser(pendingRoleChange.userId, {
         role: pendingRoleChange.newRole, // ✅ Send role as a string, NOT an object
       });
-  
+
       setShowRoleChangeModal(false);
       setPendingRoleChange(null);
       fetchUsers();
@@ -336,7 +335,6 @@ const UsersList: React.FC = () => {
       );
     }
   };
-  
 
   const canModifyRole = (role: string) => {
     if (currentUser?.role === "A") return true;
@@ -460,7 +458,7 @@ const UsersList: React.FC = () => {
             <option value="">{t("userManagement.filters.role")}</option>
             {uniqueValues.roles.map((role) => (
               <option key={role} value={role}>
-                {role}
+                {t(`userManagement.roles.${role.toLowerCase()}`)}
               </option>
             ))}
           </select>
@@ -596,6 +594,7 @@ const UsersList: React.FC = () => {
                       onChange={(e) =>
                         handleStatusChange(user.id, e.target.value)
                       }
+                      disabled={!canModifyRole(user.role.id)}
                       className={cn(
                         "text-sm border rounded-md focus:ring-waladom-green focus:border-waladom-green px-3 py-2",
                         {
@@ -685,7 +684,10 @@ const UsersList: React.FC = () => {
                       <option value="ROLE_USER" className="text-red-600">
                         {t("userManagement.roles.user")}
                       </option>
-                      <option value="ROLE_MEMBERSHIP_REVIEWER" className="text-gray-600">
+                      <option
+                        value="ROLE_MEMBERSHIP_REVIEWER"
+                        className="text-gray-600"
+                      >
                         {t("userManagement.roles.reviewer")}
                       </option>
                       <option

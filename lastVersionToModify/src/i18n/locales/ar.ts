@@ -554,7 +554,14 @@ newPassword: 'كلمة المرور الجديدة',
     reviewer: 'مراجع',
     moderator: 'مشرف',
     contentManager: 'مدير محتوى',
-    admin: 'مدير'
+    admin: 'مدير',
+
+
+    role_admin: 'مدير',
+    role_content_manager: 'مدير محتوى',
+    role_user: 'مستخدم',
+    role_membership_reviewer: 'مراجع',
+    role_moderator: 'مشرف',
   },
   idProofFront: 'إثبات الهوية (أمامي)',
     idProofBack: 'إثبات الهوية (خلفي)',

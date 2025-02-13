@@ -546,7 +546,13 @@ widow: 'Veuf',
       reviewer: 'Vérificateur',
       moderator: 'Modérateur',
       contentManager: 'Gestionnaire de Contenu',
-      admin: 'Administrateur'
+      admin: 'Administrateur',
+
+      role_admin: 'Administrateur',
+      role_content_manager: 'Gestionnaire de Contenu',
+      role_user: 'Utilisateur',
+      role_membership_reviewer: 'Vérificateur',
+      role_moderator: 'Modérateur',
     },
     
     deleteConfirm: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ?',

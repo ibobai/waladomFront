@@ -518,7 +518,13 @@ noEvidence: 'No evidence'
       reviewer: 'Reviewer',
       moderator: 'Moderator',
       contentManager: 'Content Manager',
-      admin: 'Administrator'
+      admin: 'Administrator',
+
+      role_admin: 'Administrator',
+      role_content_manager: 'Content Manager',
+      role_user: 'User',
+      role_membership_reviewer: 'Reviewer',
+      role_moderator: 'Moderator',
     },
     table: {
       id: 'ID',
