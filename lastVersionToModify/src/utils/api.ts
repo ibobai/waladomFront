@@ -16,7 +16,9 @@ export const refreshTokens = async (): Promise<RefreshResponse> => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Authorization': `Bearer ${refreshToken}`
+      'Authorization': `Bearer ${refreshToken}`,
+      'Content-Type' : 'application/json'
+
     }
   });
 

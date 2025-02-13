@@ -56,6 +56,7 @@ export default {
     createAccount: 'Créer votre compte',
     stepOneDescription: 'Commencez par vérifier votre adresse e-mail',
     phoneRegistrationSoon: "L'inscription par téléphone sera bientôt disponible !",
+    totalRequests: 'Total des Demandes',
     email: 'Email',
     phone: 'Téléphone',
     emailAddress: 'Adresse e-mail',
@@ -467,6 +468,17 @@ noEvidence: 'Pas de preuve'
   },
   userManagement: {
     title: 'Gestion des Utilisateurs',
+    userDetails: "Détails de l'Utilisateur",
+    photos: 'Photos',
+    basicInfo: 'Informations de Base',
+    personalInfo: 'Informations Personnelles',
+    birthInfo: 'Informations de Naissance',
+    currentLocation: 'Localisation Actuelle',
+    motherInfo: 'Informations de la Mère',
+    validatePassword: 'Valider le Mot de Passe',
+    enterPassword: 'Entrez votre mot de passe',
+    invalidPassword: 'Mot de passe invalide',
+    passwordValidationError: 'Échec de la validation du mot de passe',
     filters: {
       search: 'Rechercher des utilisateurs...',
       filterBy: 'Filtrer par',
@@ -501,20 +513,54 @@ noEvidence: 'Pas de preuve'
     },
     status: {
       active: 'Actif',
-      inactive: 'Inactif'
+      inactive: 'Inactif',
+      banned: 'Banni',
+      blocked: 'Bloqué'
     },
+    roles: {
+      user: 'Utilisateur',
+      reviewer: 'Vérificateur',
+      moderator: 'Modérateur',
+      contentManager: 'Gestionnaire de Contenu',
+      admin: 'Administrateur'
+    },
+    
     deleteConfirm: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ?',
     errors: {
       fetchFailed: 'Échec de la récupération des utilisateurs',
       updateFailed: 'Échec de la mise à jour de l\'utilisateur',
       deleteFailed: 'Échec de la suppression de l\'utilisateur',
       createFailed: 'Échec de la création de l\'utilisateur'
-    }
+    },
+    idProofFront: "Preuve d'Identité (Recto)",
+    idProofBack: "Preuve d'Identité (Verso)",
+    profilePhoto: 'Photo de Profil',
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    email: 'Email',
+    phone: 'Téléphone',
+    role: 'Rôle',
+    sex: 'Genre',
+    tribe: 'Tribu',
+    maritalStatus: 'État Civil',
+    numberOfKids: "Nombre d'Enfants",
+    occupation: 'Profession',
+    nationalities: 'Nationalités',
+    birthDate: 'Date de Naissance',
+    birthCountry: 'Pays de Naissance',
+    birthCity: 'Ville de Naissance',
+    birthVillage: 'Village de Naissance',
+    currentCountry: 'Pays Actuel',
+    currentCity: 'Ville Actuelle',
+    currentVillage: 'Village Actuel',
+    mothersFirstName: 'Prénom de la Mère',
+    mothersLastName: 'Nom de la Mère'
   },
   registrationRequests: {
     title: 'Demandes d\'Inscription',
     approveTitle: "Approuver la demande",
     rejectTitle: "Rejeter la demande",
+    totalRequests: 'Total des Demandes',
     deleteTitle: "Supprimer la demande",
     approveMessage: "Êtes-vous sûr de vouloir approuver cette demande d'inscription ?",
     rejectMessage: "Êtes-vous sûr de vouloir rejeter cette demande d'inscription ?",

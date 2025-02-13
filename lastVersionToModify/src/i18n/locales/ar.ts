@@ -49,12 +49,14 @@ export default {
     orContinueWith:''
 
   },
+  
   registration: {
     createAccount: 'إنشاء حساب جديد',
     stepOneDescription: 'ابدأ بالتحقق من بريدك الإلكتروني',
     phoneRegistrationSoon: 'التسجيل برقم الهاتف سيكون متاحاً قريباً!',
     email: 'البريد الإلكتروني',
     phone: 'الهاتف',
+    totalRequests: 'إجمالي الطلبات',
     emailAddress: 'عنوان البريد الإلكتروني',
     emailPlaceholder: 'أدخل بريدك الإلكتروني',
     invalidEmail: 'عنوان البريد الإلكتروني غير صالح',
@@ -467,6 +469,17 @@ view: "عرض"
 },
 userManagement: {
   title: 'إدارة المستخدمين',
+  userDetails: 'تفاصيل المستخدم',
+  photos: 'الصور',
+  basicInfo: 'المعلومات الأساسية',
+  personalInfo: 'المعلومات الشخصية',
+  birthInfo: 'معلومات الميلاد',
+  currentLocation: 'الموقع الحالي',
+  motherInfo: 'معلومات الأم',
+  validatePassword: 'تحقق من كلمة المرور',
+  enterPassword: 'أدخل كلمة المرور',
+  invalidPassword: 'كلمة مرور غير صالحة',
+  passwordValidationError: 'فشل التحقق من كلمة المرور',
   filters: {
     search: 'البحث عن المستخدمين...',
     filterBy: 'تصفية حسب',
@@ -501,7 +514,9 @@ userManagement: {
   },
   status: {
     active: 'نشط',
-    inactive: 'غير نشط'
+    inactive: 'غير نشط',
+    banned: 'محظور',
+    blocked: 'مقيد'
   },
   deleteConfirm: 'هل أنت متأكد من حذف هذا المستخدم؟',
   errors: {
@@ -509,10 +524,42 @@ userManagement: {
     updateFailed: 'فشل في تحديث المستخدم',
     deleteFailed: 'فشل في حذف المستخدم',
     createFailed: 'فشل في إنشاء المستخدم'
-  }
-},registrationRequests: {
+  },
+  roles: {
+    user: 'مستخدم',
+    reviewer: 'مراجع',
+    moderator: 'مشرف',
+    contentManager: 'مدير محتوى',
+    admin: 'مدير'
+  },
+  idProofFront: 'إثبات الهوية (أمامي)',
+    idProofBack: 'إثبات الهوية (خلفي)',
+    profilePhoto: 'الصورة الشخصية',
+    firstName: 'الاسم الأول',
+    lastName: 'اسم العائلة',
+    email: 'البريد الإلكتروني',
+    phone: 'الهاتف',
+    role: 'الدور',
+    sex: 'الجنس',
+    tribe: 'القبيلة',
+    maritalStatus: 'الحالة الاجتماعية',
+    numberOfKids: 'عدد الأطفال',
+    occupation: 'المهنة',
+    nationalities: 'الجنسيات',
+    birthDate: 'تاريخ الميلاد',
+    birthCountry: 'بلد الميلاد',
+    birthCity: 'مدينة الميلاد',
+    birthVillage: 'قرية الميلاد',
+    currentCountry: 'البلد الحالي',
+    currentCity: 'المدينة الحالية',
+    currentVillage: 'القرية الحالية',
+    mothersFirstName: 'اسم الأم الأول',
+    mothersLastName: 'اسم عائلة الأم',
+},
+registrationRequests: {
   title: 'طلبات التسجيل',
   approveTitle: "الموافقة على الطلب",
+  totalRequests: 'إجمالي الطلبات',
   rejectTitle: "رفض الطلب",
   deleteTitle: "حذف الطلب",
   approveMessage: "هل أنت متأكد أنك تريد الموافقة على هذا الطلب؟",

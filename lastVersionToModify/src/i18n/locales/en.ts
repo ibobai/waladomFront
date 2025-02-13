@@ -58,6 +58,7 @@ export default {
     createAccount: 'Create your account',
     stepOneDescription: 'Start by verifying your email address',
     phoneRegistrationSoon: 'Registration with phone number will be available soon!',
+    totalRequests: 'Total Requests',
     email: 'Email',
     phone: 'Phone',
     emailAddress: 'Email Address',
@@ -469,6 +470,17 @@ noEvidence: 'No evidence'
   },
   userManagement: {
     title: 'User Management',
+    userDetails: 'User Details',
+    photos: 'Photos',
+    basicInfo: 'Basic Information',
+    personalInfo: 'Personal Information',
+    birthInfo: 'Birth Information',
+    currentLocation: 'Current Location',
+    motherInfo: "Mother's Information",
+    validatePassword: 'Validate Password',
+    enterPassword: 'Enter your password',
+    invalidPassword: 'Invalid password',
+    passwordValidationError: 'Failed to validate password',
     filters: {
       search: 'Search users...',
       filterBy: 'Filter by',
@@ -480,6 +492,13 @@ noEvidence: 'No evidence'
       country: 'Country',
       nationality: 'Nationality',
       clearFilters: 'Clear Filters'
+    },
+    roles: {
+      user: 'User',
+      reviewer: 'Reviewer',
+      moderator: 'Moderator',
+      contentManager: 'Content Manager',
+      admin: 'Administrator'
     },
     table: {
       id: 'ID',
@@ -503,7 +522,9 @@ noEvidence: 'No evidence'
     },
     status: {
       active: 'Active',
-      inactive: 'Inactive'
+      inactive: 'Inactive',
+      banned: 'Banned',
+      blocked: 'Blocked'
     },
     deleteConfirm: 'Are you sure you want to delete this user?',
     errors: {
@@ -511,11 +532,36 @@ noEvidence: 'No evidence'
       updateFailed: 'Failed to update user',
       deleteFailed: 'Failed to delete user',
       createFailed: 'Failed to create user'
-    }
+    },
+    idProofFront: 'ID Proof (Front)',
+    idProofBack: 'ID Proof (Back)',
+    profilePhoto: 'Profile Photo',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    email: 'Email',
+    phone: 'Phone',
+    role: 'Role',
+    sex: 'Gender',
+    tribe: 'Tribe',
+    maritalStatus: 'Marital Status',
+    numberOfKids: 'Number of Kids',
+    occupation: 'Occupation',
+    nationalities: 'Nationalities',
+    birthDate: 'Date of Birth',
+    birthCountry: 'Country of Birth',
+    birthCity: 'City of Birth',
+    birthVillage: 'Village of Birth',
+    currentCountry: 'Current Country',
+    currentCity: 'Current City',
+    currentVillage: 'Current Village',
+    mothersFirstName: "Mother's First Name",
+    mothersLastName: "Mother's Last Name",
   },
   registrationRequests: {
     title: 'Registration Requests',
     approveTitle: "Approve Request",
+    totalRequests: 'Total Requests',
+
     rejectTitle: "Reject Request",
     deleteTitle: "Delete Request",
     approveMessage: "Are you sure you want to approve this registration request?",

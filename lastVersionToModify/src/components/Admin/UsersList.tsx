@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Edit2, Trash2, Plus, Search, Filter, X } from "lucide-react";
-import { useAuth } from "../../contexts/AuthContext"; 
+import {
+  Edit2,
+  Trash2,
+  Plus,
+  Search,
+  Filter,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  AlertCircle,
+  Loader2,
+  Upload,
+} from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 import UserDetailsModal from "./UserDetailsModal";
 import EditUserModal from "./EditUserModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
@@ -42,7 +54,128 @@ interface ApiUser {
     color: string;
   };
   active: boolean;
+  idProofPhotos?: {
+    id: string;
+    photoUrl: string;
+    type: string;
+  }[];
+  waladomCardPhoto?: {
+    id: string;
+    photoUrl: string;
+  };
 }
+
+interface RoleChangeModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (password: string) => void;
+}
+const user = JSON.parse(localStorage.getItem("user") || "{}"); // Parse the stored user object
+
+const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+}) => {
+  const { t } = useTranslation();
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://www.waladom.club/api/user/validate/password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify({
+            password: password,
+            id: user.cardId, // Access the user ID properly
+          }),
+        }
+      );
+
+      console.log(
+        JSON.stringify({
+          password: password,
+          id: user.cardId, // Access the user ID properly
+        })
+      );
+      const data = await response.json();
+
+      if (!response.ok || !data.valid) {
+        throw new Error(t("userManagement.invalidPassword"));
+      }
+
+      onConfirm(password);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : t("userManagement.passwordValidationError")
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 max-w-md w-full">
+        <h3 className="text-lg font-medium mb-4">
+          {t("userManagement.validatePassword")}
+        </h3>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-md flex items-center gap-2">
+            <AlertCircle className="w-5 h-5" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4"
+            placeholder={t("userManagement.enterPassword")}
+            required
+          />
+
+          <div className="flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-lg"
+            >
+              {t("common.cancel")}
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 bg-waladom-green text-white rounded-lg flex items-center gap-2"
+            >
+              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+              {t("common.validate")}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 const UsersList: React.FC = () => {
   const { t } = useTranslation();
@@ -54,6 +187,17 @@ const UsersList: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showRoleChangeModal, setShowRoleChangeModal] = useState(false);
+  const [pendingRoleChange, setPendingRoleChange] = useState<{
+    userId: string;
+    newRole: string;
+  } | null>(null);
+  const { user: currentUser } = useAuth();
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+
   const [filters, setFilters] = useState({
     search: "",
     tribe: "",
@@ -115,8 +259,6 @@ const UsersList: React.FC = () => {
         }
       );
 
-      console.log("entered the method");
-
       if (!response.ok) {
         throw new Error(t("userManagement.errors.updateFailed"));
       }
@@ -157,6 +299,49 @@ const UsersList: React.FC = () => {
     }
   };
 
+  const handleStatusChange = async (userId: string, newStatus: string) => {
+    try {
+      await handleUpdateUser(userId, { status: newStatus });
+      fetchUsers();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : t("userManagement.errors.statusUpdateFailed")
+      );
+    }
+  };
+
+  const handleRoleChange = async (userId: string, newRole: string) => {
+    setPendingRoleChange({ userId, newRole });
+    setShowRoleChangeModal(true);
+  };
+
+  const handleRoleChangeConfirm = async (password: string) => {
+    if (!pendingRoleChange) return;
+
+    try {
+      await handleUpdateUser(pendingRoleChange.userId, {
+        role: { id: pendingRoleChange.newRole },
+      });
+      setShowRoleChangeModal(false);
+      setPendingRoleChange(null);
+      fetchUsers();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : t("userManagement.errors.roleUpdateFailed")
+      );
+    }
+  };
+
+  const canModifyRole = (role: string) => {
+    if (currentUser?.role === "A") return true;
+    if (currentUser?.role === "X" && role !== "ROLE_ADMIN") return true;
+    return false;
+  };
+
   const filteredUsers = users.filter((user) => {
     const searchLower = filters.search.toLowerCase();
     const matchesSearch =
@@ -187,6 +372,14 @@ const UsersList: React.FC = () => {
     );
   });
 
+  // Get current users for pagination
+  const indexOfLastUser = currentPage * itemsPerPage;
+  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   const uniqueValues = {
     tribes: Array.from(new Set(users.map((u) => u.tribe))),
     roles: Array.from(new Set(users.map((u) => u.role.id))),
@@ -194,7 +387,13 @@ const UsersList: React.FC = () => {
     nationalities: Array.from(new Set(users.flatMap((u) => u.nationalities))),
   };
 
-  //Role changer
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 text-waladom-green animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -308,140 +507,259 @@ const UsersList: React.FC = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              {[
-                "id",
-                "name",
-                "email",
-                "phone",
-                "status",
-                "tribe",
-                "location",
-                "birth",
-                "personal",
-                "mother",
-                "role",
-                "actions",
-              ].map((header) => (
-                <th
-                  key={header}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  {t(`userManagement.table.${header}`)}
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+        {/* Table Container */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full lg:w-[90vw] divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.id")}
                 </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {filteredUsers.map((user) => (
-              <tr key={user.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {user.id}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
-                    {user.firstName} {user.lastName}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{user.email}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{user.phone}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={cn(
-                      "px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full",
-                      user.active
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    )}
-                  >
-                    {user.active
-                      ? t("userManagement.status.active")
-                      : t("userManagement.status.inactive")}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{user.tribe}</div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900">
-                    {user.currentCountry}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {user.currentCity}, {user.currentVillage}
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900">{user.birthDate}</div>
-                  <div className="text-sm text-gray-500">
-                    {user.birthCountry}, {user.birthCity}
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900">{user.occupation}</div>
-                  <div className="text-sm text-gray-500">
-                    {user.maritalStatus}, {user.numberOfKids} children
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900">
-                    {user.mothersFirstName} {user.mothersLastName}
-                  </div>
-                </td>
-
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={cn(
-                      "px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full",
-                      `bg-${user.role.color}-100 text-${user.role.color}-800`
-                    )}
-                  >
-                    {user.role.name}
-                    
-                  </span>
-                </td>
-
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setShowDetailsModal(true);
-                      }}
-                      className="text-waladom-green hover:text-waladom-green-dark"
-                    >
-                      {t("userManagement.actions.view")}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setShowEditModal(true);
-                      }}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setShowDeleteModal(true);
-                      }}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </td>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.name")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.email")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.phone")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.status")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.tribe")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.location")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.birth")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.personal")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.mother")}
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
+                  {t("userManagement.table.role")}
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {t("userManagement.table.actions")}
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentUsers.map((user) => (
+                <tr key={user.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {user.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">
+                      {user.firstName} {user.lastName}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {user.email}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {user.phone}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <select
+                      value={user.status}
+                      onChange={(e) =>
+                        handleStatusChange(user.id, e.target.value)
+                      }
+                      className="text-sm border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
+                    >
+                      <option value="active">
+                        {t("userManagement.status.active")}
+                      </option>
+                      <option value="inactive">
+                        {t("userManagement.status.inactive")}
+                      </option>
+                      <option value="banned">
+                        {t("userManagement.status.banned")}
+                      </option>
+                      <option value="blocked">
+                        {t("userManagement.status.blocked")}
+                      </option>
+                    </select>
+                  </td>
+
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    {user.tribe}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-gray-900">
+                      {user.currentCountry}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {user.currentCity}, {user.currentVillage}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-gray-900">
+                      {user.birthDate}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {user.birthCountry}, {user.birthCity}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-gray-900">
+                      {user.occupation}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {user.maritalStatus}, {user.numberOfKids} children
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-gray-900">
+                      {user.mothersFirstName} {user.mothersLastName}
+                    </div>
+                  </td>
+
+                  {/* Roles Column - Narrower */}
+                  <td className="px-3 py-4 whitespace-nowrap w-24">
+                    <select
+                      value={user.role.id}
+                      onChange={(e) =>
+                        handleRoleChange(user.id, e.target.value)
+                      }
+                      disabled={!canModifyRole(user.role.id)}
+                      className="text-sm border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
+                    >
+                      <option value="ROLE_USER">
+                        {t("userManagement.roles.user")}
+                      </option>
+                      <option value="ROLE_REVIEWER">
+                        {t("userManagement.roles.reviewer")}
+                      </option>
+                      <option value="ROLE_MODERATOR">
+                        {t("userManagement.roles.moderator")}
+                      </option>
+                      <option value="ROLE_CONTENT_MANAGER">
+                        {t("userManagement.roles.contentManager")}
+                      </option>
+                      {currentUser?.role === "A" && (
+                        <option value="ROLE_ADMIN">
+                          {t("userManagement.roles.admin")}
+                        </option>
+                      )}
+                    </select>
+                  </td>
+
+                  {/* Actions Column */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setShowDetailsModal(true);
+                        }}
+                        className="text-waladom-green hover:text-waladom-green-dark"
+                      >
+                        {t("userManagement.actions.view")}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setShowEditModal(true);
+                        }}
+                        className="text-blue-600 hover:text-blue-900"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setShowDeleteModal(true);
+                        }}
+                        className="text-red-600 hover:text-red-900"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+        <div className="flex-1 flex justify-between sm:hidden">
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+          >
+            {t("common.previous")}
+          </button>
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+          >
+            {t("common.next")}
+          </button>
+        </div>
+        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700">
+              {t("common.showing")}{" "}
+              <span className="font-medium">{indexOfFirstUser + 1}</span>{" "}
+              {t("common.to")}{" "}
+              <span className="font-medium">
+                {Math.min(indexOfLastUser, filteredUsers.length)}
+              </span>{" "}
+              {t("common.of")}{" "}
+              <span className="font-medium">{filteredUsers.length}</span>{" "}
+              {t("common.results")}
+            </p>
+          </div>
+          <div>
+            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (number) => (
+                  <button
+                    key={number}
+                    onClick={() => paginate(number)}
+                    className={cn(
+                      "relative inline-flex items-center px-4 py-2 border text-sm font-medium",
+                      currentPage === number
+                        ? "z-10 bg-waladom-green border-waladom-green text-white"
+                        : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                    )}
+                  >
+                    {number}
+                  </button>
+                )
+              )}
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </nav>
+          </div>
+        </div>
       </div>
 
       {/* Modals */}
@@ -462,7 +780,6 @@ const UsersList: React.FC = () => {
               setShowEditModal(false);
               setSelectedUser(null);
             }}
-            onSave={(userData) => handleUpdateUser(selectedUser.id, userData)}
           />
           <DeleteConfirmationModal
             user={selectedUser}
@@ -479,6 +796,15 @@ const UsersList: React.FC = () => {
       <AddUserModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
+      />
+
+      <RoleChangeModal
+        isOpen={showRoleChangeModal}
+        onClose={() => {
+          setShowRoleChangeModal(false);
+          setPendingRoleChange(null);
+        }}
+        onConfirm={handleRoleChangeConfirm}
       />
     </div>
   );

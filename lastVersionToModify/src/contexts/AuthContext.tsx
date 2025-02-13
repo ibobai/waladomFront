@@ -85,7 +85,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             method: 'GET',
             headers: {
               'Accept': 'application/json',
-              'Authorization': `Bearer ${refreshToken}`
+              'Authorization': `Bearer ${refreshToken}`,
+              'Content-Type' : 'application/json'
             }
           });
 
