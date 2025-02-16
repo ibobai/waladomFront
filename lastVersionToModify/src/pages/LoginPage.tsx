@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
                     value={emailOrPhone}
                     onChange={(e) => setEmailOrPhone(e.target.value)}
                     className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-waladom-green focus:border-waladom-green"
-                    placeholder={loginMethod === 'email' ? 'admin@admin.admin' : '+1234567890'}
+                    placeholder={loginMethod === 'email' ? 'email@example.com' : '+1234567890'}
                     required
                   />
                 </div>
@@ -113,7 +113,7 @@ const LoginPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-waladom-green focus:border-waladom-green"
-                    placeholder="admin111995"
+                    placeholder="password"
                     required
                   />
                   <button

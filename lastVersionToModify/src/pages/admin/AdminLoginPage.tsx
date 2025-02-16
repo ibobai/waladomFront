@@ -29,8 +29,8 @@ const AdminLoginPage: React.FC = () => {
             Admin Login
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Email: admin@admin.admin<br />
-            Password: admin111995
+            Email: email@email.email<br />
+            Password: password
           </p>
         </div>
 
@@ -57,7 +57,7 @@ const AdminLoginPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
-                    placeholder="admin@admin.admin"
+                    placeholder="example@email.email"
                     required
                   />
                 </div>
@@ -76,7 +76,7 @@ const AdminLoginPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
-                    placeholder="admin111995"
+                    placeholder="email"
                     required
                   />
                 </div>

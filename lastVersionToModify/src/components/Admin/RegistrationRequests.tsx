@@ -475,6 +475,7 @@ const RegistrationRequests: React.FC = () => {
 
     const jsonString = JSON.stringify({
       status: "rejected",
+      isActive: false,
       approverComment,
     });
 

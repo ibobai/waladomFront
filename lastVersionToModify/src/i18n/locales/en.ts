@@ -880,6 +880,13 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
       success: 'Thank you for your donation!',
       error: 'Failed to process donation'
     }
+  },
+  search: {
+    errors: {
+      noUserFound: "No user found",
+      failedSearch: "Failed to search user",
+      genericError: "An error occurred while searching"
+    }
   }
 };
 

@@ -879,6 +879,13 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
       success: 'Merci pour votre don !',
       error: 'Échec du traitement du don'
     }
+  },
+  search: {
+    errors: {
+      noUserFound: "Aucun utilisateur trouvé",
+      failedSearch: "Échec de la recherche de l'utilisateur",
+      genericError: "Une erreur s'est produite lors de la recherche"
+    }
   }
 };
 

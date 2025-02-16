@@ -886,7 +886,13 @@ donate: {
     error: 'فشل في معالجة التبرع'
   }
 },
-
+search: {
+  errors: {
+    noUserFound: "لم يتم العثور على المستخدم",
+    failedSearch: "فشل في البحث عن المستخدم",
+    genericError: "حدث خطأ أثناء البحث"
+  }
+}
 };
 
 /*

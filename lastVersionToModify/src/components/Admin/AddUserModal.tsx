@@ -183,6 +183,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose }) => {
         approverComment: formData.approverComment,
         recommendedBy: formData.recommendedBy,
 
+        validated:true,
         connectionMethod: "email",
         nationalities: formData.nationalities,
         idProofPhotoFront: photoUrls.idProofFront,

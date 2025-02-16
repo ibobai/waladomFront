@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Search, AlertCircle, User, Loader2, X } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '../contexts/AuthContext';
-import { User as UserType } from '../types/user';
-import MainLayout from '../layouts/MainLayout';
-import { cn } from '../utils/cn';
+import React, { useState } from "react";
+import { Search, AlertCircle, User, Loader2, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "../contexts/AuthContext";
+import { User as UserType } from "../types/user";
+import MainLayout from "../layouts/MainLayout";
+import { cn } from "../utils/cn";
 
 interface UserDetailsModalProps {
   user: UserType;
@@ -17,7 +17,12 @@ interface UserDetailsModalProps {
   onClose: () => void;
 }
 
-const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpen, onClose }) => {
+const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
+  user,
+  photos,
+  isOpen,
+  onClose,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -25,7 +30,10 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white px-6 py-4 border-b flex justify-between items-center">
           <h3 className="text-lg font-medium">User Details</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-500"
+          >
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -35,7 +43,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {photos.idProofFront && (
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-2">ID Proof (Front)</h4>
+                <h4 className="text-sm font-medium text-gray-500 mb-2">
+                  ID Proof (Front)
+                </h4>
                 <img
                   src={photos.idProofFront}
                   alt="ID Front"
@@ -45,7 +55,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
             )}
             {photos.idProofBack && (
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-2">ID Proof (Back)</h4>
+                <h4 className="text-sm font-medium text-gray-500 mb-2">
+                  ID Proof (Back)
+                </h4>
                 <img
                   src={photos.idProofBack}
                   alt="ID Back"
@@ -55,7 +67,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
             )}
             {photos.waladomCard && (
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-2">Waladom Card</h4>
+                <h4 className="text-sm font-medium text-gray-500 mb-2">
+                  Waladom Card
+                </h4>
                 <img
                   src={photos.waladomCard}
                   alt="Waladom Card"
@@ -71,8 +85,12 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
               <h4 className="font-medium mb-4">Personal Information</h4>
               <dl className="space-y-2">
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Full Name</dt>
-                  <dd>{user.firstName} {user.lastName}</dd>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Full Name
+                  </dt>
+                  <dd>
+                    {user.firstName} {user.lastName}
+                  </dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">Email</dt>
@@ -87,7 +105,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
                   <dd>{user.gender}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Date of Birth</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Date of Birth
+                  </dt>
                   <dd>{user.dateOfBirth}</dd>
                 </div>
               </dl>
@@ -97,11 +117,17 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
               <h4 className="font-medium mb-4">Additional Information</h4>
               <dl className="space-y-2">
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Current Location</dt>
-                  <dd>{user.currentCity}, {user.currentCountry}</dd>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Current Location
+                  </dt>
+                  <dd>
+                    {user.currentCity}, {user.currentCountry}
+                  </dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Place of Birth</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Place of Birth
+                  </dt>
                   <dd>{user.placeOfBirth}</dd>
                 </div>
                 <div>
@@ -109,12 +135,18 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
                   <dd>{user.tribe}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Mother's Name</dt>
-                  <dd>{user.motherFirstName} {user.motherLastName}</dd>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Mother's Name
+                  </dt>
+                  <dd>
+                    {user.motherFirstName} {user.motherLastName}
+                  </dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Nationalities</dt>
-                  <dd>{user.nationalities.join(', ')}</dd>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Nationalities
+                  </dt>
+                  <dd>{user.nationalities.join(", ")}</dd>
                 </div>
               </dl>
             </div>
@@ -128,68 +160,73 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, photos, isOpe
 const UserVerificationPage: React.FC = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useState({
-    cardId: '',
-    email: '',
-    phone: '',
-    firstName: '',
-    lastName: ''
+    id: "",
+    email: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
   });
   const [searchResult, setSearchResult] = useState<UserType | null>(null);
   const [signedPhotos, setSignedPhotos] = useState<Record<string, string>>({});
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const getAuthHeaders = () => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     return {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
     };
   };
 
   const signPhotos = async (photoUrls: string[]) => {
     try {
-      const response = await fetch('https://www.waladom.club/api/upload/signephotos', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({
-          user: photoUrls
-        })
-      });
+      const response = await fetch(
+        "https://www.waladom.club/api/upload/signephotos",
+        {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            user: photoUrls,
+          }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to sign photos');
+        throw new Error("Failed to sign photos");
       }
 
       const data = await response.json();
       return data.user || {};
     } catch (error) {
-      console.error('Error signing photos:', error);
+      console.error("Error signing photos:", error);
       return {};
     }
   };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
-      const response = await fetch('https://www.waladom.club/api/user/get/by5', {
-        method: 'POST',
+      const response = await fetch("https://www.waladom.club/api/user/search", {
+        method: "POST",
         headers: getAuthHeaders(),
-        body: JSON.stringify(searchParams)
+        body: JSON.stringify(searchParams),
       });
 
+      console.log(JSON.stringify(searchParams));
       if (!response.ok) {
-        throw new Error('User not found');
+        throw new Error("search.errors.noUserFound");
       }
 
       const data = await response.json();
       const user = Array.isArray(data) ? data[0] : data;
 
+      console.log(data)
       if (user) {
         setSearchResult(user);
 
@@ -197,7 +234,7 @@ const UserVerificationPage: React.FC = () => {
         const photoUrls = [
           user.idProofPhotos?.[0]?.photoUrl,
           user.idProofPhotos?.[1]?.photoUrl,
-          user.waladomCardPhoto?.photoUrl
+          user.waladomCardPhoto?.photoUrl,
         ].filter(Boolean);
 
         if (photoUrls.length > 0) {
@@ -207,13 +244,14 @@ const UserVerificationPage: React.FC = () => {
 
         setShowModal(true);
       } else {
-        setError('No user found');
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to search user');
-    } finally {
-      setLoading(false);
+        setError(t("search.errors.noUserFound"));
     }
+    } catch (err) {
+        setError(err instanceof Error ? t("search.errors.failedSearch") : t("search.errors.genericError"));
+    } finally {
+        setLoading(false);
+    }
+    
   };
 
   return (
@@ -221,67 +259,85 @@ const UserVerificationPage: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">{t('verification.title')}</h2>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {t("verification.title")}
+            </h2>
           </div>
 
           <form onSubmit={handleSearch} className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {t('verification.cardId')}
+                  {t("verification.cardId")}
                 </label>
                 <input
                   type="text"
-                  value={searchParams.cardId}
-                  onChange={(e) => setSearchParams({ ...searchParams, cardId: e.target.value })}
+                  value={searchParams.id}
+                  onChange={(e) =>
+                    setSearchParams({ ...searchParams, id: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-                  placeholder={t('verification.cardIdPlaceholder')}
+                  placeholder={t("verification.cardIdPlaceholder")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {t('verification.email')}
+                  {t("verification.email")}
                 </label>
                 <input
                   type="email"
                   value={searchParams.email}
-                  onChange={(e) => setSearchParams({ ...searchParams, email: e.target.value })}
+                  onChange={(e) =>
+                    setSearchParams({ ...searchParams, email: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-                  placeholder={t('verification.emailPlaceholder')}
+                  placeholder={t("verification.emailPlaceholder")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {t('verification.phone')}
+                  {t("verification.phone")}
                 </label>
                 <input
                   type="tel"
                   value={searchParams.phone}
-                  onChange={(e) => setSearchParams({ ...searchParams, phone: e.target.value })}
+                  onChange={(e) =>
+                    setSearchParams({ ...searchParams, phone: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-                  placeholder={t('verification.phonePlaceholder')}
+                  placeholder={t("verification.phonePlaceholder")}
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('verification.firstName')}
+                    {t("verification.firstName")}
                   </label>
                   <input
                     type="text"
                     value={searchParams.firstName}
-                    onChange={(e) => setSearchParams({ ...searchParams, firstName: e.target.value })}
+                    onChange={(e) =>
+                      setSearchParams({
+                        ...searchParams,
+                        firstName: e.target.value,
+                      })
+                    }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('verification.lastName')}
+                    {t("verification.lastName")}
                   </label>
                   <input
                     type="text"
                     value={searchParams.lastName}
-                    onChange={(e) => setSearchParams({ ...searchParams, lastName: e.target.value })}
+                    onChange={(e) =>
+                      setSearchParams({
+                        ...searchParams,
+                        lastName: e.target.value,
+                      })
+                    }
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
                   />
                 </div>
@@ -297,7 +353,12 @@ const UserVerificationPage: React.FC = () => {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={
+                loading ||
+                Object.values(searchParams).every(
+                  (value) => value.trim() === ""
+                )
+              }
               className={cn(
                 "w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-lg",
                 "text-white bg-waladom-green hover:bg-waladom-green-dark",
@@ -307,12 +368,12 @@ const UserVerificationPage: React.FC = () => {
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  {t('verification.searching')}
+                  {t("verification.searching")}
                 </>
               ) : (
                 <>
                   <Search className="w-5 h-5 mr-2" />
-                  {t('verification.verifyButton')}
+                  {t("verification.verifyButton")}
                 </>
               )}
             </button>
@@ -323,9 +384,12 @@ const UserVerificationPage: React.FC = () => {
           <UserDetailsModal
             user={searchResult}
             photos={{
-              idProofFront: signedPhotos[searchResult.idProofPhotos?.[0]?.photoUrl],
-              idProofBack: signedPhotos[searchResult.idProofPhotos?.[1]?.photoUrl],
-              waladomCard: signedPhotos[searchResult.waladomCardPhoto?.photoUrl]
+              idProofFront:
+                signedPhotos[searchResult.idProofPhotos?.[0]?.photoUrl],
+              idProofBack:
+                signedPhotos[searchResult.idProofPhotos?.[1]?.photoUrl],
+              waladomCard:
+                signedPhotos[searchResult.waladomCardPhoto?.photoUrl],
             }}
             isOpen={showModal}
             onClose={() => setShowModal(false)}
