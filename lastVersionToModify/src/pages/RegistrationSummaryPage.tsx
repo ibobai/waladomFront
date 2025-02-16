@@ -103,11 +103,14 @@ const RegistrationSummaryPage: React.FC<RegistrationSummaryPageProps> = ({
           label: t("registration.lastName"),
           value: trimValue(formData.lastName),
         },
-        { label: t("registration.sex"), value: trimValue(formData.sex) },
+        {
+          label: t("registration.sex"),
+          value: formData.sex === "m" ? t("registration.male") : formData.sex === "f" ? t("registration.female") : formData.sex
+        },               
         {
           label: t("registration.maritalStatus"),
-          value: trimValue(formData.maritalStatus),
-        },
+          value: t(`registration.${formData.maritalStatus.toLowerCase()}`) // Convert the status to lowercase before passing it
+        },        
         {
           label: t("registration.numberOfKids"),
           value: formData.numberOfKids.toString(),
@@ -167,8 +170,9 @@ const RegistrationSummaryPage: React.FC<RegistrationSummaryPageProps> = ({
       title: t("registration.additionalInfo"),
       fields: [
         {
-          label: t("registration.occupation"),
-          value: trimValue(formData.occupation),
+          label: t("registration.maritalStatus"),
+          value: t(`registration.occupations.${formData.occupation.toLowerCase()}`) // Convert the status to lowercase before passing it
+         
         },
         { label: t("registration.tribe"), value: trimValue(formData.tribe) },
         {

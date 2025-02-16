@@ -241,7 +241,6 @@ const Step3: React.FC<Step3Props> = ({
 
     // Navigate to summary page instead of direct API call
     handleNext(registrationData);
-    console.log(registrationData);
   };
 
   // Section Title Component
@@ -268,6 +267,18 @@ const Step3: React.FC<Step3Props> = ({
     }
     return "";
   };
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedCountryFlag, setSelectedCountryFlag] = useState("🇸🇩");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCountries = countries.filter((country) =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  //for countries
+  const [dropdownOpen1, setDropdownOpen1] = useState(false);
+  const [dropdownOpen3, setDropdownOpen3] = useState(false);
+  const [dropdownOpen4, setDropdownOpen4] = useState(false);
 
   return (
     <form
@@ -354,20 +365,58 @@ const Step3: React.FC<Step3Props> = ({
               )}
             </label>
 
-            <div className="flex gap-3">
-              <select
-                value={selectedCountryCode}
-                className="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-                disabled={contactType !== "email"}
-                onChange={(e) => setSelectedCountryCode(e.target.value)}
-              >
-                {countries.map((country) => (
-                  <option key={country.code} value={country.phoneCode}>
-                    {country.flag} {country.phoneCode}
-                  </option>
-                ))}
-              </select>
+            <div className="relative flex gap-3">
+              {/* Custom Dropdown */}
+              <div className="w-32">
+                <div
+                  className="relative"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                  <div className="flex items-center justify-between px-4 py-3 border border-gray-300 rounded-lg cursor-pointer focus:ring-2 focus:ring-waladom-green">
+                    <span className="text-sm">
+                      {selectedCountryFlag} {selectedCountryCode}
+                    </span>
+                    <svg
+                      className={`w-4 h-4 transform transition-all ${
+                        dropdownOpen ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                  {dropdownOpen && (
+                    <ul
+                      className="absolute left-0 right-0 z-10 mt-2 max-h-48 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {countries.map((country) => (
+                        <li
+                          key={country.code}
+                          className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            setSelectedCountryCode(country.phoneCode);
+                            setSelectedCountryFlag(country.flag);
+                            setDropdownOpen(false);
+                          }}
+                        >
+                          {country.flag} {country.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
 
+              {/* Phone Input */}
               <input
                 type="tel"
                 name="phone"
@@ -379,7 +428,7 @@ const Step3: React.FC<Step3Props> = ({
                     ? "bg-gray-100"
                     : "focus:ring-2 focus:ring-waladom-green focus:border-transparent"
                 )}
-                placeholder="Phone number without leading 0"
+                placeholder={t("registration.phoneWithoutZero")}
                 disabled={contactType === "phone"}
                 required
               />
@@ -490,16 +539,16 @@ const Step3: React.FC<Step3Props> = ({
       {/* Personal Details */}
       <div>
         <SectionTitle title={t("registration.personalDetails")} />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2 ">
               {t("registration.sex")}
             </label>
             <select
               name="sex"
               value={formData.sex}
               onChange={handleFormChange}
-              className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
+              className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent bg-gray-100"
               required
             >
               <option value="">{t("registration.selectSex")}</option>
@@ -515,7 +564,7 @@ const Step3: React.FC<Step3Props> = ({
               name="maritalStatus"
               value={formData.maritalStatus}
               onChange={handleFormChange}
-              className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
+              className="bg-gray-100 w-full px-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
               required
             >
               <option value="">{t("registration.selectMaritalStatus")}</option>
@@ -555,29 +604,92 @@ const Step3: React.FC<Step3Props> = ({
               name="birthDate"
               value={formData.birthDate}
               onChange={handleFormChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
+              className="bg-gray-100 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
               required
             />
           </div>
 
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("registration.birthCountry")}
             </label>
-            <select
-              name="birthCountry"
-              value={formData.birthCountry}
-              onChange={handleFormChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-              required
-            >
-              <option value="">{t("registration.selectCountry")}</option>
-              {countries.map((country) => (
-                <option key={country.code} value={country.name}>
-                  {country.flag} {country.name}
-                </option>
-              ))}
-            </select>
+
+            {/* Custom Dropdown */}
+            <div className="relative">
+              <div
+                onClick={() => setDropdownOpen1(!dropdownOpen1)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green cursor-pointer bg-gray-100"
+              >
+                <span className="text-sm flex items-center justify-between">
+                  <span>
+                    {formData.birthCountry ? (
+                      <>
+                        {
+                          countries.find(
+                            (country) => country.name === formData.birthCountry
+                          )?.flag
+                        }
+                        {formData.birthCountry}
+                      </>
+                    ) : (
+                      t("registration.selectCountry")
+                    )}
+                  </span>
+                  <svg
+                    className={`w-4 h-4 transform transition-all ${
+                      dropdownOpen1 ? "rotate-180" : ""
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              {dropdownOpen1 && (
+                <div className="absolute w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                  {/* Search Input */}
+                  <div className="px-4 py-2">
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green"
+                      placeholder={t("registration.searchCountry")}
+                    />
+                  </div>
+
+                  {/* Country List */}
+                  <ul className="max-h-48 overflow-y-auto">
+                    {filteredCountries.map((country) => (
+                      <li
+                        key={country.code}
+                        onClick={() => {
+                          handleFormChange({
+                            target: {
+                              name: "birthCountry",
+                              value: country.name,
+                            },
+                          });
+                          setDropdownOpen1(false); // Close dropdown after selection
+                        }}
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                      >
+                        {country.flag} {country.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
 
           <div>
@@ -608,52 +720,98 @@ const Step3: React.FC<Step3Props> = ({
           </div>
 
           <div>
-            {" "}
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              {" "}
-              {t("registration.nationalities")}{" "}
-            </label>{" "}
+              {t("registration.nationalities")}
+              <span className="text-xs text-gray-500 ml-1">
+                  {t("registration.moreNatio")}
+                </span>
+            </label>
             <div className="relative">
-              {" "}
-              <select
-                onChange={(e) => {
-                  const country = countries.find(
-                    (c) => c.code === e.target.value
-                  );
-                  if (country) handleAddNationality(country);
-                }}
-                className="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
+              {/* Custom Dropdown for Countries */}
+              <div
+                onClick={() => setDropdownOpen4(!dropdownOpen4)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md bg-gray-100 cursor-pointer focus:ring-2 focus:ring-waladom-green"
               >
-                {" "}
-                <option value="">{t("registration.addNationality")}</option>
-                {countries.map((country) => (
-                  <option key={country.code} value={country.code}>
-                    {" "}
-                    {country.flag} {country.name}{" "}
-                  </option>
-                ))}{" "}
-              </select>{" "}
-              <div className="mt-2 flex flex-wrap gap-2">
-                {" "}
-                {selectedNationalities.map((nationality) => (
-                  <span
-                    key={nationality.code}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-sm bg-gray-100"
-                  >
-                    {" "}
-                    {nationality.flag} {nationality.name}{" "}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveNationality(nationality.code)}
-                      className="ml-1 text-gray-500 hover:text-gray-700"
-                    >
-                      {" "}
-                      ×{" "}
-                    </button>{" "}
+                <span className="text-sm flex items-center justify-between">
+                  <span>
+                    {selectedNationalities.length > 0
+                      ? selectedNationalities.map((nationality) => (
+                          <span key={nationality.code}>
+                            {nationality.flag} {nationality.name}
+                          </span>
+                        ))
+                      : t("registration.addNationality")}
                   </span>
-                ))}{" "}
-              </div>{" "}
-            </div>{" "}
+                  <svg
+                    className={`w-4 h-4 transform transition-all ${
+                      dropdownOpen4 ? "rotate-180" : ""
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              {/* Dropdown List */}
+              {dropdownOpen4 && (
+                <div className="absolute w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                  {/* Search Input */}
+                  <div className="px-4 py-2">
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green"
+                      placeholder={t("registration.searchCountry")}
+                    />
+                  </div>
+
+                  {/* Country List */}
+                  <ul className="max-h-48 overflow-y-auto">
+                    {filteredCountries.map((country) => (
+                      <li
+                        key={country.code}
+                        onClick={() => {
+                          handleAddNationality(country);
+                          setDropdownOpen4(false); // Close dropdown after selection
+                        }}
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                      >
+                        {country.flag} {country.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Selected Nationalities */}
+            <div className="mt-2 flex flex-wrap gap-2">
+              {selectedNationalities.map((nationality) => (
+                <span
+                  key={nationality.code}
+                  className="inline-flex items-center px-2 py-1 rounded-full text-sm bg-gray-100"
+                >
+                  {nationality.flag} {nationality.name}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveNationality(nationality.code)}
+                    className="ml-1 text-gray-500 hover:text-gray-700"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -662,24 +820,88 @@ const Step3: React.FC<Step3Props> = ({
       <div>
         <SectionTitle title={t("registration.currentLocation")} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("registration.currentCountry")}
             </label>
-            <select
-              name="currentCountry"
-              value={formData.currentCountry}
-              onChange={handleFormChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-              required
-            >
-              <option value="">{t("registration.selectCountry")}</option>
-              {countries.map((country) => (
-                <option key={country.code} value={country.name}>
-                  {country.flag} {country.name}
-                </option>
-              ))}
-            </select>
+
+            {/* Custom Dropdown */}
+            <div className="relative">
+              <div
+                onClick={() => setDropdownOpen3(!dropdownOpen3)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green cursor-pointer bg-gray-100"
+              >
+                <span className="text-sm flex items-center justify-between">
+                  <span>
+                    {formData.currentCountry ? (
+                      <>
+                        {
+                          countries.find(
+                            (country) =>
+                              country.name === formData.currentCountry
+                          )?.flag
+                        }
+                        {formData.currentCountry}
+                      </>
+                    ) : (
+                      t("registration.selectCountry")
+                    )}
+                  </span>
+                  <svg
+                    className={`w-4 h-4 transform transition-all ${
+                      dropdownOpen3 ? "rotate-180" : ""
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              {dropdownOpen3 && (
+                <div className="absolute w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                  {/* Search Input */}
+                  <div className="px-4 py-2">
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green"
+                      placeholder={t("registration.searchCountry")}
+                    />
+                  </div>
+
+                  {/* Country List */}
+                  <ul className="max-h-48 overflow-y-auto">
+                    {filteredCountries.map((country) => (
+                      <li
+                        key={country.code}
+                        onClick={() => {
+                          handleFormChange({
+                            target: {
+                              name: "currentCountry",
+                              value: country.name,
+                            },
+                          });
+                          setDropdownOpen3(false); // Close dropdown after selection
+                        }}
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                      >
+                        {country.flag} {country.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
 
           <div>
@@ -724,7 +946,7 @@ const Step3: React.FC<Step3Props> = ({
                 name="occupation"
                 value={formData.occupation}
                 onChange={handleFormChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
+                className="bg-gray-100 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
                 required
               >
                 <option value="">{t("registration.selectOccupation")}</option>
@@ -1098,7 +1320,6 @@ const Step3: React.FC<Step3Props> = ({
           </div>
         </div>
       </div>
-      
     </form>
   );
 };
