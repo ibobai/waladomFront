@@ -235,7 +235,7 @@ const Step3: React.FC<Step3Props> = ({
       connectionMethod: contactType,
       nationalities: formData.nationalities,
       comments: formData.comments,
-      invitedBy: formData.invitationCode,
+      recommendedBy: formData.invitationCode,
       role: "ROLE_USER",
     };
 
@@ -324,7 +324,7 @@ const Step3: React.FC<Step3Props> = ({
               {t("registration.email")}
               {contactType === "phone" && (
                 <span className="text-xs text-gray-500 ml-1">
-                  (Optional with phone registration)
+                  {t("registration.optionalPhone")}
                 </span>
               )}
             </label>
@@ -349,7 +349,7 @@ const Step3: React.FC<Step3Props> = ({
               {t("registration.phone")}
               {contactType === "email" && (
                 <span className="text-xs text-gray-500 ml-1">
-                  (Optional with email registration)
+                  {t("registration.optionalEmail")}
                 </span>
               )}
             </label>
@@ -431,12 +431,11 @@ const Step3: React.FC<Step3Props> = ({
                 />
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                Password must contain uppercase, lowercase, number, and special
-                character.
+                {t("registration.passwordRequirements")}
               </p>
               {!isPasswordStrong && (
                 <p className="text-sm text-red-600 mt-1">
-                  ❌ Password is not strong enough.
+                  {t("registration.passwordNotStrong")}
                 </p>
               )}
             </div>
@@ -480,27 +479,12 @@ const Step3: React.FC<Step3Props> = ({
                 }`}
               >
                 {passwordMatch
-                  ? "Passwords match ✅"
-                  : "Passwords do not match ❌"}
+                  ? t("registration.passwordMatch")
+                  : t("registration.passwordMismatch")}
               </p>
             )}
           </div>
         </div>
-
-        {/* Submit Button (Disabled if password is weak) */}
-        {/*
-<button
-  type="submit"
-  disabled={!isPasswordStrong || !passwordMatch}
-  className={`mt-4 px-4 py-2 rounded-lg ${
-    isPasswordStrong && passwordMatch
-      ? "bg-waladom-green text-white"
-      : "bg-gray-400 text-gray-700 cursor-not-allowed"
-  }`}
->
-  Register
-</button>
-*/}
       </div>
 
       {/* Personal Details */}
@@ -587,7 +571,7 @@ const Step3: React.FC<Step3Props> = ({
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
               required
             >
-              <option value="">Select country</option>
+              <option value="">{t("registration.selectCountry")}</option>
               {countries.map((country) => (
                 <option key={country.code} value={country.name}>
                   {country.flag} {country.name}
@@ -627,7 +611,7 @@ const Step3: React.FC<Step3Props> = ({
             {" "}
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {" "}
-              Nationalities{" "}
+              {t("registration.nationalities")}{" "}
             </label>{" "}
             <div className="relative">
               {" "}
@@ -641,7 +625,7 @@ const Step3: React.FC<Step3Props> = ({
                 className="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-waladom-green focus:border-waladom-green"
               >
                 {" "}
-                <option value="">Add nationality</option>{" "}
+                <option value="">{t("registration.addNationality")}</option>
                 {countries.map((country) => (
                   <option key={country.code} value={country.code}>
                     {" "}
@@ -689,7 +673,7 @@ const Step3: React.FC<Step3Props> = ({
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
               required
             >
-              <option value="">Select country</option>
+              <option value="">{t("registration.selectCountry")}</option>
               {countries.map((country) => (
                 <option key={country.code} value={country.name}>
                   {country.flag} {country.name}
@@ -889,7 +873,7 @@ const Step3: React.FC<Step3Props> = ({
                 <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
                   <Upload className="w-8 h-8 text-waladom-green" />
                   <span className="mt-2 text-sm text-gray-600">
-                    Select ID Front
+                    {t("registration.selectIdFront")}
                   </span>
                   <input
                     type="file"
@@ -937,7 +921,7 @@ const Step3: React.FC<Step3Props> = ({
                 <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
                   <Upload className="w-8 h-8 text-waladom-green" />
                   <span className="mt-2 text-sm text-gray-600">
-                    Select ID Back
+                    {t("registration.selectIdBack")}
                   </span>
                   <input
                     type="file"
@@ -979,8 +963,9 @@ const Step3: React.FC<Step3Props> = ({
                 <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
                   <Upload className="w-8 h-8 text-waladom-green" />
                   <span className="mt-2 text-sm text-gray-600">
-                    Select Profile Photo
+                    {t("registration.selectProfilePhoto")}
                   </span>
+
                   <input
                     type="file"
                     className="hidden"
@@ -1073,7 +1058,7 @@ const Step3: React.FC<Step3Props> = ({
         <button
           type="button"
           onClick={handleBack}
-          className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+          className="px-4 py-2 sm:px-6 sm:py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 w-full sm:w-auto"
         >
           {t("common.back")}
         </button>
@@ -1113,6 +1098,7 @@ const Step3: React.FC<Step3Props> = ({
           </div>
         </div>
       </div>
+      
     </form>
   );
 };

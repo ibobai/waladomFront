@@ -36,6 +36,8 @@ interface RegistrationRequest {
   comments?: string;
   createdAt: string;
   connectionMethod: string;
+  approverComment: string;
+  recommendedBy: string;
   validated: boolean | null;
   idProofPhotos: { photoUrl: string }[];
   waladomCardPhoto: { photoUrl: string };
@@ -73,6 +75,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  console.log(request);
   if (!isOpen) return null;
 
   return (
@@ -123,6 +126,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
           </div>
 
           {/* User Information */}
+          {/* User Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h4 className="font-medium mb-4">
@@ -130,52 +134,80 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
               </h4>
               <dl className="space-y-2">
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Name</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.name")}
+                  </dt>
                   <dd>
                     {request.firstName} {request.lastName}
                   </dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Date of birth
+                    {t("registrationRequests.details.birthDate")}
                   </dt>
                   <dd>{request.birthDate}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Email</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.email")}
+                  </dt>
                   <dd>{request.email}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Phone</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.phone")}
+                  </dt>
                   <dd>{request.phone}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Sex</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.sex")}
+                  </dt>
                   <dd>{request.sex}</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Occupation
+                    {t("registrationRequests.details.occupation")}
                   </dt>
                   <dd>{request.occupation}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Tribe</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.tribe")}
+                  </dt>
                   <dd>{request.tribe}</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Comments
+                    {t("registrationRequests.details.comments")}
                   </dt>
                   <dd>{request.comments}</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Marital status And number of kids
+                    {t("registrationRequests.details.maritalStatusAndKids")}
                   </dt>
                   <dd>
                     {request.maritalStatus}, {request.numberOfKids}
                   </dd>
+                </div>
+                <div>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.connectionMethod")}
+                  </dt>
+                  <dd>{request.connectionMethod}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.approverComment")}
+                  </dt>
+                  <dd>{request.approverComment}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.recommendedBy")}
+                  </dt>
+                  <dd>{request.recommendedBy}</dd>
                 </div>
               </dl>
             </div>
@@ -187,7 +219,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
               <dl className="space-y-2">
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Current Location
+                    {t("registrationRequests.details.currentLocation")}
                   </dt>
                   <dd>
                     {request.currentVillage}, {request.currentCity},{" "}
@@ -196,7 +228,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Birth Information
+                    {t("registrationRequests.details.birthInfo")}
                   </dt>
                   <dd>
                     {request.birthVillage}, {request.birthCity},{" "}
@@ -205,7 +237,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Mother's Name
+                    {t("registrationRequests.details.motherName")}
                   </dt>
                   <dd>
                     {request.mothersFirstName} {request.mothersLastName}
@@ -213,12 +245,14 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Nationalities
+                    {t("registrationRequests.details.nationalities")}
                   </dt>
                   <dd>{request.nationalities.join(", ")}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Status</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("registrationRequests.details.status")}
+                  </dt>
                   <dd>{request.status}</dd>
                 </div>
               </dl>
@@ -263,6 +297,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const { t } = useTranslation();
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg max-w-md w-full mx-4 p-6">
@@ -273,7 +309,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 border border-gray-300 rounded-lg"
           >
-            Cancel
+            {t("registrationRequests.cancel")}
           </button>
           <button
             onClick={onConfirm}
@@ -311,6 +347,10 @@ const RegistrationRequests: React.FC = () => {
     "approve" | "reject" | "delete"
   >("approve");
   const [signedPhotos, setSignedPhotos] = useState<Record<string, string>>({});
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem("accessToken");
@@ -518,6 +558,24 @@ const RegistrationRequests: React.FC = () => {
     return matchesSearch && matchesStatus && matchesTribe && matchesDate;
   });
 
+  //pagination
+  const indexOfLastRequest = currentPage * itemsPerPage;
+  const indexOfFirstRequest = indexOfLastRequest - itemsPerPage;
+  const currentRequests = filteredRequests.slice(
+    indexOfFirstRequest,
+    indexOfLastRequest
+  );
+
+  const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -532,6 +590,11 @@ const RegistrationRequests: React.FC = () => {
         <h3 className="text-lg leading-6 font-medium text-gray-900">
           {t("registrationRequests.title")}
         </h3>
+        <p className="text-gray-600">
+          {t("registrationRequests.totaltext", {
+            total: filteredRequests.length,
+          })}
+        </p>
       </div>
 
       {/* Filters */}
@@ -642,7 +705,7 @@ const RegistrationRequests: React.FC = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {filteredRequests.map((request) => (
+            {currentRequests.map((request) => (
               <tr
                 key={request.id}
                 onClick={() => handleRowClick(request)}
@@ -726,7 +789,25 @@ const RegistrationRequests: React.FC = () => {
           </tbody>
         </table>
       </div>
-
+      <div className="flex justify-between items-center p-4">
+        <button
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-200 rounded-md"
+        >
+          {t("registrationRequests.previous")}
+        </button>
+        <span className="text-sm text-gray-600">
+          {t("registrationRequests.pageOf", { currentPage, totalPages })}
+        </span>
+        <button
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-gray-200 rounded-md"
+        >
+          {t("registrationRequests.next")}
+        </button>
+      </div>
       {/* Details Modal */}
       {selectedRequest && (
         <DetailsModal

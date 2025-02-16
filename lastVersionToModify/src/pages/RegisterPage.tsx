@@ -75,7 +75,7 @@ const RegisterPage: React.FC = () => {
   const validateNumberInput = (value: string) => {
     return /^[0-9]*$/.test(value); // Only allows numbers
   };
-  const numberOnlyFields = ["phone", "invitationCode"]; // Add any fields that should accept only numbers
+  const numberOnlyFields = ["phone"]; // Add any fields that should accept only numbers
 
   const textOnlyFields = ["firstName", "lastName", "tribe", "mothersFirstName", "mothersLastName"]; // Add relevant text-only fields
   const validateTextInput = (value: string) => {

@@ -403,17 +403,22 @@ const UsersList: React.FC = () => {
     <div className="bg-white shadow-lg rounded-lg overflow-hidden">
       {/* Header */}
       <div className="px-4 py-5 sm:px-6 border-b border-gray-200 flex flex-wrap justify-between items-center gap-4">
+      <div>
         <h2 className="text-xl font-semibold text-gray-900">
           {t("userManagement.title")}
         </h2>
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-waladom-green hover:bg-waladom-green-dark"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          {t("userManagement.actions.add")}
-        </button>
+        <p className="text-gray-600">
+          {t("userManagement.totaltext", { total: filteredUsers.length })}
+        </p>
       </div>
+      <button
+        onClick={() => setShowAddModal(true)}
+        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-waladom-green hover:bg-waladom-green-dark"
+      >
+        <Plus className="w-5 h-5 mr-2" />
+        {t("userManagement.actions.add")}
+      </button>
+    </div>
 
       {/* Filters */}
       <div className="p-4 border-b border-gray-200">
