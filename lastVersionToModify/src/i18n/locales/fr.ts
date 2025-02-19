@@ -341,24 +341,48 @@ confirm: "Confirmer",
   },
 
   verification: {
-    title: 'Vérification d\'Utilisateur',
-    searchUser: 'Rechercher un Utilisateur',
+    title: 'Vérification Utilisateur',
     cardId: 'ID Carte',
-    cardIdPlaceholder: 'WLD-XXXXXX',
+    cardIdPlaceholder: 'Entrez ID carte',
     email: 'Email',
-    emailPlaceholder: 'utilisateur@exemple.com',
+    emailPlaceholder: 'Entrez adresse email',
     phone: 'Téléphone',
-    phonePlaceholder: '+1234567890',
-    firstName: 'Prénom',
-    lastName: 'Nom',
-    verifyButton: 'Vérifier l\'Utilisateur',
-    noUserFound: 'Aucun utilisateur trouvé avec les informations fournies.',
+    phonePlaceholder: 'Entrez numéro de téléphone',
+    verifyButton: 'Vérifier Utilisateur',
+    searching: 'Recherche en cours...',
+    noResults: 'Aucun résultat trouvé',
+    searchResults: 'Résultats de la recherche',
+    table: {
+      id: 'ID',
+      name: 'Nom',
+      email: 'Email',
+      phone: 'Téléphone',
+      status: 'Statut',
+      role: 'Rôle',
+      actions: 'Actions'
+    },
     userDetails: {
-      title: 'Détails de l\'Utilisateur',
-      currentLocation: 'Localisation Actuelle',
-      joinedDate: 'Date d\'Inscription',
+      title: "Détails de l'utilisateur",
+      photos: 'Photos',
+      idProofFront: "Preuve d'identité (Recto)",
+      idProofBack: "Preuve d'identité (Verso)",
+      profilePhoto: 'Photo de profil',
+      basicInfo: 'Informations de base',
+      personalInfo: 'Informations personnelles',
+      firstName: 'Prénom',
+      lastName: 'Nom',
+      email: 'Email',
+      phone: 'Téléphone',
+      gender: 'Genre',
       tribe: 'Tribu',
-      occupation: 'Profession'
+      nationalities: 'Nationalités',
+      occupation: 'Profession',
+      currentLocation: 'Localisation actuelle',
+      birthInfo: 'Informations de naissance',
+      birthDate: 'Date de naissance',
+      birthPlace: 'Lieu de naissance',
+      motherInfo: 'Informations de la mère',
+      motherName: 'Nom de la mère'
     }
   },
   roles: {
@@ -777,35 +801,77 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
   },
 
   about: {
-    title: 'À Propos de Waladom',
-    subtitle: 'Connecter les Communautés Soudanaises à Travers le Monde',
+    title: 'À propos de WALADOM',
+    description: 'WALADOM est une organisation officiellement enregistrée en France, dédiée à la protection des droits des tribus Baggara et Abbala au Soudan. Ces communautés font face à une oppression systématique du gouvernement soudanais, incluant la discrimination raciale, le refus de documents officiels, les arrestations arbitraires et les bombardements aériens sur leurs villages.',
     mission: {
       title: 'Notre Mission',
-      description: 'Créer une plateforme unifiée qui connecte et autonomise les communautés soudanaises globalement.'
-    },
-    vision: {
-      title: 'Notre Vision',
-      description: 'Un monde où chaque Soudanais se sent connecté à sa communauté et à sa culture.'
+      description: 'Unir et protéger les tribus Baggara et Abbala contre la discrimination systémique et l\'oppression qu\'elles subissent au Soudan.',
+      support: 'Nous visons à fournir un soutien à travers la documentation des violations, le plaidoyer et les initiatives d\'autonomisation communautaire.'
     },
     values: {
       title: 'Nos Valeurs',
-      description: 'L\'intégrité, le soutien communautaire et la préservation culturelle guident toutes nos actions.',
-      items: {
-        connection: {
-          title: 'Connexion Mondiale',
-          description: 'Connecter les communautés soudanaises à travers le monde via notre plateforme.'
+      intro: 'Chez WALADOM, nous croyons en :',
+      justice: 'Justice – Lutter contre la discrimination raciale et l\'oppression.',
+      unity: 'Unité – Renforcer les liens entre les tribus Baggara et Abbala pour résister à l\'oppression.',
+      freedom: 'Liberté – Garantir à notre peuple le droit de vivre dans la dignité, libre de toute persécution et injustice.'
+    },
+    vision: {
+      title: 'Notre Vision',
+      description: 'Un avenir où les tribus Baggara et Abbala pourront vivre dans la dignité, libres de toute oppression, et avoir un accès égal aux droits légaux, à la citoyenneté et aux opportunités.'
+    },
+    principles: {
+      title: 'Nos Principes Fondamentaux',
+      1: {
+        title: 'Protection de Nos Communautés',
+        description: 'Nous travaillons à documenter et à exposer les violations des droits humains contre les tribus Baggara et Abbala.'
+      },
+      2: {
+        title: 'Droits Légaux et Identitaires',
+        description: 'Nous plaidons pour le droit aux documents officiels (passeports, numéros nationaux, etc.) qui sont systématiquement refusés à notre peuple.'
+      },
+      3: {
+        title: 'Identité Numérique et Signalement',
+        description: 'Nous fournissons un système d\'identification alternatif pour les membres de notre communauté et une plateforme sécurisée pour signaler les violations.'
+      },
+      4: {
+        title: 'Plaidoyer International',
+        description: 'Nous collaborons avec les organisations internationales des droits humains pour sensibiliser et faire pression pour la justice.'
+      }
+    },
+    flag: {
+      title: 'Le Drapeau WALADOM – Symbole d\'Unité et de Force',
+      description: 'Le drapeau WALADOM est une représentation puissante de la lutte, de l\'identité et des aspirations des tribus Baggara et Abbala. Il se compose de cinq couleurs principales et d\'éléments symboliques qui reflètent les valeurs et la mission de l\'organisation.',
+      colors: {
+        title: 'Les Couleurs du Drapeau et Leurs Significations',
+        red: 'Rouge – Représente les sacrifices et le sang versé à cause de l\'oppression et de l\'injustice.',
+        white: 'Blanc – Symbolise la paix, la pureté et l\'espoir d\'un avenir juste.',
+        yellow: 'Jaune – Représente la prospérité, la richesse et l\'ambition de construire une vie meilleure pour notre peuple.',
+        green: 'Vert – Représente la croissance, le développement et la richesse de nos terres.',
+        black: 'Noir – Un symbole de force, de résilience et de l\'identité profondément enracinée de notre peuple.'
+      },
+      symbols: {
+        title: 'Symboles du Drapeau',
+        horse: {
+          title: 'Le Cheval Noir',
+          description: 'Représente le pouvoir, la dignité et l\'héritage culturel profond des tribus Baggara et Abbala, connues pour leur lien historique avec les chevaux.'
         },
-        support: {
-          title: 'Soutien Communautaire',
-          description: 'Favoriser le soutien mutuel et la collaboration entre les membres de la communauté.'
-        },
-        culture: {
-          title: 'Préservation Culturelle',
-          description: 'Préserver et célébrer la culture et le patrimoine soudanais.'
+        stars: {
+          title: 'Les Trois Étoiles Vertes',
+          star1: 'Unité – Renforcer les liens entre notre peuple.',
+          star2: 'Justice – Défendre nos communautés contre la discrimination raciale et l\'oppression.',
+          star3: 'Liberté – Garantir le droit de vivre dans la dignité, libre de toute persécution.'
         }
       }
+    },
+    join: {
+      title: 'Rejoignez-Nous',
+      description: 'WALADOM est plus qu\'une organisation - c\'est un mouvement pour protéger notre existence et garantir la reconnaissance de nos droits.',
+      launch: 'Restez à l\'écoute ! Notre lancement officiel arrive bientôt.',
+      support: 'Soutenez WALADOM en partageant notre mission et en sensibilisant.',
+      unite: 'Dans WALADOM, nous sommes tous unis !'
     }
-  },
+  }
+,
 
   events: {
     upcoming: 'Événements à Venir',

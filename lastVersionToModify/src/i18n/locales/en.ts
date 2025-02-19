@@ -344,23 +344,47 @@ confirm: "Confirm",
 
   verification: {
     title: 'User Verification',
-    searchUser: 'Search User',
     cardId: 'Card ID',
-    cardIdPlaceholder: 'WLD-XXXXXX',
+    cardIdPlaceholder: 'Enter card ID',
     email: 'Email',
-    emailPlaceholder: 'user@example.com',
+    emailPlaceholder: 'Enter email address',
     phone: 'Phone',
-    phonePlaceholder: '+1234567890',
-    firstName: 'First Name',
-    lastName: 'Last Name',
+    phonePlaceholder: 'Enter phone number',
     verifyButton: 'Verify User',
-    noUserFound: 'No user found with the provided information.',
+    searching: 'Searching...',
+    noResults: 'No results found',
+    searchResults: 'Search Results',
+    table: {
+      id: 'ID',
+      name: 'Name',
+      email: 'Email',
+      phone: 'Phone',
+      status: 'Status',
+      role: 'Role',
+      actions: 'Actions'
+    },
     userDetails: {
       title: 'User Details',
-      currentLocation: 'Current Location',
-      joinedDate: 'Joined Date',
+      photos: 'Photos',
+      idProofFront: 'ID Proof (Front)',
+      idProofBack: 'ID Proof (Back)',
+      profilePhoto: 'Profile Photo',
+      basicInfo: 'Basic Information',
+      personalInfo: 'Personal Information',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      phone: 'Phone',
+      gender: 'Gender',
       tribe: 'Tribe',
-      occupation: 'Occupation'
+      nationalities: 'Nationalities',
+      occupation: 'Occupation',
+      currentLocation: 'Current Location',
+      birthInfo: 'Birth Information',
+      birthDate: 'Date of Birth',
+      birthPlace: 'Place of Birth',
+      motherInfo: "Mother's Information",
+      motherName: "Mother's Name"
     }
   },
   roles: {
@@ -778,35 +802,77 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
   },
 
   about: {
-    title: 'About Waladom',
-    subtitle: 'Connecting Sudanese Communities Worldwide',
+    title: 'About WALADOM',
+    description: 'WALADOM is an organization officially registered in France, dedicated to protecting the rights of the Baggara and Abbala tribes in Sudan. These communities face systematic oppression by the Sudanese government, including racial discrimination, denial of official documents, arbitrary arrests, and aerial bombings on their villages.',
     mission: {
       title: 'Our Mission',
-      description: 'To create a unified platform that connects and empowers Sudanese communities globally.'
-    },
-    vision: {
-      title: 'Our Vision',
-      description: 'A world where every Sudanese person feels connected to their community and culture.'
+      description: 'To unite and protect the Baggara and Abbala tribes from the systemic discrimination and oppression they face in Sudan.',
+      support: 'We aim to provide support through documentation of violations, advocacy, and community empowerment initiatives.'
     },
     values: {
       title: 'Our Values',
-      description: 'Integrity, community support, and cultural preservation guide everything we do.',
-      items: {
-        connection: {
-          title: 'Global Connection',
-          description: 'Connecting Sudanese communities worldwide through a digital platform.'
+      intro: 'At WALADOM, we believe in:',
+      justice: 'Justice – Fighting against racial discrimination and oppression.',
+      unity: 'Unity – Strengthening the bond among the Baggara and Abbala tribes to stand against oppression.',
+      freedom: 'Freedom – Ensuring our people have the right to live with dignity, free from persecution and injustice.'
+    },
+    vision: {
+      title: 'Our Vision',
+      description: 'A future where the Baggara and Abbala tribes can live with dignity, free from oppression, and have equal access to legal rights, citizenship, and opportunities.'
+    },
+    principles: {
+      title: 'Our Core Principles',
+      1: {
+        title: 'Protection of Our Communities',
+        description: 'We work to document and expose human rights violations against the Baggara and Abbala tribes.'
+      },
+      2: {
+        title: 'Legal and Identity Rights',
+        description: 'We advocate for the right to official documents (passports, national numbers, etc.) which are systematically denied to our people.'
+      },
+      3: {
+        title: 'Digital Identity and Reporting',
+        description: 'We provide an alternative identification system for members of our community and a secure platform for reporting violations.'
+      },
+      4: {
+        title: 'International Advocacy',
+        description: 'We engage with international human rights organizations to raise awareness and push for justice.'
+      }
+    },
+    flag: {
+      title: 'The WALADOM Flag – Symbol of Unity and Strength',
+      description: 'The WALADOM flag is a powerful representation of the struggle, identity, and aspirations of the Baggara and Abbala tribes. It consists of five main colors and symbolic elements that reflect the values and mission of the organization.',
+      colors: {
+        title: 'Flag Colors and Their Meanings',
+        red: 'Red – Represents the sacrifices and the bloodshed due to oppression and injustice.',
+        white: 'White – Symbolizes peace, purity, and the hope for a just future.',
+        yellow: 'Yellow – Stands for prosperity, wealth, and the ambition to build a better life for our people.',
+        green: 'Green – Represents growth, development, and the richness of our lands.',
+        black: 'Black – A symbol of strength, resilience, and the deep-rooted identity of our people.'
+      },
+      symbols: {
+        title: 'Flag Symbols',
+        horse: {
+          title: 'The Black Horse',
+          description: 'Represents power, dignity, and the deep cultural heritage of the Baggara and Abbala tribes, known for their historical connection to horses.'
         },
-        support: {
-          title: 'Community Support',
-          description: 'Fostering mutual support and collaboration among community members.'
-        },
-        culture: {
-          title: 'Cultural Preservation',
-          description: 'Preserving and celebrating Sudanese culture and heritage.'
+        stars: {
+          title: 'The Three Green Stars',
+          star1: 'Unity – Strengthening the bond among our people.',
+          star2: 'Justice – Defending our communities against racial discrimination and oppression.',
+          star3: 'Freedom – Ensuring the right to live with dignity, free from persecution.'
         }
       }
+    },
+    join: {
+      title: 'Join Us',
+      description: 'WALADOM is more than an organization - it\'s a movement to protect our existence and ensure our rights are recognized.',
+      launch: 'Stay tuned! Our official launch is coming soon.',
+      support: 'Support WALADOM by sharing our mission and spreading awareness.',
+      unite: 'In WALADOM, all of us unite!'
     }
-  },
+  }
+,
 
   events: {
     upcoming: 'Upcoming Events',
@@ -887,7 +953,7 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
       failedSearch: "Failed to search user",
       genericError: "An error occurred while searching"
     }
-  }
+  },
 };
 
 /*

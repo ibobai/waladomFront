@@ -23,6 +23,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   return (
@@ -44,7 +46,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             {photos.idProofFront && (
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-2">
-                  ID Proof (Front)
+                {t("verification.userDetails.idProofFront")}
                 </h4>
                 <img
                   src={photos.idProofFront}
@@ -56,7 +58,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             {photos.idProofBack && (
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-2">
-                  ID Proof (Back)
+                {t("verification.userDetails.idProofBack")}
                 </h4>
                 <img
                   src={photos.idProofBack}
@@ -68,7 +70,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             {photos.waladomCard && (
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-2">
-                  Waladom Card
+                {t("verification.userDetails.profilePhoto")}
                 </h4>
                 <img
                   src={photos.waladomCard}
@@ -86,29 +88,37 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
               <dl className="space-y-2">
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Full Name
+                    {t("verification.userDetails.firstName")}
                   </dt>
                   <dd>
                     {user.firstName} {user.lastName}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Email</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {" "}
+                    {t("verification.userDetails.email")}
+                  </dt>
                   <dd>{user.email}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Phone</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {t("verification.userDetails.phone")}
+                  </dt>
                   <dd>{user.phone}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Gender</dt>
-                  <dd>{user.gender}</dd>
+                  <dt className="text-sm font-medium text-gray-500">
+                    {" "}
+                    {t("verification.userDetails.gender")}
+                  </dt>
+                  <dd>{user.sex}</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Date of Birth
+                  {t("verification.userDetails.birthDate")}
                   </dt>
-                  <dd>{user.dateOfBirth}</dd>
+                  <dd>{user.birthDate}</dd>
                 </div>
               </dl>
             </div>
@@ -118,7 +128,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
               <dl className="space-y-2">
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Current Location
+                    {t("verification.userDetails.currentLocation")}
+
                   </dt>
                   <dd>
                     {user.currentCity}, {user.currentCountry}
@@ -126,25 +137,21 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Place of Birth
+                  {t("verification.userDetails.birthInfo")}
                   </dt>
-                  <dd>{user.placeOfBirth}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Tribe</dt>
-                  <dd>{user.tribe}</dd>
+                  <dd>{user.birthCountry}, {user.birthCity}</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Mother's Name
+                  {t("verification.userDetails.motherName")}
                   </dt>
                   <dd>
-                    {user.motherFirstName} {user.motherLastName}
+                    {user.mothersFirstName} {user.mothersLastName}
                   </dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">
-                    Nationalities
+                    {t("verification.userDetails.nationalities")}
                   </dt>
                   <dd>{user.nationalities.join(", ")}</dd>
                 </div>
@@ -201,7 +208,6 @@ const UserVerificationPage: React.FC = () => {
       const data = await response.json();
       return data.user || {};
     } catch (error) {
-      console.error("Error signing photos:", error);
       return {};
     }
   };
@@ -218,7 +224,6 @@ const UserVerificationPage: React.FC = () => {
         body: JSON.stringify(searchParams),
       });
 
-      console.log(JSON.stringify(searchParams));
       if (!response.ok) {
         throw new Error("search.errors.noUserFound");
       }
@@ -226,7 +231,6 @@ const UserVerificationPage: React.FC = () => {
       const data = await response.json();
       const user = Array.isArray(data) ? data[0] : data;
 
-      console.log(data)
       if (user) {
         setSearchResult(user);
 
@@ -245,13 +249,16 @@ const UserVerificationPage: React.FC = () => {
         setShowModal(true);
       } else {
         setError(t("search.errors.noUserFound"));
-    }
+      }
     } catch (err) {
-        setError(err instanceof Error ? t("search.errors.failedSearch") : t("search.errors.genericError"));
+      setError(
+        err instanceof Error
+          ? t("search.errors.failedSearch")
+          : t("search.errors.genericError")
+      );
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-    
   };
 
   return (
@@ -308,40 +315,7 @@ const UserVerificationPage: React.FC = () => {
                   placeholder={t("verification.phonePlaceholder")}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("verification.firstName")}
-                  </label>
-                  <input
-                    type="text"
-                    value={searchParams.firstName}
-                    onChange={(e) =>
-                      setSearchParams({
-                        ...searchParams,
-                        firstName: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("verification.lastName")}
-                  </label>
-                  <input
-                    type="text"
-                    value={searchParams.lastName}
-                    onChange={(e) =>
-                      setSearchParams({
-                        ...searchParams,
-                        lastName: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
-                  />
-                </div>
-              </div>
+        
             </div>
 
             {error && (
