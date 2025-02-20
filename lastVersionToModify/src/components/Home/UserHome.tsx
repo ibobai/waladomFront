@@ -10,28 +10,31 @@ const UserHome: React.FC = () => {
 
   const news = [
     {
-      id: '1',
-      title: t('news.communityCenter.title', 'Community Center Opening in London'),
-      description: t('news.communityCenter.description', 'We are excited to announce the opening of our new community center in London, providing a space for cultural events, education, and community gatherings.'),
-      date: '2024-03-15',
-      image: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&q=80',
-      link: '/news/community-center-london'
+      id: 'website-launch',
+      title: t('news.websiteLaunch.title'),
+      description: t('news.websiteLaunch.description'),
+      fullContent: t('news.websiteLaunch.fullContent'),
+      date: '2024-05-03',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
+      link: '/news/website-launch'
     },
     {
-      id: '2',
-      title: t('news.education.title', 'Educational Support Program Launch'),
-      description: t('news.education.description', 'Introducing our new educational support program aimed at helping Sudanese students access quality education and resources.'),
-      date: '2024-03-10',
-      image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80',
-      link: '/news/education-program'
+      id: 'partnerships',
+      title: t('news.partnerships.title'),
+      description: t('news.partnerships.description'),
+      fullContent: t('news.partnerships.fullContent'),
+      date: '2024-04-20',
+      image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80',
+      link: '/news/partnerships'
     },
     {
-      id: '3',
-      title: t('news.festival.title', 'Cultural Festival Success'),
-      description: t('news.festival.description', 'Thank you to everyone who participated in our annual cultural festival, celebrating Sudanese heritage and traditions.'),
-      date: '2024-03-05',
-      image: 'https://images.unsplash.com/photo-1528605105345-5344ea20e269?auto=format&fit=crop&q=80',
-      link: '/news/cultural-festival'
+      id: 'general-assembly',
+      title: t('news.generalAssembly.title'),
+      description: t('news.generalAssembly.description'),
+      fullContent: t('news.generalAssembly.fullContent'),
+      date: '2025-05-03',
+      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80',
+      link: '/news/general-assembly'
     }
   ];
 
@@ -47,8 +50,8 @@ const UserHome: React.FC = () => {
       link: "/events"
     },
     {
-      title: t('community.support', "Community Support"),
-      description: t('community.description', "Connect with other members"),
+      title: t('community.support1', "Community Support"),
+      description: t('community.description1', "Connect with other members"),
       link: "/community"
     }
   ];

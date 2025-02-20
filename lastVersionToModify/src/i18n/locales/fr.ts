@@ -14,7 +14,9 @@ export default {
     settings: 'Paramètres',
     logout: 'Déconnexion',
     dashboard: 'Tableau de Bord',
-    reports: 'Rapports'
+    reports: 'Rapports',
+    myProfile: 'Mon profil',
+
 
 
   },
@@ -49,6 +51,7 @@ export default {
     codeSent: 'Le code de vérification a été envoyé',
     codeVerified: 'Code vérifié avec succès',
     rememberMe: 'Se souvenir de moi',
+    alreadyHaveAccount:'Vous avez déja un compte ?',
     orContinueWith:''
 
   },
@@ -210,7 +213,8 @@ confirm: "Confirmer",
   },
   footer: {
     about: 'À Propos de Waladom',
-    aboutText: 'Waladom est une organisation communautaire dédiée à la connexion et au soutien de la communauté soudanaise dans le monde entier',
+    aboutText: "Waladom est une organisation communautaire légalement enregistrée, dédiée à la protection des droits des tribus Baggara et Abbala, ainsi qu'à la connexion et au soutien de la communauté soudanaise à travers le monde. Waladom vise à renforcer la solidarité, préserver l'identité culturelle et fournir une assistance à nos communautés à travers la documentation, le développement et l'éducation.",
+
     quickLinks: 'Liens Rapides',
     contact: 'Contact',
     social: 'Réseaux Sociaux',
@@ -301,44 +305,54 @@ confirm: "Confirmer",
     share: 'Partager'
   },
   home: {
-    welcome: 'Bienvenue, {{name}} !',
-    welcomeMessage: 'Restez informé des dernières actualités et événements de notre communauté.',
-    latestNews: 'Dernières Actualités',
-    subtitle: 'Connecter les Communautés Soudanaises à Travers le Monde',
-    joinButton: 'Rejoindre Notre Communauté',
-    learnMore: 'En Savoir Plus',
-    featuresTitle: 'Pourquoi Rejoindre Waladom ?',
-    ctaTitle: 'Prêt à rejoindre notre communauté ?',
+    welcome: 'Bienvenue de retour, {{name}}!',
+    welcomeMessage: 'Restez informé des dernières nouvelles et activités de l\'organisation Waladom.',
+    latestNews: 'Dernières nouvelles',
+    subtitle: 'Protéger et soutenir les tribus Baggara et Abala dans le monde entier',
+    joinButton: 'Rejoindre Waladom',
+    learnMore: 'En savoir plus',
+    featuresTitle: 'Pourquoi rejoindre Waladom ?',
+    ctaTitle: 'Êtes-vous prêt à faire partie de notre mouvement ?',
     getStarted: 'Commencer',
     features: {
       community: {
-        title: 'Communauté Mondiale',
-        description: 'Connectez-vous avec des Soudanais du monde entier via notre plateforme.'
+        title: 'Unité et solidarité',
+        description: 'Nous travaillons à unir les tribus Baggara et Abala pour défendre leurs droits et renforcer leur pouvoir collectif.'
       },
       support: {
-        title: 'Réseau de Soutien',
-        description: 'Accédez aux ressources et au soutien des membres de la communauté.'
+        title: 'Protection et autonomisation',
+        description: 'Nous offrons un soutien juridique et social aux membres de nos communautés et travaillons à améliorer leur qualité de vie.'
       },
       events: {
-        title: 'Événements Culturels',
-        description: 'Participez aux événements célébrant la culture soudanaise.'
+        title: 'Documenter et diffuser la vérité',
+        description: 'Nous documentons les violations subies par nos communautés et nous efforçons de diffuser leur voix dans le monde.'
       }
     }
-  },
+  }
+  ,
   news: {
-    communityCenter: {
-      title: 'Ouverture du Centre Communautaire à Londres',
-      description: 'Nous sommes ravis d\'annoncer l\'ouverture de notre nouveau centre communautaire à Londres, offrant un espace pour les événements culturels, l\'éducation et les rassemblements communautaires.'
+    websiteLaunch: {
+      title: 'Waladom Lance Son Site Web Officiel',
+      description: 'Nous sommes ravis d\'annoncer le lancement officiel du site web de Waladom ! Cette plateforme servira de centre névralgique pour notre communauté, fournissant des actualités, des mises à jour et des ressources pour les peuples Baggara et Abbala du monde entier.',
+      fullContent: 'Nous sommes ravis d\'annoncer le lancement officiel du site web de Waladom ! Cette plateforme servira de centre névralgique pour notre communauté, fournissant des actualités, des mises à jour et des ressources pour les peuples Baggara et Abbala du monde entier. Grâce à ce site web, les membres peuvent rester informés, participer aux discussions et accéder aux informations essentielles sur nos initiatives. La plateforme propose une navigation conviviale, des ressources complètes et des outils conçus pour renforcer nos liens communautaires et faciliter la communication entre les membres.'
     },
-    education: {
-      title: 'Lancement du Programme de Soutien Éducatif',
-      description: 'Introduction de notre nouveau programme de soutien éducatif visant à aider les étudiants soudanais à accéder à une éducation de qualité.'
+    partnerships: {
+      title: 'Waladom Établit des Partenariats Clés pour les Droits Humains et le Développement',
+      description: 'Waladom a initié des discussions avec plusieurs organisations internationales pour défendre les droits des tribus Baggara et Abbala.',
+      fullContent: 'Waladom a initié des discussions avec plusieurs organisations internationales pour défendre les droits des tribus Baggara et Abbala. Ces partenariats visent à documenter les violations des droits humains, rechercher la justice et développer des programmes durables pour améliorer les conditions de vie de notre peuple. À travers ces collaborations, nous travaillerons à sensibiliser aux défis auxquels font face nos communautés, établir des réseaux de soutien et créer des opportunités de développement durable. Nos partenaires apportent une vaste expérience en matière de défense des droits humains, de développement communautaire et de coopération internationale.'
     },
-    festival: {
-      title: 'Succès du Festival Culturel',
-      description: 'Merci à tous les participants de notre festival culturel annuel, célébrant l\'héritage et les traditions soudanaises.'
+    generalAssembly: {
+      title: 'Rejoignez-nous pour la Première Assemblée Générale de Waladom à Paris',
+      description: 'Waladom organise sa première Assemblée Générale le 3 mai 2025 à Paris (Les Champs-Élysées).',
+      fullContent: 'Waladom organise sa première Assemblée Générale le 3 mai 2025 à Paris (Les Champs-Élysées). Cet événement réunira des leaders communautaires, des activistes et des membres pour discuter de notre mission, de nos objectifs et de nos plans futurs. Ce sera également l\'occasion pour les membres de s\'engager, de partager des idées et de contribuer à façonner l\'avenir de notre mouvement. L\'assemblée comprendra des conférenciers principaux, des ateliers et des sessions de réseautage conçus pour renforcer notre voix collective et faire avancer nos objectifs communs. Restez à l\'écoute pour les détails d\'inscription !'
+    },
+    common: {
+      readMore: 'Lire la Suite',
+      date: 'Date',
+      share: 'Partager'
     }
-  },
+  }
+,
 
   verification: {
     title: 'Vérification Utilisateur',
@@ -802,8 +816,8 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
 
   about: {
     title: 'À propos de WALADOM',
-    description: 'WALADOM est une organisation officiellement enregistrée en France, dédiée à la protection des droits des tribus Baggara et Abbala au Soudan. Ces communautés font face à une oppression systématique du gouvernement soudanais, incluant la discrimination raciale, le refus de documents officiels, les arrestations arbitraires et les bombardements aériens sur leurs villages.',
-    mission: {
+    description: "WALADOM est une organisation officiellement enregistrée en France et dans l'Union européenne, dédiée à la protection des droits des tribus Baggara et Abbala au Soudan et partout ailleurs où elles se trouvent. Ces communautés subissent une oppression systématique de la part des armées soudanaises, y compris : la discrimination raciale, le refus de documents officiels, les arrestations arbitraires, les bombardements aériens sur les villages, l'incitation au racisme et à la discrimination tribale, la violence physique et les menaces, les disparitions forcées, les déplacements forcés, les crimes de guerre et les violations majeures telles que le génocide, le ciblage des civils et l'utilisation d'armes interdites internationalement.  WALADOM se veut la voix de ces communautés opprimées, travaillant à documenter les violations des droits humains et à sensibiliser le monde entier. De plus, WALADOM vise à améliorer les conditions de vie et à offrir un avenir meilleur aux tribus Baggara et Abbala où qu'elles soient, grâce au développement, à l'éducation et au soutien social.  WALADOM s'engage également à montrer la véritable image de ces tribus au monde, en s'opposant aux fausses accusations visant à ternir leur réputation. Nous croyons en l'importance de dire la vérité et de corriger les informations erronées qui sont utilisées pour justifier l'oppression systématique et les violations contre ces communautés.",
+        mission: {
       title: 'Notre Mission',
       description: 'Unir et protéger les tribus Baggara et Abbala contre la discrimination systémique et l\'oppression qu\'elles subissent au Soudan.',
       support: 'Nous visons à fournir un soutien à travers la documentation des violations, le plaidoyer et les initiatives d\'autonomisation communautaire.'
@@ -842,13 +856,14 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
       title: 'Le Drapeau WALADOM – Symbole d\'Unité et de Force',
       description: 'Le drapeau WALADOM est une représentation puissante de la lutte, de l\'identité et des aspirations des tribus Baggara et Abbala. Il se compose de cinq couleurs principales et d\'éléments symboliques qui reflètent les valeurs et la mission de l\'organisation.',
       colors: {
-        title: 'Les Couleurs du Drapeau et Leurs Significations',
-        red: 'Rouge – Représente les sacrifices et le sang versé à cause de l\'oppression et de l\'injustice.',
-        white: 'Blanc – Symbolise la paix, la pureté et l\'espoir d\'un avenir juste.',
-        yellow: 'Jaune – Représente la prospérité, la richesse et l\'ambition de construire une vie meilleure pour notre peuple.',
-        green: 'Vert – Représente la croissance, le développement et la richesse de nos terres.',
-        black: 'Noir – Un symbole de force, de résilience et de l\'identité profondément enracinée de notre peuple.'
-      },
+        title: 'Couleurs du Drapeau et Leurs Significations',
+        red: 'Rouge - Symbolise le sacrifice et le sang versé pour protéger notre terre, notre honneur et nos communautés.',
+        white: 'Blanc - Représente la paix, la pureté, la bonté de nos cœurs, la loyauté et l\'honnêteté.',
+        yellow: 'Jaune - Symbolise l\'espoir et la richesse, ainsi que la nature de notre mode de vie désertique ou nomade.',
+        green: 'Vert - Symbolise la croissance, la prospérité et la couleur de notre terre.',
+        black: 'Noir - Symbole de force, de résilience et de l\'identité profondément enracinée de notre peuple.'
+      }
+      ,
       symbols: {
         title: 'Symboles du Drapeau',
         horse: {
@@ -873,8 +888,9 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
   }
 ,
 
-  events: {
-    upcoming: 'Événements à Venir',
+events: {
+  upcomingEvents: 'Événements à Venir',
+  upcoming: 'Événements à Venir',
     viewDetails: 'Voir les Détails',
     register: 'S\'inscrire à l\'Événement',
     location: 'Lieu',
@@ -886,66 +902,129 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
     capacity: 'Capacité',
     price: 'Prix',
     free: 'Gratuit',
-    registered: 'inscrits'
-  },
+    registered: 'inscrits',
+    description : 'Découvrez nos événements communautaires',
 
-  community: {
-    title: 'Notre Communauté',
-    subtitle: 'Rejoignez notre communauté dynamique d\'individus et d\'organisations soudanaises à travers le monde.',
-    features: {
-      connect: {
-        title: 'Connectez-vous avec les Membres',
-        description: 'Trouvez et connectez-vous avec les membres de la communauté soudanaise mondiale.'
-      },
-      discuss: {
-        title: 'Forums de Discussion',
-        description: 'Participez à des discussions enrichissantes sur la culture, les événements et les expériences partagées.'
-      },
-      share: {
-        title: 'Partage de Ressources',
-        description: 'Partagez et accédez aux ressources communautaires, aux opportunités d\'emploi et plus encore.'
-      }
-    },
-    comingSoon: {
-      title: 'Fonctionnalités Communautaires Bientôt Disponibles !',
-      description: 'Nous travaillons dur pour donner vie à ces fonctionnalités exceptionnelles. Inscrivez-vous pour être notifié lors du lancement !',
-      notifyMe: 'Me Notifier'
+  generalAssembly: {
+    title: 'Assemblée Générale',
+    description: 'L\'Assemblée Générale sera un moment crucial pour les membres de WALADOM de se réunir, discuter des progrès de l\'organisation et élaborer des stratégies d\'actions futures pour mieux soutenir et protéger les communautés Baggara et Abbala.',
+    goals: {
+      title: 'Objectifs de l\'Événement',
+      list: [
+        "Présentation des réalisations et des défis de Wuladom",
+        "Discussion et vote sur les initiatives et projets principaux",
+        "Renforcement des liens entre les membres et les partenaires",
+        "Renforcement du plaidoyer mondial pour notre cause",
+        "Création des bureaux exécutifs"
+      ]
+      
     }
   },
-
-  donate: {
-    title: 'Soutenez Nos Causes',
-    subtitle: 'Votre don aide à renforcer la communauté soudanaise et à soutenir ceux dans le besoin.',
-    causes: {
-      education: {
-        title: 'Soutien à l\'Éducation',
-        description: 'Aidez à fournir des ressources éducatives et des bourses aux étudiants soudanais.'
-      },
-      centers: {
-        title: 'Centres Communautaires',
-        description: 'Soutenez l\'établissement de centres communautaires soudanais à travers le monde.'
-      },
-      food: {
-        title: 'Aide Alimentaire',
-        description: 'Fournissez une aide alimentaire aux familles dans le besoin au sein de notre communauté.'
-      }
-    },
-    treasury: {
-      title: 'Aperçu de la Trésorerie',
-      total: 'Total des fonds collectés',
-      goal: 'Objectif',
-      raised: 'Collecté'
-    },
-    donation: {
-      title: 'Faire un Don',
-      amount: 'Sélectionner le Montant',
-      custom: 'Entrer un montant personnalisé',
-      payment: 'Mode de Paiement',
-      complete: 'Finaliser le Don',
-      success: 'Merci pour votre don !',
-      error: 'Échec du traitement du don'
+  officialLaunch: {
+    title: 'Lancement Officiel de WALADOM',
+    description: 'Le lancement officiel de WALADOM marquera le début d\'un nouveau chapitre dans la lutte pour les droits des communautés Baggara et Abbala dans le monde. Cet événement présentera la mission, la vision et les projets de WALADOM au public, aux partenaires et aux médias.',
+    goals: {
+      title: 'Objectifs de l\'Événement',
+      list: [
+        'Annoncer le lancement officiel de WALADOM au monde',
+        'Présenter notre mission, nos objectifs et nos projets planifiés',
+        'Sensibiliser à l\'oppression que subit notre peuple',
+        'Établir de nouveaux partenariats pour le plaidoyer et le développement'
+      ]
     }
   },
+  common: {
+    date: 'Date',
+    time: 'Heure',
+    location: 'Lieu',
+    capacity: 'Capacité',
+    participants: 'participants',
+    organizer: 'Organisateur',
+    contact: {
+      title: 'Informations de Contact',
+      person: 'Personne à Contacter',
+      email: 'Email',
+      phone: 'Téléphone'
+    },
+    free: 'Gratuit',
+    goalsTitle: 'Objectifs de l\'Événement',
+    contactTitle: 'Informations de Contact',
+    organizerTitle: 'Organisateur',
+     backToEvents : 'Retourner Vers Les Événements',
+    registerForEvent: "S'inscrire Pour L'événements"
+  }
+},
+
+community: {
+  title: 'Notre Communauté',
+  description: 'Rejoignez la communauté dynamique de Waladom, unissant les peuples Baggara, Abbala et Soudanais du monde entier. Connectez-vous, partagez et grandissez ensemble pour un avenir meilleur.',
+  features: {
+    connect: {
+      title: 'Connectez-vous avec les Membres',
+      description: 'Trouvez et connectez-vous avec les membres de la communauté Waladom dans le monde entier pour renforcer les liens et la collaboration.'
+    },
+    discuss: {
+      title: 'Forums de Discussion',
+      description: "Participez à des discussions significatives sur l'identité culturelle, les droits, les événements et les expériences communautaires partagées."
+    },
+    share: {
+      title: 'Partage de Ressources',
+      description: 'Partagez et accédez aux ressources communautaires, aux opportunités d\'emploi et aux initiatives de développement pour autonomiser notre peuple socialement et économiquement.'
+    }
+  },
+  comingSoon: {
+    title: 'Fonctionnalités Communautaires à Venir !',
+    description: 'Nous travaillons dur pour développer ces fonctionnalités passionnantes pour la communauté Waladom. Inscrivez-vous pour être informé lors du lancement !',
+    notifyMe: 'Me Notifier'
+  },
+  support1 : 'Soutien communautaire',
+  description1 : "Connectez-vous avec d'autres membres",
+},
+
+donate: {
+  title: 'Soutenez Notre Mission',
+  description: 'Votre don permet à Waladom de protéger les droits des tribus Baggara et Abbala, d\'améliorer leurs conditions de vie et de préserver leur identité culturelle. Chaque contribution nous aide à maintenir nos efforts et à avoir un impact durable.',
+  causes: {
+    humanRights: {
+      title: 'Défense des Droits Humains',
+      description: 'Soutenez notre travail de documentation des violations des droits humains, d\'assistance juridique et de sensibilisation aux injustices subies par notre peuple.',
+      raised: 0,
+      goal: 50000
+    },
+    education: {
+      title: 'Éducation & Développement',
+      description: 'Aidez-nous à fournir des bourses d\'études, des ressources éducatives et des formations professionnelles pour autonomiser la prochaine génération de jeunes Baggara et Abbala.',
+      raised: 0,
+      goal: 100000
+    },
+    humanitarian: {
+      title: 'Aide Humanitaire',
+      description: 'Votre don nous aide à fournir une assistance humanitaire urgente, notamment de la nourriture, un abri et une aide médicale, aux familles touchées par la guerre et les déplacements.',
+      raised: 0,
+      goal: 25000
+    },
+    technology: {
+      title: 'Technologie & Infrastructure',
+      description: 'Soutenez la maintenance et le développement des plateformes numériques de Waladom, y compris l\'hébergement du site web, l\'infrastructure backend et la gestion des bases de données, assurant une communication sécurisée et fiable pour notre communauté.',
+      raised: 0,
+      goal: 10000
+    }
+  },
+  cta: {
+    title: 'Chaque contribution nous rapproche de la justice, de l\'unité et de la liberté. Ensemble, nous sommes forts !',
+    donate: 'Faire un Don',
+    selectAmount: 'Sélectionner un Montant',
+    customAmount: 'Entrer un montant personnalisé',
+    paymentMethod: 'Mode de Paiement',
+    complete: 'Finaliser le Don'
+  },
+  treasury: {
+    title: 'Aperçu de la Trésorerie',
+    total: 'Total des fonds collectés',
+    goal: 'Objectif',
+    raised: 'Collecté'
+  }
+},
   search: {
     errors: {
       noUserFound: "Aucun utilisateur trouvé",

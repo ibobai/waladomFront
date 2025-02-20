@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '../layouts/MainLayout';
-import { Heart, Book, Home, Utensils, CreditCard, Building2, Wallet } from 'lucide-react';
+import { Heart, Book, Home, Utensils, CreditCard, Building2, Wallet, Server } from 'lucide-react';
 
 const DonatePage: React.FC = () => {
   const { t } = useTranslation();
@@ -11,25 +11,32 @@ const DonatePage: React.FC = () => {
 
   const causes = [
     {
-      icon: <Book className="w-12 h-12 text-waladom-green" />,
-      title: 'Education Support',
-      description: 'Help provide educational resources and scholarships to Sudanese students.',
+      icon: <Heart className="w-12 h-12 text-waladom-green" />,
+      title: t('donate.causes.humanRights.title'),
+      description: t('donate.causes.humanRights.description'),
       goal: 50000,
-      raised: 32000
+      raised: 0
+    },
+    {
+      icon: <Book className="w-12 h-12 text-waladom-green" />,
+      title: t('donate.causes.education.title'),
+      description: t('donate.causes.education.description'),
+      goal: 100000,
+      raised: 0
     },
     {
       icon: <Home className="w-12 h-12 text-waladom-green" />,
-      title: 'Community Centers',
-      description: 'Support the establishment of Sudanese community centers worldwide.',
-      goal: 100000,
-      raised: 75000
+      title: t('donate.causes.humanitarian.title'),
+      description: t('donate.causes.humanitarian.description'),
+      goal: 25000,
+      raised: 0
     },
     {
-      icon: <Utensils className="w-12 h-12 text-waladom-green" />,
-      title: 'Food Aid',
-      description: 'Provide food assistance to families in need within our community.',
-      goal: 25000,
-      raised: 18000
+      icon: <Server className="w-12 h-12 text-waladom-green" />,
+      title: t('donate.causes.technology.title'),
+      description: t('donate.causes.technology.description'),
+      goal: 10000,
+      raised: 0
     }
   ];
 
@@ -54,11 +61,11 @@ const DonatePage: React.FC = () => {
       icon: <Building2 className="w-6 h-6" />,
       details: {
         bankak: {
-          account: '32424245',
+          account: '0000000',
           owner: 'Waladom org'
         },
         fawri: {
-          account: '8989099',
+          account: '0000000',
           owner: 'Waladom org'
         }
       }
@@ -92,26 +99,25 @@ const DonatePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
             <Heart className="w-16 h-16 text-waladom-green mx-auto mb-4" />
-            <h1 className="text-4xl font-bold text-gray-900 mb-6">Support Our Causes</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">{t('donate.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your donation helps us strengthen the Sudanese community and support those in need.
-              Every contribution makes a difference.
+              {t('donate.description')}
             </p>
           </div>
 
           {/* Treasury Section */}
           <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
-            <h2 className="text-2xl font-bold text-center mb-4">Treasury Overview</h2>
+            <h2 className="text-2xl font-bold text-center mb-4">{t('donate.treasury.title')}</h2>
             <div className="text-center">
               <div className="text-4xl font-bold text-waladom-green">
                 ${totalTreasury.toLocaleString()}
               </div>
-              <p className="text-gray-600 mt-2">Total funds raised</p>
+              <p className="text-gray-600 mt-2">{t('donate.treasury.total')}</p>
             </div>
           </div>
 
           {/* Causes Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
             {causes.map((cause, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex justify-center mb-4">{cause.icon}</div>
@@ -120,8 +126,8 @@ const DonatePage: React.FC = () => {
                 
                 <div className="mb-4">
                   <div className="flex justify-between text-sm text-gray-600 mb-1">
-                    <span>Raised: ${cause.raised.toLocaleString()}</span>
-                    <span>Goal: ${cause.goal.toLocaleString()}</span>
+                    <span>{t('donate.treasury.raised')}: ${cause.raised.toLocaleString()}</span>
+                    <span>{t('donate.treasury.goal')}: ${cause.goal.toLocaleString()}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
@@ -136,12 +142,12 @@ const DonatePage: React.FC = () => {
 
           {/* Donation Form */}
           <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-center mb-8">Make a Donation</h3>
+            <h3 className="text-2xl font-bold text-center mb-8">{t('donate.cta.title')}</h3>
 
             {/* Amount Selection */}
             <div className="mb-8">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Amount
+                {t('donate.cta.selectAmount')}
               </label>
               <div className="grid grid-cols-3 gap-3 mb-4">
                 {predefinedAmounts.map((amount) => (
@@ -169,7 +175,7 @@ const DonatePage: React.FC = () => {
                     setCustomAmount(e.target.value);
                     setSelectedAmount(null);
                   }}
-                  placeholder="Enter custom amount"
+                  placeholder={t('donate.cta.customAmount')}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-waladom-green focus:border-transparent"
                 />
               </div>
@@ -178,7 +184,7 @@ const DonatePage: React.FC = () => {
             {/* Payment Method Selection */}
             <div className="mb-8">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Payment Method
+                {t('donate.cta.paymentMethod')}
               </label>
               <div className="space-y-3">
                 {paymentMethods.map((method) => (
@@ -222,7 +228,7 @@ const DonatePage: React.FC = () => {
               disabled={!paymentMethod || (!selectedAmount && !customAmount)}
               className="w-full px-6 py-3 bg-waladom-green text-white rounded-lg hover:bg-waladom-green-dark disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Complete Donation
+              {t('donate.cta.complete')}
             </button>
           </div>
         </div>

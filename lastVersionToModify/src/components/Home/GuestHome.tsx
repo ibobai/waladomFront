@@ -38,7 +38,7 @@ const GuestHome: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button
-              onClick={() => navigate('/coming-soon')}
+              onClick={() => navigate('/register')}
               className="inline-flex items-center justify-center px-6 py-3 text-lg font-medium rounded-full shadow-lg text-white bg-waladom-green hover:bg-waladom-green-dark transition-all duration-200"
             >
               <Users className="w-5 h-5 mr-2" />

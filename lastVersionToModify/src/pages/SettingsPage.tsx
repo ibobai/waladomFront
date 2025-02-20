@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Settings, Globe, Bell, Shield, Moon } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout';
 
 const SettingsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   const languages = [
     { code: 'en', name: 'English' },
@@ -16,9 +17,26 @@ const SettingsPage: React.FC = () => {
     i18n.changeLanguage(code);
   };
 
+  const handleThemeChange = (selectedTheme: string) => {
+    setTheme(selectedTheme);
+    localStorage.setItem('theme', selectedTheme);
+    document.documentElement.classList.remove('light', 'dark');
+    if (selectedTheme !== 'system') {
+      document.documentElement.classList.add(selectedTheme);
+    } else {
+      // System preference mode
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+    }
+  };
+
+  useEffect(() => {
+    handleThemeChange(theme);
+  }, []);
+
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pt-24"> {/* Added pt-24 for spacing */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
@@ -75,6 +93,8 @@ const SettingsPage: React.FC = () => {
                     <h4 className="text-base font-medium text-gray-900">{t('settings.theme')}</h4>
                   </div>
                   <select
+                    value={theme}
+                    onChange={(e) => handleThemeChange(e.target.value)}
                     className="mt-1 block w-48 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-waladom-green focus:border-waladom-green sm:text-sm rounded-md"
                   >
                     <option value="light">{t('settings.lightTheme')}</option>
@@ -83,6 +103,7 @@ const SettingsPage: React.FC = () => {
                   </select>
                 </div>
               </div>
+
             </div>
           </div>
         </div>

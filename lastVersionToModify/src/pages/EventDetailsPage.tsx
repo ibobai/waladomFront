@@ -1,10 +1,12 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, MapPin, Users, Clock, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '../layouts/MainLayout';
 import { events } from '../components/Admin/Events';
 
 const EventDetailsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const event = events.find(e => e.id === id);
@@ -37,18 +39,18 @@ const EventDetailsPage: React.FC = () => {
             className="mb-6 inline-flex items-center text-gray-600 hover:text-waladom-green"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Events
+            {t('events.common.backToEvents')}
           </button>
 
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <img
               src={event.image}
-              alt={event.title}
+              alt={t(event.title)}
               className="w-full h-96 object-cover"
             />
 
             <div className="p-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{event.title}</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">{t(event.title)}</h1>
 
               <div className="grid grid-cols-2 gap-6 mb-8">
                 <div className="flex items-center text-gray-600">
@@ -65,39 +67,39 @@ const EventDetailsPage: React.FC = () => {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <Users className="w-5 h-5 mr-2 text-waladom-green" />
-                  <span>{event.registeredCount} / {event.capacity || 'Unlimited'} registered</span>
+                  <span>{event.registeredCount} / {event.capacity || 'Unlimited'} {t('events.common.participants')}</span>
                 </div>
               </div>
 
               <div className="prose max-w-none">
-                <h2 className="text-xl font-semibold mb-4">About this Event</h2>
-                <p className="text-gray-600 mb-8">{event.description}</p>
+                <h2 className="text-xl font-semibold mb-4">{t('events.common.goalsTitle')}</h2>
+                <p className="text-gray-600 mb-8">{t(event.description)}</p>
 
-                <h2 className="text-xl font-semibold mb-4">Event Goals</h2>
-                <ul className="list-disc list-inside space-y-2 text-gray-600 mb-8">
-                  {event.goals?.map((goal, index) => (
-                    <li key={index}>{goal}</li>
+                <h2 className="text-xl font-semibold mb-4">{t('events.common.goalsTitle')}</h2>
+                <ul className="list-disc list-inside space-y-2 text-gray-600">
+                  {event.goals.map((goal, index) => (
+                    <li key={index}>{t(goal)}</li>
                   ))}
                 </ul>
 
-                <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+                <h2 className="text-xl font-semibold mt-6 mb-4">{t('events.common.contactTitle')}</h2>
                 <div className="bg-gray-50 rounded-lg p-6">
                   <dl className="grid grid-cols-2 gap-4">
                     <div>
-                      <dt className="text-sm font-medium text-gray-500">Organizer</dt>
+                      <dt className="text-sm font-medium text-gray-500">{t('events.common.organizerTitle')}</dt>
                       <dd className="mt-1">{event.organizer}</dd>
                     </div>
                     <div>
-                      <dt className="text-sm font-medium text-gray-500">Contact Person</dt>
+                      <dt className="text-sm font-medium text-gray-500">{t('events.common.contact.person')}</dt>
                       <dd className="mt-1">{event.contactPerson}</dd>
                     </div>
                     <div>
-                      <dt className="text-sm font-medium text-gray-500">Email</dt>
+                      <dt className="text-sm font-medium text-gray-500">{t('events.common.contact.email')}</dt>
                       <dd className="mt-1">{event.contactEmail}</dd>
                     </div>
                     <div>
-                      <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                      <dd className="mt-1">{event.contactPhone}</dd>
+                      <dt className="text-sm font-medium text-gray-500">{t('events.common.contact.phone')}</dt>
+                      <dd className="mt-1">{event.contactPhone || '-'}</dd>
                     </div>
                   </dl>
                 </div>
@@ -105,7 +107,7 @@ const EventDetailsPage: React.FC = () => {
 
               <div className="mt-8 flex justify-center">
                 <button className="px-8 py-3 bg-waladom-green text-white rounded-lg hover:bg-waladom-green-dark">
-                  Register for Event
+                {t('events.common.registerForEvent')}
                 </button>
               </div>
             </div>

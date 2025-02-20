@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 interface NewsCardProps {
   id: string;
@@ -12,6 +13,9 @@ interface NewsCardProps {
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({ id, title, description, date, image, link }) => {
+
+  const { t } = useTranslation();
+  
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <img 
@@ -30,7 +34,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ id, title, description, date, image
           to={`/news/${id}`}
           className="inline-flex items-center text-waladom-green hover:text-waladom-green-dark"
         >
-          Read more
+                            {t("news.common.readMore")}
+
           <ArrowRight className="w-4 h-4 ml-2" />
         </Link>
       </div>

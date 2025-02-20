@@ -12,18 +12,20 @@ const EventsPage: React.FC = () => {
     <MainLayout>
       <div className="bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Upcoming Events</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">
+            {t('events.upcomingEvents')}
+          </h1>
           
           <div className="grid md:grid-cols-2 gap-8">
             {events.map((event) => (
               <div key={event.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <img 
                   src={event.image} 
-                  alt={event.title}
+                  alt={t(event.title)}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-4">{event.title}</h3>
+                  <h3 className="text-xl font-semibold mb-4">{t(event.title)}</h3>
                   <div className="space-y-2 text-gray-600">
                     <div className="flex items-center">
                       <Calendar className="w-5 h-5 mr-2 text-waladom-green" />
@@ -38,12 +40,12 @@ const EventsPage: React.FC = () => {
                       <span>{event.location}</span>
                     </div>
                   </div>
-                  <p className="mt-4 text-gray-600">{event.description}</p>
+                  <p className="mt-4 text-gray-600">{t(event.description)}</p>
                   <Link 
                     to={`/events/${event.id}`}
                     className="mt-6 inline-flex items-center text-waladom-green hover:text-waladom-green-dark"
                   >
-                    View Details
+                    {t('events.viewDetails')}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </div>

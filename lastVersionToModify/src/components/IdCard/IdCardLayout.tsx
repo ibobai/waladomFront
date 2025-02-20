@@ -76,6 +76,7 @@ const IdCardLayout: React.FC<IdCardLayoutProps> = ({ user, className }) => {
         className
       )}
     >
+      
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-r from-waladom-green to-waladom-green-light" />

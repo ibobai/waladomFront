@@ -51,6 +51,8 @@ export default {
     codeSent: 'Verification code has been sent',
     codeVerified: 'Code verified successfully',
     rememberMe: 'Remember me',
+    alreadyHaveAccount: "Already have an account?",
+
     orContinueWith:''
 
   },
@@ -213,7 +215,7 @@ confirm: "Confirm",
 
   footer: {
     about: 'About Waladom',
-    aboutText: 'Waladom is a community organization dedicated to connecting and supporting the Sudanese community worldwide',
+    aboutText: "Waladom is a legally registered community organization dedicated to protecting the rights of the Baggara and Abbala tribes, as well as connecting and supporting the Sudanese community worldwide. Waladom aims to strengthen solidarity, preserve cultural identity, and provide assistance to our communities through documentation, development, and education.",
     quickLinks: 'Quick Links',
     contact: 'Contact',
     social: 'Social Media',
@@ -304,43 +306,53 @@ confirm: "Confirm",
   },
   home: {
     welcome: 'Welcome back, {{name}}!',
-    welcomeMessage: 'Stay updated with the latest news and events from our community.',
+    welcomeMessage: 'Stay up to date with the latest news and activities of the Waladom organization.',
     latestNews: 'Latest News',
-    subtitle: 'Connecting Sudanese Communities Worldwide',
-    joinButton: 'Join Our Community',
+    subtitle: 'Protecting and supporting the Baggara and Abala tribes worldwide',
+    joinButton: 'Join Waladom',
     learnMore: 'Learn More',
     featuresTitle: 'Why Join Waladom?',
-    ctaTitle: 'Ready to join our community?',
+    ctaTitle: 'Are you ready to be part of our movement?',
     getStarted: 'Get Started',
     features: {
       community: {
-        title: 'Global Community',
-        description: 'Connect with Sudanese people worldwide through our platform.'
+        title: 'Unity and Solidarity',
+        description: 'We work to unite the Baggara and Abala tribes to defend their rights and strengthen their collective power.'
       },
       support: {
-        title: 'Support Network',
-        description: 'Access resources and support from community members.'
+        title: 'Protection and Empowerment',
+        description: 'We provide legal and social support to individuals in our communities and work to improve their quality of life.'
       },
       events: {
-        title: 'Cultural Events',
-        description: 'Participate in events celebrating Sudanese culture.'
+        title: 'Documenting and Spreading the Truth',
+        description: 'We document the violations faced by our communities and work to amplify their voice to the world.'
       }
     }
-  },
+  }
+  ,
   news: {
-    communityCenter: {
-      title: 'Community Center Opening in London',
-      description: 'We are excited to announce the opening of our new community center in London, providing a space for cultural events, education, and community gatherings.'
+    websiteLaunch: {
+      title: 'Waladom Launches Its Official Website',
+      description: 'We are thrilled to announce the official launch of Waladom\'s website! This platform will serve as a central hub for our community, providing news, updates, and resources for the Baggara and Abbala people worldwide.',
+      fullContent: 'We are thrilled to announce the official launch of Waladom\'s website! This platform will serve as a central hub for our community, providing news, updates, and resources for the Baggara and Abbala people worldwide. Through this website, members can stay informed, participate in discussions, and access essential information about our initiatives. The platform features user-friendly navigation, comprehensive resources, and tools designed to strengthen our community bonds and facilitate communication among members.'
     },
-    education: {
-      title: 'Educational Support Program Launch',
-      description: 'Introducing our new educational support program aimed at helping Sudanese students access quality education and resources.'
+    partnerships: {
+      title: 'Waladom Establishes Key Partnerships for Human Rights and Development',
+      description: 'Waladom has initiated discussions with several international organizations to advocate for the rights of the Baggara and Abbala tribes.',
+      fullContent: 'Waladom has initiated discussions with several international organizations to advocate for the rights of the Baggara and Abbala tribes. These partnerships aim to document human rights violations, seek justice, and develop sustainable programs to improve the living conditions of our people. Through these collaborations, we will work to raise awareness about the challenges facing our communities, establish support networks, and create opportunities for sustainable development. Our partners bring extensive experience in human rights advocacy, community development, and international cooperation.'
     },
-    festival: {
-      title: 'Cultural Festival Success',
-      description: 'Thank you to everyone who participated in our annual cultural festival, celebrating Sudanese heritage and traditions.'
+    generalAssembly: {
+      title: 'Join Us for Waladom\'s First General Assembly in Paris',
+      description: 'Waladom is organizing its first General Assembly on May 3, 2025, in Paris (Les Champs-Élysées).',
+      fullContent: 'Waladom is organizing its first General Assembly on May 3, 2025, in Paris (Les Champs-Élysées). This event will bring together community leaders, activists, and members to discuss our mission, goals, and future plans. It will also be an opportunity for members to engage, share ideas, and contribute to shaping the future of our movement. The assembly will feature keynote speakers, workshops, and networking sessions designed to strengthen our collective voice and advance our shared objectives. Stay tuned for registration details!'
+    },
+    common: {
+      readMore: 'Read More',
+      date: 'Date',
+      share: 'Share'
     }
-  },
+  }
+,
 
   verification: {
     title: 'User Verification',
@@ -803,8 +815,8 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
 
   about: {
     title: 'About WALADOM',
-    description: 'WALADOM is an organization officially registered in France, dedicated to protecting the rights of the Baggara and Abbala tribes in Sudan. These communities face systematic oppression by the Sudanese government, including racial discrimination, denial of official documents, arbitrary arrests, and aerial bombings on their villages.',
-    mission: {
+    description: 'WALADOM is an organization officially registered in France and the European Union, dedicated to protecting the rights of the Baggara and Abbala tribes in Sudan and anywhere else they reside. These communities face systematic oppression by the Sudanese armies, including: racial discrimination, denial of official documents, arbitrary arrests, aerial bombings on villages, racial incitement and tribal discrimination, physical violence and threats, forced disappearances, forced displacement, war crimes and major violations such as genocide, targeting of civilians, and the use of internationally banned weapons.  WALADOM stands as a voice for these oppressed communities, working to document human rights violations and raise awareness globally. Additionally, WALADOM aims to improve the living conditions and provide a better future for the Baggara and Abbala tribes wherever they are, through development, education, and social support. WALADOM is also committed to showing the true image of these tribes to the world, countering false allegations aimed at tarnishing their reputation. We believe in the importance of telling the truth and correcting misinformation that is used to justify systematic oppression and violations against these communities.'
+        ,mission: {
       title: 'Our Mission',
       description: 'To unite and protect the Baggara and Abbala tribes from the systemic discrimination and oppression they face in Sudan.',
       support: 'We aim to provide support through documentation of violations, advocacy, and community empowerment initiatives.'
@@ -843,13 +855,14 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
       title: 'The WALADOM Flag – Symbol of Unity and Strength',
       description: 'The WALADOM flag is a powerful representation of the struggle, identity, and aspirations of the Baggara and Abbala tribes. It consists of five main colors and symbolic elements that reflect the values and mission of the organization.',
       colors: {
-        title: 'Flag Colors and Their Meanings',
-        red: 'Red – Represents the sacrifices and the bloodshed due to oppression and injustice.',
-        white: 'White – Symbolizes peace, purity, and the hope for a just future.',
-        yellow: 'Yellow – Stands for prosperity, wealth, and the ambition to build a better life for our people.',
-        green: 'Green – Represents growth, development, and the richness of our lands.',
-        black: 'Black – A symbol of strength, resilience, and the deep-rooted identity of our people.'
-      },
+        title: 'Colors of the Flag and Their Meanings',
+        red: 'Red - Symbolizes sacrifice and the blood shed to protect our land, honor, and communities.',
+        white: 'White - Represents peace, purity, the goodness of our hearts, loyalty, and honesty.',
+        yellow: 'Yellow - Stands for hope and wealth, as well as the nature of our desert or nomadic lifestyle.',
+        green: 'Green - Symbolizes growth, prosperity, and the color of our land.',
+        black: 'Black - A symbol of strength, resilience, and the deeply rooted identity of our people.'
+      }
+      ,
       symbols: {
         title: 'Flag Symbols',
         horse: {
@@ -874,8 +887,8 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
   }
 ,
 
-  events: {
-    upcoming: 'Upcoming Events',
+events: {
+  upcoming: 'Upcoming Events',
     viewDetails: 'View Details',
     register: 'Register for Event',
     location: 'Location',
@@ -887,66 +900,83 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
     capacity: 'Capacity',
     price: 'Price',
     free: 'Free',
-    registered: 'registered'
-  },
-
-  community: {
-    title: 'Our Community',
-    subtitle: 'Join our vibrant community of Sudanese individuals and organizations worldwide.',
-    features: {
-      connect: {
-        title: 'Connect with Members',
-        description: 'Find and connect with Sudanese community members worldwide.'
-      },
-      discuss: {
-        title: 'Discussion Forums',
-        description: 'Engage in meaningful discussions about culture, events, and shared experiences.'
-      },
-      share: {
-        title: 'Resource Sharing',
-        description: 'Share and access community resources, job opportunities, and more.'
-      }
-    },
-    comingSoon: {
-      title: 'Community Features Coming Soon!',
-      description: "We're working hard to bring these amazing features to life. Sign up to be notified when we launch!",
-      notifyMe: 'Notify Me'
+    registered: 'registered',
+  upcomingEvents: 'Upcoming Events',
+  generalAssembly: {
+    title: 'General Assembly Meeting',
+    description: 'The General Assembly Meeting will serve as a crucial moment for the members of WALADOM to come together, discuss the organization\'s progress, and strategize future actions to better support and protect the Baggara and Abbala communities.',
+    goals: {
+      title: 'Event Goals',
+      list: [
+        "Presenting Wuladom’s achievements and challenges",
+        "Discussing and voting on key initiatives and projects",
+        "Strengthening ties between members and partners",
+        "Enhancing global advocacy for our cause",
+        "Establishing executive offices"
+      ]
+      
     }
   },
-
-  donate: {
-    title: 'Support Our Causes',
-    subtitle: 'Your donation helps us strengthen the Sudanese community and support those in need.',
-    causes: {
-      education: {
-        title: 'Education Support',
-        description: 'Help provide educational resources and scholarships to Sudanese students.'
-      },
-      centers: {
-        title: 'Community Centers',
-        description: 'Support the establishment of Sudanese community centers worldwide.'
-      },
-      food: {
-        title: 'Food Aid',
-        description: 'Provide food assistance to families in need within our community.'
-      }
-    },
-    treasury: {
-      title: 'Treasury Overview',
-      total: 'Total funds raised',
-      goal: 'Goal',
-      raised: 'Raised'
-    },
-    donation: {
-      title: 'Make a Donation',
-      amount: 'Select Amount',
-      custom: 'Enter custom amount',
-      payment: 'Payment Method',
-      complete: 'Complete Donation',
-      success: 'Thank you for your donation!',
-      error: 'Failed to process donation'
+  officialLaunch: {
+    title: 'Official Launch of WALADOM',
+    description: 'The Official Launch of WALADOM will mark the beginning of a new chapter in the fight for the rights of the Baggara and Abbala communities worldwide. This event will introduce WALADOM\'s mission, vision, and projects to the public, partners, and media.',
+    goals: {
+      title: 'Event Goals',
+      list: [
+        'Announce WALADOM\'s official launch to the world',
+        'Present our mission, objectives, and planned projects',
+        'Raise awareness about the oppression facing our people',
+        'Establish new partnerships for advocacy and development'
+      ]
     }
   },
+  common: {
+    date: 'Date',
+    time: 'Time',
+    location: 'Location',
+    capacity: 'Capacity',
+    participants: 'participants',
+    organizer: 'Organizer',
+    contact: {
+      title: 'Contact Information',
+      person: 'Contact Person',
+      email: 'Email',
+      phone: 'Phone'
+    },
+    free: 'Free',
+    goalsTitle: 'Event Goals',
+    contactTitle: 'Contact Information',
+    organizerTitle: 'Organizer',
+    backToEvents : 'Back To Events',
+    registerForEvent: 'Register For Event'
+  }
+},
+
+community: {
+  title: 'Our Community',
+  description: 'Join the vibrant Waladom community, uniting Baggara, Abbala, and Sudanese people worldwide. Connect, share, and grow together for a better future.',
+  features: {
+    connect: {
+      title: 'Connect with Members',
+      description: 'Find and connect with Waladom community members worldwide to strengthen bonds and collaboration.'
+    },
+    discuss: {
+      title: 'Discussion Forums',
+      description: 'Engage in meaningful discussions about cultural identity, rights, events, and shared community experiences.'
+    },
+    share: {
+      title: 'Resource Sharing',
+      description: 'Share and access community resources, job opportunities, and development initiatives to empower our people socially and economically.'
+    }
+  },
+  comingSoon: {
+    title: 'Community Features Coming Soon!',
+    description: "We're working hard to develop these exciting features for the Waladom community. Sign up to be notified when we launch!",
+    notifyMe: 'Notify Me'
+  }
+},
+
+ 
   search: {
     errors: {
       noUserFound: "No user found",

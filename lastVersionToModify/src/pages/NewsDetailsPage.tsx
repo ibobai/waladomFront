@@ -1,79 +1,44 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, ArrowLeft, Share2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '../layouts/MainLayout';
 
-// Sample news data - replace with your actual data source
-const newsData = [
-  {
-    id: 'community-center-london',
-    title: 'Community Center Opening in London',
-    description: 'We are excited to announce the opening of our new community center in London, providing a space for cultural events, education, and community gatherings.',
-    fullContent: `
-      We are thrilled to announce the grand opening of our new Sudanese Community Center in London. This state-of-the-art facility represents a significant milestone in our mission to create a vibrant hub for the Sudanese community in the United Kingdom.
-
-      The center will feature:
-      - Multiple event spaces for cultural celebrations
-      - Educational classrooms for language and cultural programs
-      - Modern meeting rooms for community gatherings
-      - A library with Sudanese literature and resources
-      - A cafeteria serving traditional Sudanese cuisine
-
-      This initiative has been made possible through the generous support of our community members and partners. The center will serve as a bridge between generations, helping to preserve and share our rich cultural heritage while fostering connections within our community.
-    `,
-    date: '2024-03-15',
-    image: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&q=80',
-    author: 'Ahmed Mohammed',
-    category: 'Community Development'
-  },
-  {
-    id: 'education-program',
-    title: 'Educational Support Program Launch',
-    description: 'Introducing our new educational support program aimed at helping Sudanese students access quality education and resources.',
-    fullContent: `
-      Today marks the launch of our comprehensive Educational Support Program, designed to empower Sudanese students with the tools and resources they need to succeed in their academic journey.
-
-      The program includes:
-      - Scholarship opportunities for higher education
-      - Mentorship from successful professionals
-      - Access to online learning resources
-      - Regular workshops and study groups
-      - Career guidance and counseling
-
-      We believe that education is the key to building a stronger future for our community. Through this program, we aim to break down barriers to education and create opportunities for the next generation of leaders.
-    `,
-    date: '2024-03-10',
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80',
-    author: 'Sarah Ahmed',
-    category: 'Education'
-  },
-  {
-    id: 'cultural-festival',
-    title: 'Cultural Festival Success',
-    description: 'Thank you to everyone who participated in our annual cultural festival, celebrating Sudanese heritage and traditions.',
-    fullContent: `
-      The 2024 Sudanese Cultural Festival was a resounding success, bringing together over 1,000 community members for a day of celebration, learning, and cultural exchange.
-
-      Festival Highlights:
-      - Traditional music and dance performances
-      - Art exhibitions featuring local artists
-      - Cooking demonstrations of authentic Sudanese cuisine
-      - Cultural workshops and activities for children
-      - Fashion show showcasing traditional attire
-
-      The festival served as a beautiful reminder of our rich cultural heritage and the importance of preserving these traditions for future generations. We are grateful to all the performers, volunteers, and attendees who made this event possible.
-    `,
-    date: '2024-03-05',
-    image: 'https://images.unsplash.com/photo-1528605105345-5344ea20e269?auto=format&fit=crop&q=80',
-    author: 'Ibrahim Hassan',
-    category: 'Culture & Events'
-  }
-];
-
 const NewsDetailsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
-  const news = newsData.find(n => n.id === id);
+
+  // Get news data based on ID
+  const getNewsData = () => {
+    const newsMap = {
+      'website-launch': {
+        title: t('news.websiteLaunch.title'),
+        description: t('news.websiteLaunch.description'),
+        fullContent: t('news.websiteLaunch.fullContent'),
+        date: '2024-05-03',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80'
+      },
+      'partnerships': {
+        title: t('news.partnerships.title'),
+        description: t('news.partnerships.description'),
+        fullContent: t('news.partnerships.fullContent'),
+        date: '2024-04-20',
+        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80'
+      },
+      'general-assembly': {
+        title: t('news.generalAssembly.title'),
+        description: t('news.generalAssembly.description'),
+        fullContent: t('news.generalAssembly.fullContent'),
+        date: '2025-05-03',
+        image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80'
+      }
+    };
+
+    return newsMap[id as keyof typeof newsMap];
+  };
+
+  const news = getNewsData();
 
   if (!news) {
     return (
@@ -120,8 +85,8 @@ const NewsDetailsPage: React.FC = () => {
             className="mb-6 inline-flex items-center text-gray-600 hover:text-waladom-green"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to News
-          </button>
+            {t('common.back')}
+            </button>
 
           <article className="bg-white rounded-lg shadow-lg overflow-hidden">
             <img
@@ -141,24 +106,18 @@ const NewsDetailsPage: React.FC = () => {
                   className="inline-flex items-center text-gray-500 hover:text-waladom-green"
                 >
                   <Share2 className="w-5 h-5 mr-2" />
-                  Share
+                  {t('news.common.share')}
                 </button>
               </div>
 
               <h1 className="text-3xl font-bold text-gray-900 mb-4">{news.title}</h1>
-
-              <div className="flex items-center text-sm text-gray-500 mb-8">
-                <span>By {news.author}</span>
-                <span className="mx-2">•</span>
-                <span>{news.category}</span>
-              </div>
-
               <div className="prose max-w-none">
-                {news.fullContent.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="mb-4 text-gray-600">
-                    {paragraph}
-                  </p>
-                ))}
+                <p className="text-lg text-gray-600 mb-8">{news.description}</p>
+                <div className="text-gray-800 leading-relaxed">
+                  {news.fullContent.split('\n').map((paragraph, index) => (
+                    <p key={index} className="mb-4">{paragraph}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </article>

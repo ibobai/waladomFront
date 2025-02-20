@@ -21,7 +21,7 @@ const AdminNav: React.FC<AdminNavProps> = ({ activeTab, onTabChange }) => {
     const baseTabs = [
       { id: 'requests', label: t('adminNav.registrationRequests'), icon: AlertCircle },
       { id: 'claims', label: t('adminNav.claims'), icon: MessageSquare },
-      { id: 'events', label: t('adminNav.events'), icon: Calendar },
+      //{ id: 'events', label: t('adminNav.events'), icon: Calendar },
       { id: 'verification', label: t('adminNav.userVerification'), icon: Search }
     ];
 
