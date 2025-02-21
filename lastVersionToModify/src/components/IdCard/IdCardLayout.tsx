@@ -6,6 +6,7 @@ import QRCode from '../common/QRCode';
 import Logo from '../Logo';
 import { roleColors, type User as UserType } from '../../types/user';
 
+
 interface IdCardLayoutProps {
   user: UserType;
   className?: string;
@@ -66,6 +67,7 @@ const IdCardLayout: React.FC<IdCardLayoutProps> = ({ user, className }) => {
     </div>
   );
 
+
   return (
     <div 
       id="waladom-id-card"
@@ -82,14 +84,21 @@ const IdCardLayout: React.FC<IdCardLayoutProps> = ({ user, className }) => {
         <div className="absolute inset-0 bg-gradient-to-r from-waladom-green to-waladom-green-light" />
       </div>
 
-      {/* Header with Logo and Organization Name */}
-      <div className="flex justify-between items-start mb-2">
+
+    {/* Header with Logo and Organization Name */}
+    <div className="flex justify-between items-start mb-2">
         <Logo className="h-8 w-8" />
         <div className="text-center flex-1">
           <h1 className="text-base font-bold text-waladom-green">Waladom - ولاضم</h1>
         </div>
-        <QRCode value={qrData} size={32} />
+        <img 
+          src="https://waladom.s3.amazonaws.com/media/report/proofs/a7b00dcKY/report1-a7b00dcKY.jpg"
+          alt="Flag"
+          className="h-8 w-10 object-cover rounded"
+        />
       </div>
+
+
 
       {/* Main Content */}
       <div className="flex">
@@ -108,7 +117,7 @@ const IdCardLayout: React.FC<IdCardLayoutProps> = ({ user, className }) => {
                 <span className="font-semibold">ID:</span> {cleanCardId}
               </div>
               <div className="text-right">
-                <span className="font-semibold mr-1">رقم العضوية:</span> {cleanCardId}
+                <span className="font-semibold mr-1">الرقم</span> 
               </div>
             </div>
           </div>
@@ -116,57 +125,65 @@ const IdCardLayout: React.FC<IdCardLayoutProps> = ({ user, className }) => {
             "mt-1 px-2 py-0.5 rounded-full text-[8px] font-medium text-white text-center",
             roleColors[user.role]
           )}>
-            Role {user.role}
+            {t('Role')}: {t(user.role)}
+          </div>
+          <div className="mt-2 flex justify-center">
+            <QRCode value={qrData} size={30} />
           </div>
         </div>
 
         {/* Right Column - Information */}
         <div className="flex-1 space-y-1 pl-2">
           <InfoRow 
-            label="Name"
-            labelAr="الاسم"
+            label={t("Name")}
+            labelAr={t("الاسم")}
             value={user.name}
           />
 
           <InfoRow 
-            label="Birth Date"
-            labelAr="تاريخ الميلاد"
+            label={t("Birth Date")}
+            labelAr={t("تاريخ الميلاد")}
             value={user.dateOfBirth}
           />
 
           <InfoRow 
-            label="Birth Place"
-            labelAr="مكان الميلاد"
+            label={t("Birth Place")}
+            labelAr={t("مكان الميلاد")}
             value={`${user.placeOfBirth}, ${user.country}`}
           />
 
           <InfoRow 
-            label="Nationalities"
-            labelAr="الجنسيات"
+            label={t("Nationalities")}
+            labelAr={t("الجنسيات")}
             value={user.nationalities.join(', ')}
           />
 
           <InfoRow 
-            label="Current Country"
-            labelAr="البلد الحالي"
+            label={t("Current Country")}
+            labelAr={t("البلد الحالي")}
             value={user.currentCountry}
           />
 
           <InfoRow 
-            label="Profession"
-            labelAr="المهنة"
+            label={t("Profession")}
+            labelAr={t("المهنة")}
             value={user.job}
+          />
+          <InfoRow 
+            label={t("Sex")}
+            labelAr={t("الجنس")}
+            value={user.gender}
           />
 
           <div className="grid grid-cols-2 gap-1">
             <InfoRow 
-              label="Issue Date"
-              labelAr="تاريخ الإصدار"
+              label={t("Issue Date")}
+              labelAr={t("تاريخ الإصدار")}
               value={issueDate}
             />
             <InfoRow 
-              label="Member Since"
-              labelAr="عضو منذ"
+              label={t("Member Since")}
+              labelAr={t("عضو منذ")}
               value={new Date(user.joinedDate).toLocaleDateString()}
             />
           </div>
@@ -175,7 +192,7 @@ const IdCardLayout: React.FC<IdCardLayoutProps> = ({ user, className }) => {
 
       {/* Footer */}
       <div className="absolute bottom-1 left-4 right-4 text-center text-[8px] text-gray-500">
-        Scan QR code to verify / امسح رمز QR للتحقق
+        {t("Scan QR code to verify")} / {t("امسح رمز QR للتحقق")}
       </div>
     </div>
   );

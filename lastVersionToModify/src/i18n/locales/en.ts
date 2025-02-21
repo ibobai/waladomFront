@@ -53,7 +53,14 @@ export default {
     rememberMe: 'Remember me',
     alreadyHaveAccount: "Already have an account?",
 
-    orContinueWith:''
+    orContinueWith:'',
+
+    passwordStrength: {
+      strong: "Password is strong",
+      medium: "Password is medium strength",
+      weak: "Password is weak"
+    }
+    
 
   },
   registration: {
@@ -619,7 +626,9 @@ noEvidence: 'No evidence'
       fetchFailed: 'Failed to fetch users',
       updateFailed: 'Failed to update user',
       deleteFailed: 'Failed to delete user',
-      createFailed: 'Failed to create user'
+      createFailed: 'Failed to create user',
+      photoTooLarge : 'Photo is too large.', 
+
     },
     idProofFront: 'ID Proof (Front)',
     idProofBack: 'ID Proof (Back)',
@@ -984,6 +993,92 @@ community: {
       genericError: "An error occurred while searching"
     }
   },
+  profile: {
+    title: 'Profile Information',
+    memberSince :'Member Since',
+    updateSuccess: "Update successful!",
+    sections: {
+      photos: 'Photos',
+      contact: 'Contact Information',
+      location: 'Current Location',
+      password: 'Password',
+      personal: 'Personal Information',
+      birth: 'Birth Information',
+      mother: "Mother's Information"
+    },
+    fields: {
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      phone: 'Phone',
+      country: 'Country',
+      city: 'City',
+      village: 'Village',
+      dateOfBirth: 'Date of Birth',
+      birthCountry: 'Country of Birth',
+      birthCity: 'City of Birth',
+      birthVillage: 'Village of Birth',
+      gender: 'Gender',
+      occupation: 'Occupation',
+      tribe: 'Tribe',
+      nationalities: 'Nationalities',
+      placeOfBirth: 'Place of Birth',
+      mothersFirstName: "Mother's First Name",
+      mothersLastName: "Mother's Last Name"
+    },
+    photos: {
+      idFront: 'ID Proof (Front)',
+      idBack: 'ID Proof (Back)',
+      profile: 'Profile Photo'
+    },
+    buttons: {
+      edit: 'Edit Profile',
+      cancel: 'Cancel',
+      save: 'Save Changes',
+      change: 'Change',
+      changePassword: 'Change Password'
+    },
+    validation: {
+      currentPassword: 'Current Password',
+      newPassword: 'New Password',
+      confirmPassword: 'Confirm New Password',
+      verificationCode: 'Verification Code',
+      enterPassword: 'Please enter your current password to continue',
+      enterCode: 'Enter the verification code sent to your {{method}}',
+      invalidPassword: 'Invalid password',
+      passwordMismatch: 'Passwords do not match',
+      weakPassword: 'Password is not strong enough',
+      codeSent: 'Verification code has been sent',
+      codeInvalid: 'Invalid verification code',
+      timeRemaining: 'Time remaining: {{time}}',
+      resendCode: 'Resend Code'
+    },
+    success: {
+      update: 'Profile updated successfully',
+      emailChange: 'Email updated successfully',
+      phoneChange: 'Phone number updated successfully',
+      passwordChange: 'Password updated successfully'
+    },
+    errors: {
+      update: 'Failed to update profile',
+      emailChange: 'Failed to update email',
+      phoneChange: 'Failed to update phone number',
+      passwordChange: 'Failed to update password',
+      photoUpload: 'Failed to upload photo',
+      invalidCode: 'Invalid verification code',
+      verificationFailed: 'Verification failed'
+    }
+  },
+  newPassword: {
+    title: "New Password",
+    passwordStrength: "Password Strength",
+    atLeast8Characters: "Password must have at least 8 characters",
+    oneUppercaseLetter: "At least one uppercase letter",
+    oneLowercaseLetter: "At least one lowercase letter",
+    oneNumber: "At least one number",
+    oneSpecialCharacter: "At least one special character"
+  }
+  
 };
 
 /*

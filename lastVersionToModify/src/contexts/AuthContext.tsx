@@ -261,7 +261,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateUser = async (userId: string, data: Partial<User>) => {
     try {
-      const response = await fetch(`https://www.waladom.club/api/user/${userId}`, {
+      const response = await fetch(`https://www.waladom.club/api/user/update/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

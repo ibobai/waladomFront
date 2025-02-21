@@ -49,8 +49,13 @@ export default {
     rememberMe: 'تذكرني',
     alreadyHaveAccount: "هل لديك حساب ؟",
 
-    orContinueWith:''
-
+    orContinueWith:'',
+    passwordStrength: {
+      strong: "كلمة المرور قوية",
+      medium: "كلمة المرور متوسطة القوة",
+      weak: "كلمة المرور ضعيفة"
+    }
+    
   },
   
   registration: {
@@ -611,7 +616,8 @@ newPassword: 'كلمة المرور الجديدة',
     fetchFailed: 'فشل في جلب المستخدمين',
     updateFailed: 'فشل في تحديث المستخدم',
     deleteFailed: 'فشل في حذف المستخدم',
-    createFailed: 'فشل في إنشاء المستخدم'
+    createFailed: 'فشل في إنشاء المستخدم',
+    photoTooLarge : 'الصورة كبيرة جدًا.',
   },
   roles: {
     user: 'مستخدم',
@@ -1033,7 +1039,93 @@ search: {
     failedSearch: "فشل في البحث عن المستخدم",
     genericError: "حدث خطأ أثناء البحث"
   }
+},
+profile: {
+  title: 'معلومات الملف الشخصي',
+  memberSince:' عضو منذ',
+  updateSuccess:  "تم التحديث بنجاح!",
+  sections: {
+    photos: 'الصور',
+    contact: 'معلومات الاتصال',
+    location: 'الموقع الحالي',
+    password: 'كلمة المرور',
+    personal: 'المعلومات الشخصية',
+    birth: 'معلومات الميلاد',
+    mother: 'معلومات الأم'
+  },
+  fields: {
+    firstName: 'الاسم الأول',
+    lastName: 'اسم العائلة',
+    email: 'البريد الإلكتروني',
+    phone: 'الهاتف',
+    country: 'البلد',
+    city: 'المدينة',
+    village: 'القرية',
+    gender: 'الجنس',
+    birthCountry: 'بلد الميلاد',
+      birthCity: 'مدينة الميلاد',
+      birthVillage: 'قرية الميلاد',
+    dateOfBirth: 'تاريخ الميلاد',
+    occupation: 'المهنة',
+    tribe: 'القبيلة',
+    nationalities: 'الجنسيات',
+    placeOfBirth: 'مكان الميلاد',
+    mothersFirstName: 'اسم الأم الأول',
+    mothersLastName: 'اسم عائلة الأم'
+  },
+  photos: {
+    idFront: 'إثبات الهوية (أمامي)',
+    idBack: 'إثبات الهوية (خلفي)',
+    profile: 'الصورة الشخصية'
+  },
+  buttons: {
+    edit: 'تعديل الملف الشخصي',
+    cancel: 'إلغاء',
+    save: 'حفظ التغييرات',
+    change: 'تغيير',
+    changePassword: 'تغيير كلمة المرور'
+  },
+  validation: {
+    currentPassword: 'كلمة المرور الحالية',
+    newPassword: 'كلمة المرور الجديدة',
+    confirmPassword: 'تأكيد كلمة المرور',
+    verificationCode: 'رمز التحقق',
+    enterPassword: 'الرجاء إدخال كلمة المرور الحالية للمتابعة',
+    enterCode: 'أدخل رمز التحقق المرسل إلى {{method}}',
+    invalidPassword: 'كلمة المرور غير صحيحة',
+    passwordMismatch: 'كلمات المرور غير متطابقة',
+    weakPassword: 'كلمة المرور ليست قوية بما يكفي',
+    codeSent: 'تم إرسال رمز التحقق',
+    codeInvalid: 'رمز التحقق غير صالح',
+    timeRemaining: 'الوقت المتبقي: {{time}}',
+    resendCode: 'إعادة إرسال الرمز'
+  },
+  success: {
+    update: 'تم تحديث الملف الشخصي بنجاح',
+    emailChange: 'تم تحديث البريد الإلكتروني بنجاح',
+    phoneChange: 'تم تحديث رقم الهاتف بنجاح',
+    passwordChange: 'تم تحديث كلمة المرور بنجاح'
+  },
+  errors: {
+    update: 'فشل تحديث الملف الشخصي',
+    emailChange: 'فشل تحديث البريد الإلكتروني',
+    phoneChange: 'فشل تحديث رقم الهاتف',
+    passwordChange: 'فشل تحديث كلمة المرور',
+    photoUpload: 'فشل تحميل الصورة',
+    invalidCode: 'رمز التحقق غير صالح',
+    verificationFailed: 'فشل التحقق'
+  }
+},
+newPassword: {
+  title: "كلمة مرور جديدة",
+  passwordStrength: "قوة كلمة المرور",
+  atLeast8Characters: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل",
+  oneUppercaseLetter: "يجب أن تحتوي على حرف إنجليزي كبير واحد على الأقل",
+  oneLowercaseLetter: "يجب أن تحتوي على حرف إنجليزي صغير واحد على الأقل",
+  oneNumber: "يجب أن تحتوي على رقم إنجليزي واحد على الأقل",
+  oneSpecialCharacter: "يجب أن تحتوي على رمز واحد على الأقل"
 }
+
 };
 
 /*

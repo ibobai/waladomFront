@@ -52,7 +52,13 @@ export default {
     codeVerified: 'Code vérifié avec succès',
     rememberMe: 'Se souvenir de moi',
     alreadyHaveAccount:'Vous avez déja un compte ?',
-    orContinueWith:''
+    orContinueWith:'',
+    passwordStrength: {
+      strong: "Le mot de passe est fort",
+      medium: "Le mot de passe est de force moyenne",
+      weak: "Le mot de passe est faible"
+    }
+    
 
   },
   registration: {
@@ -620,7 +626,8 @@ widow: 'Veuf',
       fetchFailed: 'Échec de la récupération des utilisateurs',
       updateFailed: 'Échec de la mise à jour de l\'utilisateur',
       deleteFailed: 'Échec de la suppression de l\'utilisateur',
-      createFailed: 'Échec de la création de l\'utilisateur'
+      createFailed: 'Échec de la création de l\'utilisateur',
+      photoTooLarge : 'La photo est trop grande.', 
     },
     idProofFront: "Preuve d'Identité (Recto)",
     idProofBack: "Preuve d'Identité (Verso)",
@@ -1031,7 +1038,93 @@ donate: {
       failedSearch: "Échec de la recherche de l'utilisateur",
       genericError: "Une erreur s'est produite lors de la recherche"
     }
+  },
+  profile: {
+    title: 'Informations du Profil',
+    memberSince :'Member depuis',
+    updateSuccess: "Mise à jour réussie !",
+    sections: {
+      photos: 'Photos',
+      contact: 'Informations de Contact',
+      location: 'Localisation Actuelle',
+      password: 'Mot de Passe',
+      personal: 'Informations Personnelles',
+      birth: 'Informations de Naissance',
+      mother: 'Informations de la Mère'
+    },
+    fields: {
+      firstName: 'Prénom',
+      lastName: 'Nom',
+      email: 'Email',
+      phone: 'Téléphone',
+      country: 'Pays',
+      city: 'Ville',
+      village: 'Village',
+      gender: 'Genre',
+      dateOfBirth: 'Date de Naissance',
+      occupation: 'Profession',
+      birthCountry: 'Pays de Naissance',
+      birthCity: 'Ville de Naissance',
+      birthVillage: 'Village de Naissance',
+      tribe: 'Tribu',
+      nationalities: 'Nationalités',
+      placeOfBirth: 'Lieu de Naissance',
+      mothersFirstName: 'Prénom de la Mère',
+      mothersLastName: 'Nom de la Mère'
+    },
+    photos: {
+      idFront: "Preuve d'Identité (Recto)",
+      idBack: "Preuve d'Identité (Verso)",
+      profile: 'Photo de Profil'
+    },
+    buttons: {
+      edit: 'Modifier le Profil',
+      cancel: 'Annuler',
+      save: 'Enregistrer les Modifications',
+      change: 'Modifier',
+      changePassword: 'Changer le Mot de Passe'
+    },
+    validation: {
+      currentPassword: 'Mot de Passe Actuel',
+      newPassword: 'Nouveau Mot de Passe',
+      confirmPassword: 'Confirmer le Mot de Passe',
+      verificationCode: 'Code de Vérification',
+      enterPassword: 'Veuillez entrer votre mot de passe actuel pour continuer',
+      enterCode: 'Entrez le code de vérification envoyé à votre {method}',
+      invalidPassword: 'Mot de passe invalide',
+      passwordMismatch: 'Les mots de passe ne correspondent pas',
+      weakPassword: "Le mot de passe n'est pas assez fort",
+      codeSent: 'Le code de vérification a été envoyé',
+      codeInvalid: 'Code de vérification invalide',
+      timeRemaining: 'Temps restant : {time}',
+      resendCode: 'Renvoyer le Code'
+    },
+    success: {
+      update: 'Profil mis à jour avec succès',
+      emailChange: 'Email mis à jour avec succès',
+      phoneChange: 'Numéro de téléphone mis à jour avec succès',
+      passwordChange: 'Mot de passe mis à jour avec succès'
+    },
+    errors: {
+      update: 'Échec de la mise à jour du profil',
+      emailChange: "Échec de la mise à jour de l'email",
+      phoneChange: 'Échec de la mise à jour du numéro de téléphone',
+      passwordChange: 'Échec de la mise à jour du mot de passe',
+      photoUpload: 'Échec du téléchargement de la photo',
+      invalidCode: 'Code de vérification invalide',
+      verificationFailed: 'Échec de la vérification'
+    }
+  },
+  newPassword: {
+    title: "Nouveau mot de passe",
+    passwordStrength: "Force du mot de passe",
+    atLeast8Characters: "Le mot de passe doit comporter au moins 8 caractères",
+    oneUppercaseLetter: "Au moins une lettre majuscule",
+    oneLowercaseLetter: "Au moins une lettre minuscule",
+    oneNumber: "Au moins un chiffre",
+    oneSpecialCharacter: "Au moins un caractère spécial"
   }
+  
 };
 
 //events: {

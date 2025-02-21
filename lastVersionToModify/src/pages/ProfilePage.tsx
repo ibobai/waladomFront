@@ -1,34 +1,41 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { User, Mail, Phone, MapPin, Edit2, Save, X, Lock, Upload, AlertCircle, Calendar, Briefcase, Users } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Edit2, Save, X, Lock, Upload, AlertCircle } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout';
 import { useAuth } from '../contexts/AuthContext';
 import ProtectedRoute from '../components/Auth/ProtectedRoute';
 import UserAvatar from '../components/common/UserAvatar';
 import { cn } from '../utils/cn';
+import { useToast } from '../hooks/useToast';
+import { usePasswordValidation } from '../hooks/usePasswordValidation';
+import { useVerificationCode } from '../hooks/useVerificationCode';
+import PasswordValidationModal from '../components/Profile/PasswordValidationModal';
+import VerificationCodeModal from '../components/Profile/VerificationCodeModal';
+import NewPasswordModal from '../components/Profile/NewPasswordModal';
 
 const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const { user, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [showVerificationDialog, setShowVerificationDialog] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
-  const [verificationField, setVerificationField] = useState < 'email' | 'phone' | null > (null);
-  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
-  const [showNewPasswordDialog, setShowNewPasswordDialog] = useState(false);
-  const fileInputRef = useRef < HTMLInputElement > (null);
+  const [showPasswordValidationModal, setShowPasswordValidationModal] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [showNewPasswordModal, setShowNewPasswordModal] = useState(false);
+  const [verificationField, setVerificationField] = useState<'email' | 'phone' | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
-  const [photoPreview, setPhotoPreview] = useState < string | null > (null);
+  const [loading, setLoading] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const toast = useToast();
+  const { validatePassword } = usePasswordValidation();
+  const { sendVerificationCode, verifyCode, timeLeft, setTimeLeft } = useVerificationCode();
 
+  console.log(user);
   const [formData, setFormData] = useState({
     email: user?.email || '',
     phone: user?.phone || '',
     currentCountry: user?.currentCountry || '',
     currentCity: user?.currentCity || '',
     currentVillage: user?.currentVillage || '',
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
     photo: null as File | null
   });
 
@@ -36,7 +43,7 @@ const ProfilePage: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        setError('Image size must be less than 5MB');
+        setError(t('profile.errors.photoTooLarge'));
         return;
       }
 
@@ -53,61 +60,78 @@ const ProfilePage: React.FC = () => {
   const handleContactChange = (field: 'email' | 'phone', value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     setVerificationField(field);
-    setShowPasswordDialog(true);
+    setShowPasswordValidationModal(true);
   };
 
-
-  const handlePasswordVerification = () => {
-    setError('');
-    // Mock password verification - in real app, verify against API
-    if (formData.currentPassword === 'correct-password') {
-      setShowPasswordDialog(false);
-      setError('');
+  const handlePasswordValidation = async (password: string) => {
+    if (!user) return;
+    
+    const isValid = await validatePassword(password, user.cardId);
+    if (isValid) {
+      setShowPasswordValidationModal(false);
       if (verificationField) {
-        setShowVerificationDialog(true);
-        // Mock sending verification code
-        console.log('Sending verification code...');
+        const sent = await sendVerificationCode(formData.email);
+        if (sent) {
+          setTimeLeft(300); // 5 minutes
+          setShowVerificationModal(true);
+        }
       } else {
-        setShowNewPasswordDialog(true);
+        setShowNewPasswordModal(true);
       }
-    } else {
-      setError('Incorrect password');
     }
   };
 
-  const handleVerificationCode = () => {
-    setError('');
-    // Mock code verification - in real app, verify against API
-    if (verificationCode === '123456') {
-      // Update the contact info based on which field is being changed
-      if (verificationField === 'email') {
-        setFormData(prev => ({ ...prev, email: formData.newEmail }));
-      } else if (verificationField === 'phone') {
-        setFormData(prev => ({ ...prev, phone: formData.newPhone }));
+  const handleVerificationCode = async (code: string) => {
+    if (!verificationField) return;
+    
+    const isVerified = await verifyCode(formData[verificationField], code);
+    if (isVerified) {
+      setShowVerificationModal(false);
+      // Update the contact info
+      try {
+        await updateUser(user!.cardId, { [verificationField]: formData[verificationField] });
+        toast.success(t(`profile.success.${verificationField}Change`));
+      } catch (err) {
+        toast.error(t(`profile.errors.${verificationField}Change`));
       }
-      setShowVerificationDialog(false);
-      setVerificationField(null);
-      setVerificationCode('');
-      // Show success message
-      toast.success(`${verificationField} updated successfully`);
-    } else {
-      setError('Invalid verification code');
     }
   };
 
-  const handlePasswordChange = () => {
-    if (formData.newPassword !== formData.confirmPassword) {
-      setError('Passwords do not match');
+  const checkPasswordStrength = (password: string) => {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    return strength;
+  };
+
+  const handlePasswordChange = async (newPassword: string, confirmPassword: string) => {
+    if (newPassword !== confirmPassword) {
+      toast.error(t('profile.validation.passwordMismatch'));
       return;
     }
-    // Update password logic here
-    setShowNewPasswordDialog(false);
-    console.log('Password updated');
+
+    const strength = checkPasswordStrength(newPassword);
+    if (strength < 4) {
+      toast.error(t('profile.validation.weakPassword'));
+      return;
+    }
+
+    try {
+      await updateUser(user!.cardId, { password: newPassword });
+      setShowNewPasswordModal(false);
+      toast.success(t('profile.success.passwordChange'));
+    } catch (err) {
+      toast.error(t('profile.errors.passwordChange'));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const updateData = {
@@ -123,8 +147,11 @@ const ProfilePage: React.FC = () => {
 
       await updateUser(user!.cardId, updateData);
       setIsEditing(false);
+      toast.success(t('profile.success.update'));
     } catch (err) {
-      setError('Failed to update profile');
+      toast.error(t('profile.errors.update'));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -140,7 +167,7 @@ const ProfilePage: React.FC = () => {
   const InfoRow = ({ label, value }: { label: string; value: string | undefined }) => (
     <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
       <dt className="text-sm font-medium text-gray-500">{label}</dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{value || 'Not provided'}</dd>
+      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{value || t('common.notProvided')}</dd>
     </div>
   );
 
@@ -153,7 +180,7 @@ const ProfilePage: React.FC = () => {
               {/* Header */}
               <div className="px-6 py-5 border-b bg-gradient-to-r from-waladom-green/5 to-transparent flex justify-between items-center">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Profile Information</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">{t('profile.title')}</h3>
                   <p className="text-sm text-gray-500 mt-1">ID: {user?.cardId}</p>
                 </div>
                 <button
@@ -168,12 +195,12 @@ const ProfilePage: React.FC = () => {
                   {isEditing ? (
                     <>
                       <X className="w-4 h-4 mr-2" />
-                      Cancel
+                      {t('profile.buttons.cancel')}
                     </>
                   ) : (
                     <>
                       <Edit2 className="w-4 h-4 mr-2" />
-                      Edit Profile
+                      {t('profile.buttons.edit')}
                     </>
                   )}
                 </button>
@@ -217,7 +244,7 @@ const ProfilePage: React.FC = () => {
                       {user?.firstName} {user?.lastName}
                     </h4>
                     <p className="text-sm text-gray-500">
-                      Member since {new Date(user?.joinedDate || '').toLocaleDateString()}
+                      {t('profile.memberSince', { date: new Date(user?.joinedDate || '').toLocaleDateString() })}
                     </p>
                   </div>
                 </div>
@@ -226,10 +253,12 @@ const ProfilePage: React.FC = () => {
                   <dl className="divide-y divide-gray-200">
                     {/* Contact Information - Modifiable */}
                     <div className="py-4">
-                      <h5 className="text-lg font-medium mb-4">Contact Information</h5>
+                      <h5 className="text-lg font-medium mb-4">{t('profile.sections.contact')}</h5>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t('profile.fields.email')}
+                          </label>
                           <div className="flex gap-2">
                             <input
                               type="email"
@@ -243,13 +272,15 @@ const ProfilePage: React.FC = () => {
                                 onClick={() => handleContactChange('email', formData.email)}
                                 className="px-4 py-2 bg-waladom-green text-white rounded-lg hover:bg-waladom-green-dark"
                               >
-                                Change
+                                {t('profile.buttons.change')}
                               </button>
                             )}
                           </div>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t('profile.fields.phone')}
+                          </label>
                           <div className="flex gap-2">
                             <input
                               type="tel"
@@ -263,7 +294,7 @@ const ProfilePage: React.FC = () => {
                                 onClick={() => handleContactChange('phone', formData.phone)}
                                 className="px-4 py-2 bg-waladom-green text-white rounded-lg hover:bg-waladom-green-dark"
                               >
-                                Change
+                                {t('profile.buttons.change')}
                               </button>
                             )}
                           </div>
@@ -273,10 +304,12 @@ const ProfilePage: React.FC = () => {
 
                     {/* Current Location - Modifiable */}
                     <div className="py-4">
-                      <h5 className="text-lg font-medium mb-4">Current Location</h5>
+                      <h5 className="text-lg font-medium mb-4">{t('profile.sections.location')}</h5>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t('profile.fields.country')}
+                          </label>
                           <input
                             type="text"
                             value={formData.currentCountry}
@@ -289,7 +322,9 @@ const ProfilePage: React.FC = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t('profile.fields.city')}
+                          </label>
                           <input
                             type="text"
                             value={formData.currentCity}
@@ -302,7 +337,9 @@ const ProfilePage: React.FC = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Village</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t('profile.fields.village')}
+                          </label>
                           <input
                             type="text"
                             value={formData.currentVillage}
@@ -321,14 +358,17 @@ const ProfilePage: React.FC = () => {
                     {isEditing && (
                       <div className="py-4">
                         <div className="flex items-center justify-between mb-4">
-                          <h5 className="text-lg font-medium">Password</h5>
+                          <h5 className="text-lg font-medium">{t('profile.sections.password')}</h5>
                           <button
                             type="button"
-                            onClick={() => setShowPasswordDialog(true)}
+                            onClick={() => {
+                              setVerificationField(null);
+                              setShowPasswordValidationModal(true);
+                            }}
                             className="text-waladom-green hover:text-waladom-green-dark flex items-center gap-2"
                           >
                             <Lock className="w-4 h-4" />
-                            Change Password
+                            {t('profile.buttons.changePassword')}
                           </button>
                         </div>
                       </div>
@@ -336,33 +376,33 @@ const ProfilePage: React.FC = () => {
 
                     {/* Personal Information - Read Only */}
                     <div className="py-4">
-                      <h5 className="text-lg font-medium mb-4">Personal Information</h5>
+                      <h5 className="text-lg font-medium mb-4">{t('profile.sections.personal')}</h5>
                       <dl className="divide-y divide-gray-200">
-                        <InfoRow label="First Name" value={user?.firstName} />
-                        <InfoRow label="Last Name" value={user?.lastName} />
-                        <InfoRow label="Gender" value={user?.gender} />
-                        <InfoRow label="Date of Birth" value={user?.dateOfBirth} />
-                        <InfoRow label="Occupation" value={user?.job} />
-                        <InfoRow label="Tribe" value={user?.tribe} />
+                        <InfoRow label={t('profile.fields.firstName')} value={user?.firstName} />
+                        <InfoRow label={t('profile.fields.lastName')} value={user?.lastName} />
+                        <InfoRow label={t('profile.fields.gender')} value={user?.gender} />
+                        <InfoRow label={t('profile.fields.dateOfBirth')} value={user?.dateOfBirth} />
+                        <InfoRow label={t('profile.fields.occupation')} value={user?.job} />
+                        <InfoRow label={t('profile.fields.tribe')} value={user?.tribe} />
                       </dl>
                     </div>
 
                     {/* Birth Information - Read Only */}
                     <div className="py-4">
-                      <h5 className="text-lg font-medium mb-4">Birth Information</h5>
+                      <h5 className="text-lg font-medium mb-4">{t('profile.sections.birth')}</h5>
                       <dl className="divide-y divide-gray-200">
-                        <InfoRow label="Country of Birth" value={user?.country} />
-                        <InfoRow label="City of Birth" value={user?.placeOfBirth} />
-                        <InfoRow label="Village of Birth" value={user?.villageOfBirth} />
+                        <InfoRow label={t('profile.fields.birthCountry')} value={user?.country} />
+                        <InfoRow label={t('profile.fields.birthCity')} value={user?.placeOfBirth} />
+                        <InfoRow label={t('profile.fields.birthVillage')} value={user?.villageOfBirth} />
                       </dl>
                     </div>
 
                     {/* Mother's Information - Read Only */}
                     <div className="py-4">
-                      <h5 className="text-lg font-medium mb-4">Mother's Information</h5>
+                      <h5 className="text-lg font-medium mb-4">{t('profile.sections.mother')}</h5>
                       <dl className="divide-y divide-gray-200">
-                        <InfoRow label="Mother's First Name" value={user?.motherFirstName} />
-                        <InfoRow label="Mother's Last Name" value={user?.motherLastName} />
+                        <InfoRow label={t('profile.fields.mothersFirstName')} value={user?.motherFirstName} />
+                        <InfoRow label={t('profile.fields.mothersLastName')} value={user?.motherLastName} />
                       </dl>
                     </div>
                   </dl>
@@ -377,7 +417,7 @@ const ProfilePage: React.FC = () => {
                       className="px-6 py-2 bg-waladom-green text-white rounded-lg hover:bg-waladom-green-dark flex items-center gap-2"
                     >
                       <Save className="w-4 h-4" />
-                      Save Changes
+                      {t('profile.buttons.save')}
                     </button>
                   </div>
                 )}
@@ -386,138 +426,33 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Password Dialog */}
-        {showPasswordDialog && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full">
-              <h3 className="text-lg font-medium mb-4">Verify Password</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Please enter your current password to continue
-              </p>
-              <input
-                type="password"
-                value={formData.currentPassword}
-                onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4"
-                placeholder="Current password"
-              />
-              <div className="flex justify-end space-x-3">
-                <button
-                  onClick={() => {
-                    setShowPasswordDialog(false);
-                    setFormData({ ...formData, currentPassword: '' });
-                  }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handlePasswordVerification}
-                  className="px-4 py-2 bg-waladom-green text-white rounded-lg"
-                >
-                  Verify
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Modals */}
+        <PasswordValidationModal
+          isOpen={showPasswordValidationModal}
+          onClose={() => setShowPasswordValidationModal(false)}
+          onConfirm={handlePasswordValidation}
+          loading={loading}
+          error={error}
+        />
 
-        {/* New Password Dialog */}
-        {showNewPasswordDialog && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full">
-              <h3 className="text-lg font-medium mb-4">Change Password</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    value={formData.newPassword}
-                    onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                    placeholder="Enter new password"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                    placeholder="Confirm new password"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  onClick={() => {
-                    setShowNewPasswordDialog(false);
-                    setFormData({ ...formData, newPassword: '', confirmPassword: '' });
-                  }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handlePasswordChange}
-                  className="px-4 py-2 bg-waladom-green text-white rounded-lg"
-                >
-                  Change Password
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <VerificationCodeModal
+          isOpen={showVerificationModal}
+          onClose={() => setShowVerificationModal(false)}
+          onConfirm={handleVerificationCode}
+          onResend={() => sendVerificationCode(formData.email)}
+          loading={loading}
+          error={error}
+          timeLeft={timeLeft}
+          method={verificationField || 'email'}
+        />
 
-        {/* Update the verification dialog to show error */}
-        {showVerificationDialog && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full">
-              <h3 className="text-lg font-medium mb-4">Enter Verification Code</h3>
-              {error && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-md flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5" />
-                  <span>{error}</span>
-                </div>
-              )}
-              <p className="text-sm text-gray-600 mb-4">
-                We've sent a verification code to your {verificationField === 'email' ? 'email' : 'phone'}.<br />
-                <span className="text-waladom-green font-medium">Use code: 123456</span>
-              </p>
-              <input
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 text-center text-2xl tracking-wider"
-                maxLength={6}
-                placeholder="123456"
-              />
-              <div className="flex justify-end space-x-3">
-                <button
-                  onClick={() => {
-                    setShowVerificationDialog(false);
-                    setVerificationCode('');
-                    setError('');
-                  }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleVerificationCode}
-                  className="px-4 py-2 bg-waladom-green text-white rounded-lg"
-                >
-                  Verify
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <NewPasswordModal
+          isOpen={showNewPasswordModal}
+          onClose={() => setShowNewPasswordModal(false)}
+          onConfirm={handlePasswordChange}
+          loading={loading}
+          error={error}
+        />
       </MainLayout>
     </ProtectedRoute>
   );
