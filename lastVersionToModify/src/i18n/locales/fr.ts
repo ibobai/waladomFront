@@ -878,7 +878,7 @@ pageOf: "Page {{currentPage}} sur {{totalPages}}"
           description: 'Représente le pouvoir, la dignité et l\'héritage culturel profond des tribus Baggara et Abbala, connues pour leur lien historique avec les chevaux.'
         },
         stars: {
-          title: 'Les Trois Étoiles Vertes',
+          title: 'Les Trois Étoiles Rouges',
           star1: 'Unité – Renforcer les liens entre notre peuple.',
           star2: 'Justice – Défendre nos communautés contre la discrimination raciale et l\'oppression.',
           star3: 'Liberté – Garantir le droit de vivre dans la dignité, libre de toute persécution.'

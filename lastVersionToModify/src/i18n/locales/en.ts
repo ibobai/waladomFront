@@ -879,7 +879,7 @@ pageOf: "Page {{currentPage}} of {{totalPages}}",
           description: 'Represents power, dignity, and the deep cultural heritage of the Baggara and Abbala tribes, known for their historical connection to horses.'
         },
         stars: {
-          title: 'The Three Green Stars',
+          title: 'The Three Red Stars',
           star1: 'Unity – Strengthening the bond among our people.',
           star2: 'Justice – Defending our communities against racial discrimination and oppression.',
           star3: 'Freedom – Ensuring the right to live with dignity, free from persecution.'
