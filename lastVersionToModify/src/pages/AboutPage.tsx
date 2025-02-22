@@ -31,8 +31,7 @@ const AboutPage: React.FC = () => {
             {t("about.title")}
           </h1>
 
-          <p className="text-xl sm:text-2xl sm:text-2xl max-w-3xl text-center text-gray-200 break-words">
-            {" "}
+          <p className="text-base sm:text-xl md:text-3xl lg:text-3xl max-w-5xl text-center text-gray-200 break-words">
             {t("about.description")}
           </p>
 
