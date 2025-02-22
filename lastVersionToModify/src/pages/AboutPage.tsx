@@ -30,9 +30,10 @@ const AboutPage: React.FC = () => {
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-center">
             {t("about.title")}
           </h1>
-          <p className="text-xl sm:text-2xl max-w-3xl text-center text-gray-200">
+          <p className="text-sm sm:text-lg md:text-xl lg:text-2xl max-w-3xl text-center text-gray-200 break-words">
             {t("about.description")}
           </p>
+
           <div className="absolute bottom-10 animate-bounce">
             <svg
               className="w-6 h-6"
