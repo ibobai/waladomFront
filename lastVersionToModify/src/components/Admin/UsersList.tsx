@@ -105,6 +105,11 @@ const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
         }
       );
 
+      console.log(user);
+      console.log( JSON.stringify({
+        password: password,
+        id: user.cardId, // ✅ Use the correct user ID
+      }),)
       const data = await response.json();
 
       if (!response.ok || !data.valid) {

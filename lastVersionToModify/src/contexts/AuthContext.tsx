@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, UserRole } from '../types/user';
 import { useToast } from '../hooks/useToast';
-import { refreshTokens } from '../utils/api';
 
 interface AuthContextType {
   user: User | null;
@@ -15,6 +14,7 @@ interface AuthContextType {
   isAdmin: boolean;
   updateUser: (userId: string, data: Partial<User>) => Promise<void>;
   deleteUser: (userId: string) => Promise<void>;
+  isLoading: boolean;
 }
 
 interface RegisterData {
@@ -38,126 +38,103 @@ interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Sample users data
-const sampleUsers: User[] = [
-  {
-    email: "admin@admin.admin",
-    password: "admin111995",
-    name: "Admin User",
-    firstName: "Admin",
-    lastName: "User",
-    phone: "+1234567890",
-    cardId: "WLD-ADMIN",
-    role: "A" as UserRole,
-    country: "Sudan",
-    currentCountry: "Sudan",
-    currentCity: "Khartoum",
-    currentVillage: "Central",
-    job: "Administrator",
-    dateOfBirth: "1990-01-01",
-    placeOfBirth: "Khartoum",
-    gender: "Other",
-    tribe: "Admin",
-    motherFirstName: "Admin",
-    motherLastName: "Mother",
-    nationalities: ["Sudanese"],
-    joinedDate: "2024-01-01",
-    isAdmin: true
-  }
-];
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [users, setUsers] = useState<User[]>(sampleUsers);
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const toast = useToast();
+  const [refreshTimer, setRefreshTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const initAuth = async () => {
-    const storedUser = localStorage.getItem('user');
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (storedUser && (accessToken || refreshToken)) {
-      try {
-        if (!accessToken && refreshToken) {
-          // Try to refresh the token
-          const response = await fetch('https://www.waladom.club/api/auth/refresh', {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${refreshToken}`,
-              'Content-Type' : 'application/json'
-            }
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken);
-          } else {
-            // If refresh fails, clear everything
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('user');
-            setUser(null);
-            return;
-          }
-        }
-
-        // Set the user from stored data
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error('Auth initialization failed:', error);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        setUser(null);
-      }
-    }
-  };
-
-  // Set up token refresh interval
+  // Load stored user data on mount
   useEffect(() => {
-    let refreshInterval: NodeJS.Timeout;
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setIsLoading(false);
+  }, []);
 
+  // Setup token refresh timer when user logs in
+  useEffect(() => {
     if (user) {
-      // Refresh token every 14 minutes (840000 ms)
-      refreshInterval = setInterval(async () => {
-        try {
-          const { accessToken, refreshToken } = await refreshTokens();
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-        } catch (error) {
-          console.error('Token refresh failed:', error);
-          // If refresh fails, log out the user
-          logout();
-        }
-      }, 840000);
+      // Clear any existing timer
+      if (refreshTimer) {
+        clearTimeout(refreshTimer);
+      }
+
+      // Set up new refresh timer (14 minutes = 840000 milliseconds)
+      const timer = setTimeout(refreshAccessToken, 840000);
+      setRefreshTimer(timer);
     }
 
     return () => {
-      if (refreshInterval) {
-        clearInterval(refreshInterval);
+      if (refreshTimer) {
+        clearTimeout(refreshTimer);
       }
     };
   }, [user]);
 
-  useEffect(() => {
-    initAuth();
-  }, []);
+  const refreshAccessToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (!refreshToken) {
+        throw new Error('No refresh token available');
+      }
+
+      console.log("Calling to refresh ");
+      console.log("Refresh token : "+refreshToken);
+
+      const response = await fetch('https://www.waladom.club/api/auth/refresh', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${refreshToken}`
+        }
+      });
+
+      console.log("Called refresh");
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Refresh token expired, logout user
+          logout();
+          return;
+        }
+        throw new Error('Failed to refresh token');
+      }
+
+      const data = await response.json();
+      console.log("Token gotten : "+data.accessToken);
+      // Update tokens
+      localStorage.setItem('accessToken', data.accessToken);
+
+      // Set up next refresh
+      const timer = setTimeout(refreshAccessToken, 840000);
+      setRefreshTimer(timer);
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      logout();
+    }
+  };
 
   const login = async (emailOrPhone: string, password: string) => {
     try {
       const credentials = btoa(`${emailOrPhone.trim()}:${password.trim()}`);
+      const isEmail = emailOrPhone.includes('@');
       
       const response = await fetch('https://www.waladom.club/api/auth/login', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Authorization': `Basic ${credentials}`,
-          'Connection-Method': emailOrPhone.includes('@') ? 'email' : 'phone'
+          'Connection-Method': isEmail ? 'email' : 'phone'
         }
       });
+
+      if (!response.ok) {
+        throw new Error('Invalid credentials');
+      }
 
       const data = await response.json();
 
@@ -195,6 +172,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
       
+      // Start token refresh timer
+      const timer = setTimeout(refreshAccessToken, 840000);
+      setRefreshTimer(timer);
+      
       toast.success(t('auth.loginSuccess'));
     } catch (error) {
       toast.error(t('auth.loginError'));
@@ -204,18 +185,56 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginAsAdmin = async (email: string, password: string) => {
     try {
-      const adminUser = users.find(u => 
-        u.email.toLowerCase() === email.toLowerCase() && 
-        u.password === password && 
-        u.role === 'A'
-      );
+      const credentials = btoa(`${email.trim()}:${password.trim()}`);
       
-      if (!adminUser) {
+      const response = await fetch('https://www.waladom.club/api/auth/login', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Basic ${credentials}`,
+          'Connection-Method': 'email'
+        }
+      });
+
+      if (!response.ok) {
         throw new Error('Invalid admin credentials');
       }
 
+      const data = await response.json();
+
+      if (!data.valid || data.user.role.id !== 'ROLE_ADMIN') {
+        throw new Error('Invalid admin credentials');
+      }
+
+      const adminUser: User = {
+        email: data.user.email,
+        name: `${data.user.firstName} ${data.user.lastName}`,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        phone: data.user.phone,
+        cardId: data.user.id,
+        role: 'A',
+        country: data.user.birthCountry,
+        currentCountry: data.user.currentCountry,
+        currentCity: data.user.currentCity,
+        currentVillage: data.user.currentVillage,
+        job: data.user.occupation,
+        dateOfBirth: data.user.birthDate,
+        placeOfBirth: data.user.birthCity,
+        gender: data.user.sex,
+        tribe: data.user.tribe,
+        motherFirstName: data.user.mothersFirstName,
+        motherLastName: data.user.mothersLastName,
+        nationalities: data.user.nationalities,
+        joinedDate: data.user.createdAt,
+        isAdmin: true
+      };
+
       setUser(adminUser);
       localStorage.setItem('user', JSON.stringify(adminUser));
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      
       toast.success(t('auth.loginSuccess'));
     } catch (error) {
       toast.error(t('auth.loginError'));
@@ -256,6 +275,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    if (refreshTimer) {
+      clearTimeout(refreshTimer);
+      setRefreshTimer(null);
+    }
     toast.success(t('auth.logoutSuccess'));
   };
 
@@ -297,10 +320,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const deleteUser = async (userId: string) => {
     try {
-      const response = await fetch(`https://www.waladom.club/api/user/${userId}`, {
+      const response = await fetch(`https://www.waladom.club/api/user/delete/${userId}`, {
         method: 'DELETE',
         headers: {
-          'Accept': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
       });
@@ -318,7 +340,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Helper function to map API roles to internal roles
   const mapApiRoleToInternal = (apiRole: string): UserRole => {
     const roleMap: Record<string, UserRole> = {
       'ROLE_ADMIN': 'A',
@@ -341,14 +362,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isAuthenticated: !!user,
       isAdmin: user?.role === 'A',
       updateUser,
-      deleteUser
+      deleteUser,
+      isLoading
     }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Export the hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
