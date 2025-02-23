@@ -70,6 +70,8 @@ export default {
     totalRequests: 'Total Requests',
     email: 'Email',
     phone: 'Phone',
+    passwordTooWeak: 'Password is not strong enough',
+
     moreNatio: ' (You can choose more than one nationality) ',
     emailAddress: 'Email Address',
     emailPlaceholder: 'Enter your email',

@@ -86,6 +86,8 @@ export default {
      searchCountry: 'Rechercher un pays',
     phoneWithoutZero: 'Numéro de téléphone sans le zéro initial',
     firstName: 'Prénom',
+    passwordTooWeak: 'Le mot de passe n\'est pas assez fort',
+
     lastName: 'Nom',
     contactInfo: 'Coordonnées',
     moreNatio: ' (Vous pouvez choisir plus d\'une nationalité) ',

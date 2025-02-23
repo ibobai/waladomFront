@@ -97,6 +97,8 @@ export default {
     selectMaritalStatus: 'اختر الحالة الاجتماعية',
     optionalPhone: "(اختياري مع التسجيل باستخدام الهاتف)",
 optionalEmail: "(اختياري مع التسجيل باستخدام البريد الإلكتروني)",
+passwordTooWeak: 'كلمة المرور ليست قوية بما يكفي',
+
 
 
 passwordRequirements:
