@@ -75,6 +75,8 @@ const ResetPasswordPage: React.FC = () => {
       });
 
       const data = await response.json();
+      console.log(data);
+
       
       if (!response.ok) {
         throw new Error(data.message || 'Failed to send verification code');
@@ -109,6 +111,7 @@ const ResetPasswordPage: React.FC = () => {
       });
 
       const data = await response.json();
+      console.log(data);
       
       if (!response.ok) {
         throw new Error(data.message || 'Invalid verification code');
@@ -142,14 +145,15 @@ const ResetPasswordPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`https://www.waladom.club/api/user/update/${userId}`, {
-        method: 'PUT',
+      const response = await fetch(`https://www.waladom.club/api/user/password/update/${userId}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({ password: newPassword })
       });
+      console.log(JSON.stringify({ password: newPassword }));
 
       if (!response.ok) {
         throw new Error('Failed to update password');
